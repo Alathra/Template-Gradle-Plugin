@@ -35,6 +35,8 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 
     compileOnly("org.jetbrains:annotations:24.0.1")
+    annotationProcessor("org.jetbrains:annotations:24.0.1")
+
     implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
 
     implementation("com.github.milkdrinkers:simplixstorage:3.2.7")
