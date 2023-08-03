@@ -40,7 +40,7 @@ dependencies {
     implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
 
     implementation("com.github.milkdrinkers:simplixstorage:3.2.7")
-    implementation("com.github.milkdrinkers:colorparser:1.0.7")
+    implementation("com.github.milkdrinkers:colorparser:2.0.0")
 
     implementation("dev.jorel:commandapi-bukkit-shade:9.0.3")
     compileOnly("dev.jorel:commandapi-annotations:9.0.3")
@@ -75,8 +75,8 @@ tasks {
 
         reloc("space.arim.morepaperlib", "morepaperlib")
         reloc("de.leonhard.storage", "storageapi")
-        reloc("com.github.milkdrinkers.colorparser", "colorparser")
         reloc("dev.jorel.commandapi", "commandapi")
+        reloc("com.github.milkdrinkers.colorparser", "colorparser")
     }
 
     runServer {
