@@ -86,7 +86,7 @@ tasks {
     }
 }
 
-bukkit {
+bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     // Plugin main class (required)
     main = "${project.group}.Main"
 
