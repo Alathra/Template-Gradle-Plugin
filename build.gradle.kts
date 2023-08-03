@@ -18,6 +18,7 @@ repositories {
     mavenCentral()
 
     maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://mvn-repo.arim.space/lesser-gpl3/")
 
     maven("https://jitpack.io/") {
         content {
@@ -34,6 +35,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 
     compileOnly("org.jetbrains:annotations:24.0.1")
+    implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
 
     implementation("com.github.milkdrinkers:simplixstorage:3.2.7")
     implementation("com.github.milkdrinkers:colorparser:1.0.7")
@@ -69,6 +71,7 @@ tasks {
         // helper function to relocate a package into our package
         fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${project.group}.${targetPkg}")
 
+        reloc("space.arim.morepaperlib", "morepaperlib")
         reloc("de.leonhard.storage", "storageapi")
         reloc("com.github.milkdrinkers.colorparser", "colorparser")
         reloc("dev.jorel.commandapi", "commandapi")
