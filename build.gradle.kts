@@ -83,6 +83,11 @@ tasks {
     runServer {
         // Configure the Minecraft version for our task.
         minecraftVersion("1.20.1")
+
+        // IntelliJ IDEA debugger setup: https://docs.papermc.io/paper/dev/debugging#using-a-remote-debugger
+        jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005")
+        systemProperty("terminal.jline", false)
+        systemProperty("terminal.ansi", true)
     }
 }
 
