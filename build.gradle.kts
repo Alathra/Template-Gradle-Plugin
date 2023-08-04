@@ -46,6 +46,11 @@ dependencies {
     implementation("dev.jorel:commandapi-bukkit-shade:9.0.3")
     compileOnly("dev.jorel:commandapi-annotations:9.0.3")
     annotationProcessor("dev.jorel:commandapi-annotations:9.0.3")
+
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4") {
+        isTransitive = false
+    }
 }
 
 tasks {
@@ -78,6 +83,8 @@ tasks {
         reloc("de.leonhard.storage", "storageapi")
         reloc("dev.jorel.commandapi", "commandapi")
         reloc("com.github.milkdrinkers.colorparser", "colorparser")
+        reloc("com.zaxxer.hikari", "hikaricp")
+        reloc("org.mariadb.jdbc", "mariadb")
     }
 
     runServer {
