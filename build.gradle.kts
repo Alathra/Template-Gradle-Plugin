@@ -47,6 +47,8 @@ dependencies {
     compileOnly("dev.jorel:commandapi-annotations:9.0.3")
     annotationProcessor("dev.jorel:commandapi-annotations:9.0.3")
 
+    implementation("dev.triumphteam:triumph-gui:3.1.2")
+
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4") {
         isTransitive = false
@@ -82,6 +84,7 @@ tasks {
         reloc("space.arim.morepaperlib", "morepaperlib")
         reloc("de.leonhard.storage", "storageapi")
         reloc("dev.jorel.commandapi", "commandapi")
+        reloc("dev.triumphteam.gui", "gui")
         reloc("com.github.milkdrinkers.colorparser", "colorparser")
         reloc("com.zaxxer.hikari", "hikaricp")
         reloc("org.mariadb.jdbc", "mariadb")
