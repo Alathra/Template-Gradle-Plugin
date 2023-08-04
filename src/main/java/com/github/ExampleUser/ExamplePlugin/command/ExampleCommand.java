@@ -17,7 +17,7 @@ public class ExampleCommand {
 
     private void example(CommandSender sender, CommandArguments args) {
         sender.sendMessage(
-            new ColorParser("<white>Read more about CommandAPI &9<click:open_url:https://commandapi.jorel.dev/9.0.3/>here</click><white>.")
+            ColorParser.of("<white>Read more about CommandAPI &9<click:open_url:https://commandapi.jorel.dev/9.0.3/>here</click><white>.")
                 .parseLegacy() // Parse legacy color codes
                 .build()
         );
