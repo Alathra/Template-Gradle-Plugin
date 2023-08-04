@@ -1,0 +1,7 @@
+# Database Settings
+mysql:
+  enabled: false # Uses SQLite if false
+  host: "127.0.0.1:3306" # Must include port
+  database: "database_name"
+  user: "name"
+  pass: "123"
