@@ -37,8 +37,8 @@ dependencies {
     annotationProcessor("org.jetbrains:annotations:24.0.1")
 
     //paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
-    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
-    implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
+    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
+    implementation("space.arim.morepaperlib:morepaperlib:")
 
     implementation("com.github.milkdrinkers:simplixstorage:3.2.7")
     implementation("com.github.milkdrinkers:colorparser:2.0.0")
