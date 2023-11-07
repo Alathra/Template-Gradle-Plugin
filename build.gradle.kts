@@ -2,7 +2,7 @@ plugins {
     `java-library`
 
     id("com.github.johnrengelman.shadow") version "8.1.1" // Shades and relocates dependencies, See https://imperceptiblethoughts.com/shadow/introduction/
-    id("xyz.jpenilla.run-paper") version "2.1.0" // Adds runServer and runMojangMappedServer tasks for testing
+    id("xyz.jpenilla.run-paper") version "2.2.0" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
     //id("io.papermc.paperweight.userdev") version "1.5.5" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
 }
@@ -98,6 +98,15 @@ tasks {
         jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005")
         systemProperty("terminal.jline", false)
         systemProperty("terminal.ansi", true)
+
+        // Automatically install dependencies
+        downloadPlugins {
+//            modrinth("carbon", "2.1.0-beta.21")
+//            github("jpenilla", "MiniMOTD", "v2.0.13", "minimotd-bukkit-2.0.13.jar")
+//            hangar("squaremap", "1.2.0")
+//            url("https://download.luckperms.net/1515/bukkit/loader/LuckPerms-Bukkit-5.4.102.jar")
+            github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
+        }
     }
 }
 
