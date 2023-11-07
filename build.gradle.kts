@@ -5,6 +5,9 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.2.0" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
 //    id("io.papermc.paperweight.userdev") version "1.5.9" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
+
+    eclipse
+    idea
 }
 
 group = "com.github.ExampleUser.ExamplePlugin"
