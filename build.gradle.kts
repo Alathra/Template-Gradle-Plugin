@@ -44,13 +44,17 @@ dependencies {
     implementation("space.arim.morepaperlib:morepaperlib:latest.release")
 
     implementation("com.github.milkdrinkers:simplixstorage:3.2.7")
-    implementation("com.github.milkdrinkers:colorparser:2.0.0")
+    implementation("com.github.milkdrinkers:colorparser:2.0.0") {
+        exclude("net.kyori")
+    }
 
     implementation("dev.jorel:commandapi-bukkit-shade:9.2.0")
 //    compileOnly("dev.jorel:commandapi-annotations:9.2.0")
 //    annotationProcessor("dev.jorel:commandapi-annotations:9.2.0")
 
-    implementation("dev.triumphteam:triumph-gui:3.1.2")
+    implementation("dev.triumphteam:triumph-gui:3.1.7") {
+        exclude("net.kyori")
+    }
 
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4") {
