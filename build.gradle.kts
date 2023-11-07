@@ -86,7 +86,7 @@ tasks {
 
         // Shadow classes
         // helper function to relocate a package into our package
-        fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${project.group}.${targetPkg}")
+        fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${project.group}.lib.${targetPkg}")
 
         reloc("space.arim.morepaperlib", "morepaperlib")
         reloc("de.leonhard.storage", "storageapi")
@@ -99,7 +99,6 @@ tasks {
 
     runServer {
         // Configure the Minecraft version for our task.
-        minecraftVersion("1.20.1")
         minecraftVersion("1.20.2")
 
         // IntelliJ IDEA debugger setup: https://docs.papermc.io/paper/dev/debugging#using-a-remote-debugger
