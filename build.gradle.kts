@@ -4,7 +4,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1" // Shades and relocates dependencies, See https://imperceptiblethoughts.com/shadow/introduction/
     id("xyz.jpenilla.run-paper") version "2.2.0" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
-    //id("io.papermc.paperweight.userdev") version "1.5.5" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
+//    id("io.papermc.paperweight.userdev") version "1.5.9" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
 }
 
 group = "com.github.ExampleUser.ExamplePlugin"
@@ -36,16 +36,16 @@ dependencies {
     compileOnly("org.jetbrains:annotations:24.0.1")
     annotationProcessor("org.jetbrains:annotations:24.0.1")
 
-    //paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
-    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
     implementation("space.arim.morepaperlib:morepaperlib:")
+    //paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
+    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
 
     implementation("com.github.milkdrinkers:simplixstorage:3.2.7")
     implementation("com.github.milkdrinkers:colorparser:2.0.0")
 
-    implementation("dev.jorel:commandapi-bukkit-shade:9.0.3")
-    compileOnly("dev.jorel:commandapi-annotations:9.0.3")
-    annotationProcessor("dev.jorel:commandapi-annotations:9.0.3")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.2.0")
+//    compileOnly("dev.jorel:commandapi-annotations:9.2.0")
+//    annotationProcessor("dev.jorel:commandapi-annotations:9.2.0")
 
     implementation("dev.triumphteam:triumph-gui:3.1.2")
 
@@ -93,6 +93,7 @@ tasks {
     runServer {
         // Configure the Minecraft version for our task.
         minecraftVersion("1.20.1")
+        minecraftVersion("1.20.2")
 
         // IntelliJ IDEA debugger setup: https://docs.papermc.io/paper/dev/debugging#using-a-remote-debugger
         jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005")
