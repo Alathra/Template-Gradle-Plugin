@@ -75,6 +75,10 @@ tasks {
         // See https://openjdk.java.net/jeps/247 for more information.
         options.release.set(17)
         options.compilerArgs.addAll(arrayListOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
+        
+        // Generate jOOQ sources before compilation
+        dependsOn(project.tasks.named("generateSources"))
+    }
 
     javadoc {
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
@@ -89,8 +93,7 @@ tasks {
         archiveClassifier.set("")
 
         // Shadow classes
-        // helper function to relocate a package into our package
-        fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${project.group}.lib.${targetPkg}")
+        fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${mainPackage}.lib.${targetPkg}")
 
         reloc("space.arim.morepaperlib", "morepaperlib")
         reloc("com.github.milkdrinkers.Crate", "crate")
