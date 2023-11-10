@@ -2,7 +2,7 @@ package com.github.ExampleUser.ExamplePlugin.utility;
 
 import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
 import com.github.ExampleUser.ExamplePlugin.config.ConfigHandler;
-import de.leonhard.storage.Config;
+import com.github.milkdrinkers.Crate.Config;
 import org.jetbrains.annotations.NotNull;
 
 /**

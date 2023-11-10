@@ -2,7 +2,7 @@ package com.github.ExampleUser.ExamplePlugin.config;
 
 import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
 import com.github.ExampleUser.ExamplePlugin.Reloadable;
-import de.leonhard.storage.Config;
+import com.github.milkdrinkers.Crate.Config;
 
 import javax.inject.Singleton;
 
