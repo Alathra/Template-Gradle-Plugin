@@ -1,8 +1,11 @@
 package com.github.ExampleUser.ExamplePlugin.utility;
 
-import com.github.ExampleUser.ExamplePlugin.db.DBHandler;
 import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
+import com.github.ExampleUser.ExamplePlugin.db.DatabaseHandler;
+import com.github.ExampleUser.ExamplePlugin.db.DatabaseType;
+import com.github.ExampleUser.ExamplePlugin.db.jooq.JooqContext;
 import org.jetbrains.annotations.NotNull;
+import org.jooq.DSLContext;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,5 +20,20 @@ public abstract class DB {
     @NotNull
     public static Connection getConnection() throws SQLException {
         return ExamplePlugin.getInstance().getDataHandler().getConnection();
+    }
+
+    /**
+     * Convenience method for {@link JooqContext#createContext(Connection)} to getConnection {@link DSLContext}
+     */
+    @NotNull
+    public static DSLContext getContext(Connection con) {
+        return ExamplePlugin.getInstance().getDataHandler().getJooqContext().createContext(con);
+    }
+
+    /**
+     * Convenience method for {@link DatabaseHandler#getDB()} to getConnection {@link DatabaseType}
+     */
+    public static DatabaseType getDB() {
+        return ExamplePlugin.getInstance().getDataHandler().getDB();
     }
 }

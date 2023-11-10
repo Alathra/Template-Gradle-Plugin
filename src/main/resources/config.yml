@@ -1,7 +1,10 @@
 # Database Settings
-mysql:
-  enabled: false # Uses SQLite if false
-  host: "127.0.0.1:3306" # Must include port
+db:
+  type: "hsqldb" # Available types: "hsqldb", "h2", "mysql", "mariadb"
+  prefix: "example_" # The table prefix
+  host: "127.0.0.1"
+  port: 3306
   database: "database_name"
   user: "name"
   pass: "123"
+  repair: false

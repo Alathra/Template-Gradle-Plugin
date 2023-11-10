@@ -1,3 +1,6 @@
+import org.jooq.codegen.GenerationTool
+import org.jooq.meta.jaxb.*
+
 plugins {
     `java-library`
 
@@ -5,6 +8,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.2.0" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
 //    id("io.papermc.paperweight.userdev") version "1.5.9" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
+    id("org.flywaydb.flyway") version "10.0.0" // Database migrations
 
     eclipse
     idea
@@ -53,13 +57,26 @@ dependencies {
         exclude("net.kyori")
     }
 
+    // Database Dependencies
     implementation("com.zaxxer:HikariCP:5.0.1")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.1.4") {
-        isTransitive = false
-    }
+    library("org.flywaydb:flyway-core:10.0.0")
+    library("org.flywaydb:flyway-mysql:10.0.0")
+    library("org.flywaydb:flyway-database-hsqldb:10.0.0")
+    library("org.jooq:jooq:3.18.7")
+
+    // JDBC Drivers
+    library("org.hsqldb:hsqldb:2.7.2")
+    library("com.h2database:h2:2.2.224")
+    library("com.mysql:mysql-connector-j:8.2.0")
+    library("org.mariadb.jdbc:mariadb-java-client:3.3.0")
 }
 
 tasks {
+    // NOTE: Use when developing plugins using Mojang mappings
+//    assemble {
+//        dependsOn(reobfJar)
+//    }
+
     build {
         dependsOn(shadowJar)
     }
@@ -97,7 +114,10 @@ tasks {
         reloc("dev.jorel.commandapi", "commandapi")
         reloc("dev.triumphteam.gui", "gui")
         reloc("com.zaxxer.hikari", "hikaricp")
-        reloc("org.mariadb.jdbc", "mariadb")
+
+        mergeServiceFiles {
+            setPath("META-INF/services/org.flywaydb.core.extensibility.Plugin") // Fix Flyway overriding its own files
+        }
 
         minimize()
     }
@@ -140,3 +160,86 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     depend = listOf()
     softDepend = listOf()
 }
+
+flyway {
+    url = "jdbc:h2:${project.layout.buildDirectory.get()}/generated/flyway/db;AUTO_SERVER=TRUE;MODE=MySQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;IGNORECASE=TRUE"
+    user = "sa"
+    password = ""
+    placeholders = mapOf( // Substitute placeholders for flyway
+        "tablePrefix" to "",
+        "columnSuffix" to " VIRTUAL",
+        "tableDefaults" to "",
+        "uuidType" to "BINARY(16)",
+        "inetType" to "VARBINARY(16)",
+        "binaryType" to "BLOB",
+        "alterViewStatement" to "ALTER VIEW",
+    )
+    validateMigrationNaming = true
+    baselineOnMigrate = true
+    cleanDisabled = false
+    locations = arrayOf(
+        "filesystem:src/main/resources/db/migration",
+        "classpath:db/migration"
+    )
+}
+
+task("generateSources") {
+    group = "jooq"
+    val dir = layout.buildDirectory.dir("generated-src/jooq").get()
+
+    // Ensure database schema has been prepared by Flyway before generating the jOOQ sources
+    dependsOn.add(tasks.flywayMigrate)
+
+    // Declare Flyway migration scripts as inputs on the jOOQ task
+    inputs.files(fileTree("src/main/resources/db/migration"), fileTree("src/main/java/${mainPackage}/db/flyway/migration"))
+        .withPropertyName("migration files")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
+
+    // jOOQ Generation Task
+    doLast {
+        GenerationTool.generate(Configuration()
+            .withLogging(org.jooq.meta.jaxb.Logging.WARN)
+            .withJdbc(Jdbc()
+                .withDriver("org.h2.Driver")
+                .withUrl(flyway.url)
+                .withUser(flyway.user)
+                .withPassword(flyway.password)
+            )
+            .withGenerator(Generator()
+                .withName("org.jooq.codegen.DefaultGenerator")
+                .withDatabase(Database()
+                    .withName("org.jooq.meta.h2.H2Database")
+                    .withIncludes(".*")
+                    .withExcludes("(flyway_schema_history)|(?i:information_schema\\..*)|(?i:system_lobs\\..*)") // Exclude db specific files
+                    .withInputSchema("PUBLIC")
+                    .withSchemaVersionProvider("SELECT :schema_name || '_' || MAX(\"version\") FROM \"flyway_schema_history\"") // Grab version from Flyway
+                )
+                .withTarget(org.jooq.meta.jaxb.Target()
+                    .withPackageName("${mainPackage}.db.schema")
+                    .withDirectory(dir.toString())
+                    .withClean(true)
+                )
+            )
+        )
+    }
+
+    // Declare outputs
+    outputs.dir(dir)
+        .withPropertyName("jooq generated sources")
+    sourceSets {
+        get("main").java.srcDir(dir)
+    }
+
+    // Enable build caching
+    outputs.cacheIf { true }
+}
+
+buildscript {
+    dependencies {
+        classpath("org.jooq:jooq:3.18.7")
+        classpath("org.jooq:jooq-meta:3.18.7")
+        classpath("org.jooq:jooq-codegen:3.18.7")
+        classpath("com.h2database:h2:2.2.224")
+    }
+}
+
