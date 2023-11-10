@@ -30,10 +30,6 @@ repositories {
             includeGroup("com.github.milkdrinkers")
         }
     }
-
-    maven("https://repo.codemc.org/repository/maven-public/") {
-        content { includeGroup("dev.jorel") }
-    }
 }
 
 dependencies {
