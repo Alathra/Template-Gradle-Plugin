@@ -1,16 +1,16 @@
 package com.github.ExampleUser.ExamplePlugin.listener;
 
-import com.github.ExampleUser.ExamplePlugin.Main;
+import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
 import com.github.ExampleUser.ExamplePlugin.Reloadable;
 
 /**
  * A class to handle registration of event listeners.
  */
 public class ListenerHandler implements Reloadable {
-    private final Main main;
+    private final ExamplePlugin examplePlugin;
 
-    public ListenerHandler(Main main) {
-        this.main = main;
+    public ListenerHandler(ExamplePlugin examplePlugin) {
+        this.examplePlugin = examplePlugin;
     }
 
     @Override

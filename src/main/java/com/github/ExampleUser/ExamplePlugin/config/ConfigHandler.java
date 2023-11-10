@@ -1,6 +1,6 @@
 package com.github.ExampleUser.ExamplePlugin.config;
 
-import com.github.ExampleUser.ExamplePlugin.Main;
+import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
 import com.github.ExampleUser.ExamplePlugin.Reloadable;
 import de.leonhard.storage.Config;
 
@@ -11,21 +11,21 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class ConfigHandler implements Reloadable {
-    private final Main main;
+    private final ExamplePlugin examplePlugin;
     private Config cfg;
 
     /**
      * Instantiates a new Config handler.
      *
-     * @param main the plugin instance
+     * @param examplePlugin the plugin instance
      */
-    public ConfigHandler(Main main) {
-        this.main = main;
+    public ConfigHandler(ExamplePlugin examplePlugin) {
+        this.examplePlugin = examplePlugin;
     }
 
     @Override
     public void onLoad() {
-        cfg = new Config("config", main.getDataFolder().getPath(), main.getResource("config.yml")); // Create a config file from the template in our resources folder
+        cfg = new Config("config", examplePlugin.getDataFolder().getPath(), examplePlugin.getResource("config.yml")); // Create a config file from the template in our resources folder
     }
 
     @Override
@@ -37,9 +37,9 @@ public class ConfigHandler implements Reloadable {
     }
 
     /**
-     * Gets main config object.
+     * Gets examplePlugin config object.
      *
-     * @return the main config object
+     * @return the examplePlugin config object
      */
     public Config getConfig() {
         return cfg;

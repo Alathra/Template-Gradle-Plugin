@@ -1,6 +1,6 @@
 package com.github.ExampleUser.ExamplePlugin.command;
 
-import com.github.ExampleUser.ExamplePlugin.Main;
+import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
 import com.github.ExampleUser.ExamplePlugin.Reloadable;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
@@ -9,15 +9,15 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
  * A class to handle registration of commands.
  */
 public class CommandHandler implements Reloadable {
-    private final Main main;
+    private final ExamplePlugin examplePlugin;
 
-    public CommandHandler(Main main) {
-        this.main = main;
+    public CommandHandler(ExamplePlugin examplePlugin) {
+        this.examplePlugin = examplePlugin;
     }
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(main).shouldHookPaperReload(true).silentLogs(true));
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(examplePlugin).shouldHookPaperReload(true).silentLogs(true));
     }
 
     @Override

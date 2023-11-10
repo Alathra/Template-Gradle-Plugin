@@ -10,9 +10,10 @@ plugins {
     idea
 }
 
-group = "com.github.ExampleUser.ExamplePlugin"
+group = "com.github.ExampleUser"
 version = "1.0.0"
 description = ""
+val mainPackage = "${project.group}.${rootProject.name}"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
@@ -119,11 +120,11 @@ tasks {
 
 bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     // Plugin main class (required)
-    main = "${project.group}.Main"
+    main = "${mainPackage}.${rootProject.name}"
 
     // Plugin Information
-    name = "${project.name}"
-    prefix = "${project.name}"
+    name = project.name
+    prefix = project.name
     version = "${project.version}"
     description = "${project.description}"
     authors = listOf("AuthorName")
