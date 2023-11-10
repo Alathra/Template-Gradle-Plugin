@@ -96,6 +96,8 @@ tasks {
         reloc("com.github.milkdrinkers.colorparser", "colorparser")
         reloc("com.zaxxer.hikari", "hikaricp")
         reloc("org.mariadb.jdbc", "mariadb")
+
+        minimize()
     }
 
     runServer {
