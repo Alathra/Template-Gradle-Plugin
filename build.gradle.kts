@@ -1,5 +1,8 @@
 import org.jooq.codegen.GenerationTool
-import org.jooq.meta.jaxb.*
+import org.jooq.meta.jaxb.Configuration
+import org.jooq.meta.jaxb.Database
+import org.jooq.meta.jaxb.Generator
+import org.jooq.meta.jaxb.Jdbc
 import java.time.Instant
 
 plugins {
@@ -21,7 +24,7 @@ description = ""
 val mainPackage = "${project.group}.${rootProject.name}"
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
+    toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_17.majorVersion)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
 }
 
 repositories {
@@ -185,7 +188,7 @@ flyway {
 }
 
 task("generateSources") {
-    group = "jooq"
+    this.group = "jooq"
     val dir = layout.buildDirectory.dir("generated-src/jooq").get()
 
     // Ensure database schema has been prepared by Flyway before generating the jOOQ sources
