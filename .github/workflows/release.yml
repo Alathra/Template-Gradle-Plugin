@@ -1,33 +1,90 @@
 name: Build & Upload Release jar with Gradle
 
 on:
-  release:
-    types: [ published ]
+  push:
+    branches:
+      - 'main'
+      - 'master'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - 'main'
+      - 'master'
+  schedule:
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ format('{0}-{1}', github.job, github.ref) }}
+  cancel-in-progress: true
 
 jobs:
-  upload_asset:
-    runs-on: ubuntu-latest
-
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+        java: [ 17 ]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'gradle'
+          java-version: ${{ matrix.java }}
 
       - name: Build with Gradle
-        run: ./gradlew clean build --no-daemon
+        run: ./gradlew clean build --info
 
-      - name: Upload Release Assets
-        uses: AButler/upload-release-assets@v2.0
+      - name: Upload build results
+        uses: actions/upload-artifact@v3
         with:
-          files: 'build/libs/ExamplePlugin-*.jar'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          release-tag: ${{ github.event.release.tag_name }}
+          name: ${{ matrix.os }} Java ${{ matrix.java }} build results
+          path: ${{ github.workspace }}/build/libs/
+
+  release:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag' || ((github.ref_name == 'main' || github.ref_name == 'master') && github.event_name != 'schedule')
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Set Release Environment Variable
+        if: github.ref_type == 'tag'
+        run: |
+          echo "CUSTOM_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Build with Gradle
+        if: github.ref_type != 'tag'
+        run: ./gradlew clean build
+
+      - name: Build with Gradle
+        if: github.ref_type == 'tag'
+        run: ./gradlew clean build -PcustomVersion=${{ env.CUSTOM_VERSION }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        id: release
+        if: github.ref_type == 'tag'
+        with:
+          name: ${{ format('Release {0}', github.ref_name) }}
+          files: ${{ github.workspace }}/build/libs/*
+          prerelease: ${{ contains(github.ref_name, '-RC-') }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          draft: true

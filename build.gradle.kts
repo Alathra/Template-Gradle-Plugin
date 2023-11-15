@@ -1,5 +1,6 @@
 import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.*
+import java.time.Instant
 
 plugins {
     `java-library`
@@ -243,3 +244,14 @@ buildscript {
     }
 }
 
+// Apply custom version arg
+val versionArg = if (hasProperty("customVersion"))
+    (properties["customVersion"] as String).uppercase() // Uppercase version string
+else
+    "${project.version}-SNAPSHOT-${Instant.now().epochSecond}" // Append snapshot to version
+
+// Strip prefixed "v" from version tag
+project.version = if (versionArg.first().equals('v', true))
+    versionArg.substring(1)
+else
+    versionArg.uppercase()
