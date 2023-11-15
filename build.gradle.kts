@@ -155,8 +155,8 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     prefix = project.name
     version = "${project.version}"
     description = "${project.description}"
-    authors = listOf("AuthorName")
-    contributors = listOf("ContributorName")
+    authors = listOf("GITHUB_USERNAME")
+    contributors = listOf()
     apiVersion = "1.19"
 
     // Misc properties
