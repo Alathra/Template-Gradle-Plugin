@@ -62,7 +62,7 @@ dependencies {
     }
 
     // Database Dependencies
-    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.zaxxer:HikariCP:5.1.0")
     library("org.flywaydb:flyway-core:10.0.1")
     library("org.flywaydb:flyway-mysql:10.0.1")
     library("org.flywaydb:flyway-database-hsqldb:10.0.1")
