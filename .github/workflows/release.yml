@@ -44,7 +44,7 @@ jobs:
       - name: Upload build results
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.os }} Java ${{ matrix.java }} build results
+          name: ${{ matrix.os }} Java ${{ matrix.java }} Snapshot
           path: ${{ github.workspace }}/build/libs/
 
   release:
