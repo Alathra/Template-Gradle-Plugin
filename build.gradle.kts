@@ -65,7 +65,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.1")
     library("org.flywaydb:flyway-core:10.0.0")
     library("org.flywaydb:flyway-mysql:10.0.1")
-    library("org.flywaydb:flyway-database-hsqldb:10.0.0")
+    library("org.flywaydb:flyway-database-hsqldb:10.0.1")
     library("org.jooq:jooq:3.18.7")
 
     // JDBC Drivers
