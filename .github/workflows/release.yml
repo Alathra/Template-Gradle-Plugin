@@ -90,4 +90,4 @@ jobs:
           prerelease: ${{ contains(github.ref_name, '-RC-') }}
           generate_release_notes: true
           fail_on_unmatched_files: true
-          draft: true
+          draft: false
