@@ -51,6 +51,9 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 17 ]
     if: github.ref_type == 'tag' || ((github.ref_name == 'main' || github.ref_name == 'master') && github.event_name != 'schedule')
     steps:
       - name: Checkout Repository

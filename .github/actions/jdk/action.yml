@@ -4,7 +4,7 @@ description: 'Set up JDK'
 inputs:
   java-version:
     description: 'Java version'
-    required: false
+    required: true
     default: '17'
 
 runs:
