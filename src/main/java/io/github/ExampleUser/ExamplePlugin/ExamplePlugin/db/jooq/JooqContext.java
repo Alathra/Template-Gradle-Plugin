@@ -1,6 +1,6 @@
-package com.github.ExampleUser.ExamplePlugin.db.jooq;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.jooq;
 
-import com.github.ExampleUser.ExamplePlugin.utility.Cfg;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.utility.Cfg;
 import org.jooq.*;
 import org.jooq.conf.*;
 import org.jooq.exception.DataAccessException;

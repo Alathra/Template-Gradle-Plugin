@@ -1,12 +1,12 @@
-package com.github.ExampleUser.ExamplePlugin.db;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db;
 
-import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
-import com.github.ExampleUser.ExamplePlugin.Reloadable;
-import com.github.ExampleUser.ExamplePlugin.db.flyway.DatabaseMigrationException;
-import com.github.ExampleUser.ExamplePlugin.db.flyway.DatabaseMigrationHandler;
-import com.github.ExampleUser.ExamplePlugin.db.jooq.JooqContext;
-import com.github.ExampleUser.ExamplePlugin.utility.Cfg;
-import com.github.ExampleUser.ExamplePlugin.utility.Logger;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.ExamplePlugin;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.Reloadable;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.flyway.DatabaseMigrationException;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.flyway.DatabaseMigrationHandler;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.jooq.JooqContext;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.utility.Cfg;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.utility.Logger;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;

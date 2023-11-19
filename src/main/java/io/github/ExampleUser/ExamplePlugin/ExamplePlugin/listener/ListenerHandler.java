@@ -1,7 +1,7 @@
-package com.github.ExampleUser.ExamplePlugin.listener;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.listener;
 
-import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
-import com.github.ExampleUser.ExamplePlugin.Reloadable;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.ExamplePlugin;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.Reloadable;
 
 /**
  * A class to handle registration of event listeners.

@@ -1,7 +1,7 @@
-package com.github.ExampleUser.ExamplePlugin.db.flyway;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.flyway;
 
-import com.github.ExampleUser.ExamplePlugin.db.DatabaseType;
-import com.github.ExampleUser.ExamplePlugin.db.flyway.migration.V3__Example;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.DatabaseType;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.flyway.migration.V3__Example;
 import com.github.milkdrinkers.Crate.Config;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.ClassProvider;

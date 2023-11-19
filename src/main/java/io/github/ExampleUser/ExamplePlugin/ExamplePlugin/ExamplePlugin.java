@@ -1,16 +1,16 @@
-package com.github.ExampleUser.ExamplePlugin;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
 
-import com.github.ExampleUser.ExamplePlugin.command.CommandHandler;
-import com.github.ExampleUser.ExamplePlugin.config.ConfigHandler;
-import com.github.ExampleUser.ExamplePlugin.db.DatabaseHandler;
-import com.github.ExampleUser.ExamplePlugin.listener.ListenerHandler;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.command.CommandHandler;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.config.ConfigHandler;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.DatabaseHandler;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.listener.ListenerHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class ExamplePlugin extends JavaPlugin {
     private static ExamplePlugin instance;
     private ConfigHandler configHandler;
-    private DatabaseHandler DatabaseHandler;
+    private io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.DatabaseHandler DatabaseHandler;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
 

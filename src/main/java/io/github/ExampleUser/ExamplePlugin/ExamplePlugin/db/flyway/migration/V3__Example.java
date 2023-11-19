@@ -1,12 +1,12 @@
-package com.github.ExampleUser.ExamplePlugin.db.flyway.migration;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.flyway.migration;
 
-import com.github.ExampleUser.ExamplePlugin.utility.DB;
-import com.github.ExampleUser.ExamplePlugin.utility.Logger;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.utility.DB;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.utility.Logger;
 import org.flywaydb.core.api.migration.BaseJavaMigration;
 import org.flywaydb.core.api.migration.Context;
 import org.jooq.DSLContext;
 
-import static com.github.ExampleUser.ExamplePlugin.db.schema.Tables.TEST;
+import static io.github.ExampleUser.ExamplePlugin.db.schema.Tables.TEST;
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.name;
 import static org.jooq.impl.SQLDataType.VARCHAR;

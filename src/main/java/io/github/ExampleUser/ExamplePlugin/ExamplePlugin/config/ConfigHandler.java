@@ -1,7 +1,7 @@
-package com.github.ExampleUser.ExamplePlugin.config;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.config;
 
-import com.github.ExampleUser.ExamplePlugin.ExamplePlugin;
-import com.github.ExampleUser.ExamplePlugin.Reloadable;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.ExamplePlugin;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.Reloadable;
 import com.github.milkdrinkers.Crate.Config;
 
 import javax.inject.Singleton;

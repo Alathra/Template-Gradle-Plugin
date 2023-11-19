@@ -1,4 +1,4 @@
-package com.github.ExampleUser.ExamplePlugin.db.flyway;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.flyway;
 
 public class DatabaseMigrationException extends Exception {
     public DatabaseMigrationException(Throwable t) {

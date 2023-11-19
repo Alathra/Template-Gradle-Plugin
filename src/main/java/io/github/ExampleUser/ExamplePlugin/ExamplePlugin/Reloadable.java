@@ -1,4 +1,4 @@
-package com.github.ExampleUser.ExamplePlugin;
+package io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
 
 /**
  * Implemented in classes that should support being reloaded IE executing the methods during runtime after startup.
