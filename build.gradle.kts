@@ -41,8 +41,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jetbrains:annotations:24.0.1")
-    annotationProcessor("org.jetbrains:annotations:24.0.1")
+    compileOnly("org.jetbrains:annotations:24.1.0")
+    annotationProcessor("org.jetbrains:annotations:24.1.0")
 
     //paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
     compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
