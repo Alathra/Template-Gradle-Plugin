@@ -134,7 +134,7 @@ configuration and repository maintenance.
    If you choose to adopt the Code of Conduct in this template, please replace `GITHUB_CONTACT_EMAIL` at line 63 with
    your preferred method of contact. Otherwise replace or remove it.
 4. #### Change [Project Name](./settings.gradle.kts)
-   Replace `ExamplePlugin` with your new plugin name. Don't forget to rename the main
+   Replace all occurances of `ExamplePlugin` with your new plugin name. Don't forget to rename the main
    class [ExamplePlugin.java](./src/main/java/com/github/ExampleUser/ExamplePlugin/ExamplePlugin.java) to the same
    value.
    ```kotlin
