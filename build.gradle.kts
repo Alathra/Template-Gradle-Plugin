@@ -19,7 +19,7 @@ plugins {
 }
 
 group = "io.github.ExampleUser"
-version = "1.0.0"
+version = "1.0.2"
 description = ""
 val mainPackage = "${project.group}.${rootProject.name}"
 
