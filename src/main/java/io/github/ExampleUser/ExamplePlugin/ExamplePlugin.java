@@ -1,9 +1,9 @@
-package io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
+package io.github.ExampleUser.ExamplePlugin;
 
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.command.CommandHandler;
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.config.ConfigHandler;
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.DatabaseHandler;
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.listener.ListenerHandler;
+import io.github.ExampleUser.ExamplePlugin.command.CommandHandler;
+import io.github.ExampleUser.ExamplePlugin.config.ConfigHandler;
+import io.github.ExampleUser.ExamplePlugin.db.DatabaseHandler;
+import io.github.ExampleUser.ExamplePlugin.listener.ListenerHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 

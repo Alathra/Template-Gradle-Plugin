@@ -1,7 +1,7 @@
-package io.github.ExampleUser.ExamplePlugin.ExamplePlugin.command;
+package io.github.ExampleUser.ExamplePlugin.command;
 
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.ExamplePlugin;
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin.Reloadable;
+import io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
+import io.github.ExampleUser.ExamplePlugin.Reloadable;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 
