@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class ExamplePlugin extends JavaPlugin {
     private static ExamplePlugin instance;
     private ConfigHandler configHandler;
-    private io.github.ExampleUser.ExamplePlugin.ExamplePlugin.db.DatabaseHandler DatabaseHandler;
+    private DatabaseHandler databaseHandler;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
 
@@ -21,33 +21,33 @@ public class ExamplePlugin extends JavaPlugin {
     public void onLoad() {
         instance = this;
         configHandler = new ConfigHandler(instance);
-        DatabaseHandler = new DatabaseHandler(instance);
+        databaseHandler = new DatabaseHandler(instance);
         commandHandler = new CommandHandler(instance);
         listenerHandler = new ListenerHandler(instance);
 
         configHandler.onLoad();
-        DatabaseHandler.onLoad();
+        databaseHandler.onLoad();
         commandHandler.onLoad();
         listenerHandler.onLoad();
     }
 
     public void onEnable() {
         configHandler.onEnable();
-        DatabaseHandler.onEnable();
+        databaseHandler.onEnable();
         commandHandler.onEnable();
         listenerHandler.onEnable();
     }
 
     public void onDisable() {
         configHandler.onDisable();
-        DatabaseHandler.onDisable();
+        databaseHandler.onDisable();
         commandHandler.onDisable();
         listenerHandler.onDisable();
     }
 
     @NotNull
     public DatabaseHandler getDataHandler() {
-        return DatabaseHandler;
+        return databaseHandler;
     }
 
     @NotNull
