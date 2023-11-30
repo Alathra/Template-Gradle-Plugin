@@ -4,7 +4,7 @@
 .mtj.tmp/
 *.class
 *.jar
-*.oldWar
+*.war
 *.ear
 *.nar
 hs_err_pid*
