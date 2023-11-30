@@ -9,15 +9,15 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
  * A class to handle registration of commands.
  */
 public class CommandHandler implements Reloadable {
-    private final ExamplePlugin examplePlugin;
+    private final ExamplePlugin plugin;
 
-    public CommandHandler(ExamplePlugin examplePlugin) {
-        this.examplePlugin = examplePlugin;
+    public CommandHandler(ExamplePlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(examplePlugin).shouldHookPaperReload(true).silentLogs(true));
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(plugin).shouldHookPaperReload(true).silentLogs(true));
     }
 
     @Override

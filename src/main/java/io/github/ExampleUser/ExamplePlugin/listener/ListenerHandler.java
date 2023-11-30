@@ -7,10 +7,10 @@ import io.github.ExampleUser.ExamplePlugin.Reloadable;
  * A class to handle registration of event listeners.
  */
 public class ListenerHandler implements Reloadable {
-    private final ExamplePlugin examplePlugin;
+    private final ExamplePlugin plugin;
 
-    public ListenerHandler(ExamplePlugin examplePlugin) {
-        this.examplePlugin = examplePlugin;
+    public ListenerHandler(ExamplePlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ListenerHandler implements Reloadable {
     @Override
     public void onEnable() {
         // Register listeners here
-        //instance.getServer().getPluginManager().registerEvents(new PlayerJoinListener(instance), instance);
+        //instance.getServer().getPluginManager().registerEvents(new PlayerJoinListener(plugin), plugin);
     }
 
     @Override

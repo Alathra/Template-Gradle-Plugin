@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Singleton
 public class DatabaseHandler implements Reloadable {
-    private final ExamplePlugin examplePlugin;
+    private final ExamplePlugin plugin;
     private boolean isConnected = false;
     private HikariDataSource hikariDataSource;
     private DatabaseType database;
@@ -31,10 +31,10 @@ public class DatabaseHandler implements Reloadable {
     /**
      * Instantiates a new Data handler.
      *
-     * @param examplePlugin the plugin instance
+     * @param plugin the plugin instance
      */
-    public DatabaseHandler(ExamplePlugin examplePlugin) {
-        this.examplePlugin = examplePlugin;
+    public DatabaseHandler(ExamplePlugin plugin) {
+        this.plugin = plugin;
     }
 
     /**
@@ -234,7 +234,7 @@ public class DatabaseHandler implements Reloadable {
                 hikariConfig.setDataSourceClassName(db.getDataSourceClassName());
                 hikariConfig.addDataSourceProperty("url", "jdbc:%s:%s".formatted(
                     db.getJdbcPrefix(),
-                    examplePlugin.getDataFolder().getAbsolutePath() + File.separatorChar + subfolder + File.separatorChar + (db.equals(DatabaseType.H2) ? fileName : fileNameWithExtension) + connectionProperties
+                    plugin.getDataFolder().getAbsolutePath() + File.separatorChar + subfolder + File.separatorChar + (db.equals(DatabaseType.H2) ? fileName : fileNameWithExtension) + connectionProperties
                 ));
             }
             case MYSQL, MARIADB -> {

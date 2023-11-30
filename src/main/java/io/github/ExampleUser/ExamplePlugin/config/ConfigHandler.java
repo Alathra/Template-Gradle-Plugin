@@ -11,21 +11,21 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class ConfigHandler implements Reloadable {
-    private final ExamplePlugin examplePlugin;
+    private final ExamplePlugin plugin;
     private Config cfg;
 
     /**
      * Instantiates a new Config handler.
      *
-     * @param examplePlugin the plugin instance
+     * @param plugin the plugin instance
      */
-    public ConfigHandler(ExamplePlugin examplePlugin) {
-        this.examplePlugin = examplePlugin;
+    public ConfigHandler(ExamplePlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
     public void onLoad() {
-        cfg = new Config("config", examplePlugin.getDataFolder().getPath(), examplePlugin.getResource("config.yml")); // Create a config file from the template in our resources folder
+        cfg = new Config("config", plugin.getDataFolder().getPath(), plugin.getResource("config.yml")); // Create a config file from the template in our resources folder
     }
 
     @Override
