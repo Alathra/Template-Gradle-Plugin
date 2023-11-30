@@ -26,6 +26,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         java: [ 17 ]
+    if: github.ref_type != 'tag'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
