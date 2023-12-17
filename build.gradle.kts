@@ -66,7 +66,7 @@ dependencies {
     library("org.flywaydb:flyway-core:10.2.0")
     library("org.flywaydb:flyway-mysql:10.2.0")
     library("org.flywaydb:flyway-database-hsqldb:10.2.0")
-    library("org.jooq:jooq:3.18.7")
+    library("org.jooq:jooq:3.19.0")
 
     // JDBC Drivers
     library("org.hsqldb:hsqldb:2.7.2")
@@ -240,9 +240,9 @@ task("generateSources") {
 
 buildscript {
     dependencies {
-        classpath("org.jooq:jooq:3.18.7")
-        classpath("org.jooq:jooq-meta:3.18.7")
-        classpath("org.jooq:jooq-codegen:3.18.7")
+        classpath("org.jooq:jooq:3.19.0")
+        classpath("org.jooq:jooq-meta:3.19.0")
+        classpath("org.jooq:jooq-codegen:3.19.0")
         classpath("com.h2database:h2:2.2.224")
     }
 }
