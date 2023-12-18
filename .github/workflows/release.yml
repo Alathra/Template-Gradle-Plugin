@@ -43,7 +43,7 @@ jobs:
         run: ./gradlew clean build --info
 
       - name: Upload build results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }} Java ${{ matrix.java }} Snapshot
           path: ${{ github.workspace }}/build/libs/
