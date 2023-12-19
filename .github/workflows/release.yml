@@ -49,8 +49,6 @@ jobs:
           path: ${{ github.workspace }}/build/libs/
 
   release:
-    needs:
-      - build
     runs-on: ubuntu-latest
     strategy:
       matrix:
