@@ -241,7 +241,7 @@ task("generateSources") {
 buildscript {
     dependencies {
         classpath("org.jooq:jooq:3.19.0")
-        classpath("org.jooq:jooq-meta:3.19.0")
+        classpath("org.jooq:jooq-meta:3.19.1")
         classpath("org.jooq:jooq-codegen:3.19.1")
         classpath("com.h2database:h2:2.2.224")
     }
