@@ -21,3 +21,6 @@ updates:
       "org.jooq":
         patterns:
           - "org.jooq*"
+      "net.kyori":
+        patterns:
+          - "net.kyori*"
