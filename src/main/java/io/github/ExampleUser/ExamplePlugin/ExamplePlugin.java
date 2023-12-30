@@ -47,9 +47,9 @@ public class ExamplePlugin extends JavaPlugin {
         vaultHook.onEnable();
 
         if (vaultHook.isVaultLoaded()) {
-            Logger.get().info(ColorParser.of("<green>Vault has been found on this server. Economy support enabled.").build());
+            Logger.get().info(ColorParser.of("<green>Vault has been found on this server. Vault support enabled.").build());
         } else {
-            Logger.get().warn(ColorParser.of("<yellow>Vault is not installed on this server. Economy support has been disabled.").build());
+            Logger.get().warn(ColorParser.of("<yellow>Vault is not installed on this server. Vault support has been disabled.").build());
         }
     }
 
