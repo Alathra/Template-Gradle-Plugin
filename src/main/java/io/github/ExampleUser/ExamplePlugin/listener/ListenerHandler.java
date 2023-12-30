@@ -20,7 +20,8 @@ public class ListenerHandler implements Reloadable {
     @Override
     public void onEnable() {
         // Register listeners here
-        //instance.getServer().getPluginManager().registerEvents(new PlayerJoinListener(plugin), plugin);
+        //plugin.getServer().getPluginManager().registerEvents(new PlayerJoinListener(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new VaultListener(), plugin);
     }
 
     @Override

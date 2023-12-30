@@ -15,9 +15,8 @@ import org.jetbrains.annotations.Nullable;
 public class VaultHook implements Reloadable {
     private final ExamplePlugin plugin;
     private @Nullable RegisteredServiceProvider<Economy> rspEconomy;
-    private @Nullable RegisteredServiceProvider<Permission> rspPermission;
+    private @Nullable RegisteredServiceProvider<Permission> rspPermissions;
     private @Nullable RegisteredServiceProvider<Chat> rspChat;
-    private boolean isVaultLoaded = false;
 
     /**
      * Instantiates a new Vault hook.
@@ -30,57 +29,50 @@ public class VaultHook implements Reloadable {
 
     @Override
     public void onLoad() {
-        setVaultLoaded(false);
     }
 
     @Override
     public void onEnable() {
-        if (!plugin.getServer().getPluginManager().isPluginEnabled("Vault"))
-            return;
+        if (!isVaultLoaded()) return;
 
-        setVaultEconomy(plugin.getServer().getServicesManager().getRegistration(Economy.class));
-        setVaultPermissions(plugin.getServer().getServicesManager().getRegistration(Permission.class));
-        setVaultChat(plugin.getServer().getServicesManager().getRegistration(Chat.class));
-
-        setVaultLoaded(true);
+        setEconomy(plugin.getServer().getServicesManager().getRegistration(Economy.class));
+        setPermissions(plugin.getServer().getServicesManager().getRegistration(Permission.class));
+        setChat(plugin.getServer().getServicesManager().getRegistration(Chat.class));
     }
 
     @Override
     public void onDisable() {
         if (!isVaultLoaded()) return;
 
-        setVaultEconomy(null);
-        setVaultPermissions(null);
-        setVaultChat(null);
-
-        setVaultLoaded(false);
+        setEconomy(null);
+        setPermissions(null);
+        setChat(null);
     }
 
     /**
-     * Is vault loaded boolean.
+     * Check if Vault is present on the server.
      *
      * @return the boolean
      */
     public boolean isVaultLoaded() {
-        return isVaultLoaded;
+        return plugin.getServer().getPluginManager().isPluginEnabled("Vault");
     }
 
     /**
-     * Sets if vault is currently loaded.
+     * Check if a vault economy plugin is loaded.
      *
-     * @param loaded If vault is currently loaded
+     * @return boolean
      */
-    @ApiStatus.Internal
-    private void setVaultLoaded(boolean loaded) {
-        isVaultLoaded = loaded;
+    public boolean isEconomyLoaded() {
+        return rspEconomy != null && getEconomy() != null;
     }
 
     /**
-     * Gets vault economy instance. Should only be used after {@link #isVaultLoaded()}.
+     * Gets vault economy instance. Should only be used after {@link #isEconomyLoaded()}.
      *
      * @return vault instance
      */
-    public Economy getVaultEconomy() {
+    public Economy getEconomy() {
         if (rspEconomy == null)
             throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isVaultLoaded method before using vault methods.");
         return rspEconomy.getProvider();
@@ -92,19 +84,28 @@ public class VaultHook implements Reloadable {
      * @param rsp The service provider providing {@link Economy}
      */
     @ApiStatus.Internal
-    private void setVaultEconomy(@Nullable RegisteredServiceProvider<Economy> rsp) {
+    public void setEconomy(@Nullable RegisteredServiceProvider<Economy> rsp) {
         this.rspEconomy = rsp;
     }
 
     /**
-     * Gets vault permissions instance. Should only be used after {@link #isVaultLoaded()}.
+     * Check if a vault permissions plugin is loaded.
+     *
+     * @return boolean
+     */
+    public boolean isPermissionsLoaded() {
+        return rspPermissions != null && getPermissions() != null;
+    }
+
+    /**
+     * Gets vault permissions instance. Should only be used after {@link #isPermissionsLoaded()}.
      *
      * @return vault instance
      */
-    public Permission getVaultPermissions() {
-        if (rspPermission == null)
+    public Permission getPermissions() {
+        if (rspPermissions == null)
             throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isVaultLoaded method before using vault methods.");
-        return rspPermission.getProvider();
+        return rspPermissions.getProvider();
     }
 
     /**
@@ -113,16 +114,25 @@ public class VaultHook implements Reloadable {
      * @param rsp The service provider providing {@link Permission}
      */
     @ApiStatus.Internal
-    private void setVaultPermissions(@Nullable RegisteredServiceProvider<Permission> rsp) {
-        this.rspPermission = rsp;
+    public void setPermissions(@Nullable RegisteredServiceProvider<Permission> rsp) {
+        this.rspPermissions = rsp;
     }
 
     /**
-     * Gets vault Chat instance. Should only be used after {@link #isVaultLoaded()}.
+     * Check if a vault chat plugin is loaded.
+     *
+     * @return boolean
+     */
+    public boolean isChatLoaded() {
+        return rspChat != null && getChat() != null;
+    }
+
+    /**
+     * Gets vault Chat instance. Should only be used after {@link #isChatLoaded()}.
      *
      * @return vault instance
      */
-    public Chat getVaultChat() {
+    public Chat getChat() {
         if (rspChat == null)
             throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isVaultLoaded method before using vault methods.");
         return rspChat.getProvider();
@@ -134,7 +144,7 @@ public class VaultHook implements Reloadable {
      * @param rsp The service provider providing {@link Chat}
      */
     @ApiStatus.Internal
-    private void setVaultChat(@Nullable RegisteredServiceProvider<Chat> rsp) {
+    public void setChat(@Nullable RegisteredServiceProvider<Chat> rsp) {
         this.rspChat = rsp;
     }
 }
