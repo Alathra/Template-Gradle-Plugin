@@ -60,7 +60,7 @@ dependencies {
     implementation("dev.triumphteam:triumph-gui:3.1.7") {
         exclude("net.kyori")
     }
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
     // Database Dependencies
     implementation("com.zaxxer:HikariCP:5.1.0")
