@@ -168,6 +168,7 @@ flyway {
     url = "jdbc:h2:${project.layout.buildDirectory.get()}/generated/flyway/db;AUTO_SERVER=TRUE;MODE=MySQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;IGNORECASE=TRUE"
     user = "sa"
     password = ""
+    schemas = listOf("PUBLIC").toTypedArray()
     placeholders = mapOf( // Substitute placeholders for flyway
         "tablePrefix" to "",
         "columnSuffix" to " VIRTUAL",
