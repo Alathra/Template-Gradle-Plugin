@@ -1,5 +1,3 @@
-import org.flywaydb.gradle.task.FlywayMigrateTask
-import org.jooq.codegen.gradle.CodegenTask
 import org.jooq.meta.jaxb.Logging
 import java.time.Instant
 
@@ -24,6 +22,7 @@ val mainPackage = "${project.group}.${rootProject.name}"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_17.majorVersion)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
+//    withJavadocJar() // NOTE: Use if you want to generate javadocs for your plugin
 }
 
 repositories {
@@ -104,6 +103,7 @@ tasks {
 
     javadoc {
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
+        exclude("${mainPackage.replace(".", "/")}/db/schema/**") // Exclude generated jOOQ sources from javadocs
     }
 
     processResources {
