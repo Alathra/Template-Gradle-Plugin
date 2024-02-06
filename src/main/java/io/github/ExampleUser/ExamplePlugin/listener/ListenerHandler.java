@@ -9,6 +9,11 @@ import io.github.ExampleUser.ExamplePlugin.Reloadable;
 public class ListenerHandler implements Reloadable {
     private final ExamplePlugin plugin;
 
+    /**
+     * Instantiates a the Listener handler.
+     *
+     * @param plugin the plugin instance
+     */
     public ListenerHandler(ExamplePlugin plugin) {
         this.plugin = plugin;
     }

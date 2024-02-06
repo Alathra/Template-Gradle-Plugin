@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 public abstract class Cfg {
     /**
      * Convenience method for {@link ConfigHandler#getConfig} to getConnection {@link Config}
+     *
+     * @return the config
      */
     @NotNull
     public static Config get() {

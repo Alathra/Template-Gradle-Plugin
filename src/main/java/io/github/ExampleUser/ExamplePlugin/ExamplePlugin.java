@@ -10,6 +10,9 @@ import io.github.ExampleUser.ExamplePlugin.utility.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Main class.
+ */
 public class ExamplePlugin extends JavaPlugin {
     private static ExamplePlugin instance;
     private ConfigHandler configHandler;
@@ -18,6 +21,11 @@ public class ExamplePlugin extends JavaPlugin {
     private ListenerHandler listenerHandler;
     private static VaultHook vaultHook;
 
+    /**
+     * Gets plugin instance.
+     *
+     * @return the plugin instance
+     */
     public static ExamplePlugin getInstance() {
         return instance;
     }

@@ -14,7 +14,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
  */
 public class VaultListener implements Listener {
     /**
-     * Update the Vault hooks RegisteredServiceProviders in {@link io.github.ExampleUser.ExamplePlugin.hooks.VaultHook}. <br></br>This ensures the Vault hook is lazily loaded and working properly, even on reloads.
+     * Update the Vault hooks RegisteredServiceProviders in {@link io.github.ExampleUser.ExamplePlugin.hooks.VaultHook}. <br>This ensures the Vault hook is lazily loaded and working properly, even on reloads.
      *
      * @param e event
      */

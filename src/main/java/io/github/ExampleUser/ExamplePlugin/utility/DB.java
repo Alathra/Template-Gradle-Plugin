@@ -16,6 +16,9 @@ import java.sql.SQLException;
 public abstract class DB {
     /**
      * Convenience method for {@link DatabaseHandler#getConnection} to getConnection {@link Connection}
+     *
+     * @return the connection
+     * @throws SQLException the sql exception
      */
     @NotNull
     public static Connection getConnection() throws SQLException {
@@ -24,6 +27,9 @@ public abstract class DB {
 
     /**
      * Convenience method for {@link JooqContext#createContext(Connection)} to getConnection {@link DSLContext}
+     *
+     * @param con the con
+     * @return the context
      */
     @NotNull
     public static DSLContext getContext(Connection con) {
@@ -32,6 +38,8 @@ public abstract class DB {
 
     /**
      * Convenience method for {@link DatabaseHandler#getDB()} to getConnection {@link DatabaseType}
+     *
+     * @return the db
      */
     public static DatabaseType getDB() {
         return ExamplePlugin.getInstance().getDataHandler().getDB();

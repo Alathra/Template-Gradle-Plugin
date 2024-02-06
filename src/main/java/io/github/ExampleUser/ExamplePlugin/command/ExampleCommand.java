@@ -5,7 +5,13 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.executors.CommandArguments;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Class containing the code for the example command.
+ */
 public class ExampleCommand {
+    /**
+     * Instantiates and registers a new command.
+     */
     public ExampleCommand() {
         new CommandAPICommand("example")
             .withFullDescription("Example command.")

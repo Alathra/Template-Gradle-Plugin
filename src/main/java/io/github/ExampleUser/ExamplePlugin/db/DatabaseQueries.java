@@ -70,6 +70,7 @@ public abstract class DatabaseQueries {
      * <p>
      * You should make this method return whatever it is you're grabbing from db.
      *
+     * @return the result
      */
     public static @Nullable Result<Record2<String, byte[]>> loadAll() {
         try (
@@ -87,6 +88,12 @@ public abstract class DatabaseQueries {
         return null;
     }
 
+    /**
+     * Convert uuid to an array of bytes.
+     *
+     * @param uuid the uuid
+     * @return the byte array
+     */
     public static byte[] convertUUIDToBytes(UUID uuid) {
         ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(uuid.getMostSignificantBits());
@@ -94,6 +101,12 @@ public abstract class DatabaseQueries {
         return bb.array();
     }
 
+    /**
+     * Convert byte array to uuid.
+     *
+     * @param bytes the byte array
+     * @return the uuid
+     */
     public static UUID convertBytesToUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
         long high = byteBuffer.getLong();

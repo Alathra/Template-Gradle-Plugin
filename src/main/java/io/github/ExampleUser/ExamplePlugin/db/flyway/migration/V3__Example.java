@@ -11,6 +11,9 @@ import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.name;
 import static org.jooq.impl.SQLDataType.VARCHAR;
 
+/**
+ * Example Java Flyway migration using jOOQ.
+ */
 public class V3__Example extends BaseJavaMigration {
     @Override
     public void migrate(Context flywayContext) throws Exception {

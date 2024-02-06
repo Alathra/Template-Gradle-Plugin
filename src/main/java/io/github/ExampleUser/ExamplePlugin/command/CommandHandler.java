@@ -11,6 +11,11 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
 public class CommandHandler implements Reloadable {
     private final ExamplePlugin plugin;
 
+    /**
+     * Instantiates the Command handler.
+     *
+     * @param plugin the plugin
+     */
     public CommandHandler(ExamplePlugin plugin) {
         this.plugin = plugin;
     }

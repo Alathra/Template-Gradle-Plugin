@@ -7,7 +7,7 @@ import com.github.milkdrinkers.Crate.Config;
 import javax.inject.Singleton;
 
 /**
- * A class that generates/loads & provides access to a configuration file.
+ * A class that generates/loads {@literal &} provides access to a configuration file.
  */
 @Singleton
 public class ConfigHandler implements Reloadable {
