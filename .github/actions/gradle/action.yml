@@ -12,4 +12,4 @@ runs:
       uses: gradle/wrapper-validation-action@v1
 
     - name: Setup Gradle and Caching
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/actions/setup-gradle@v3
