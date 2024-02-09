@@ -31,13 +31,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Gradle
-        uses: ./.github/actions/gradle
-
       - name: Setup JDK
         uses: ./.github/actions/jdk
         with:
           java-version: ${{ matrix.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
 
       - name: Build with Gradle
         run: ./gradlew clean build --info
@@ -58,13 +58,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Gradle
-        uses: ./.github/actions/gradle
-
       - name: Setup JDK
         uses: ./.github/actions/jdk
         with:
           java-version: ${{ matrix.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
 
       - name: Set Release Environment Variable
         if: github.ref_type == 'tag'
