@@ -1,9 +1,9 @@
-package io.github.ExampleUser.ExamplePlugin.utility;
+package io.github.exampleuser.exampleplugin.utility;
 
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
-import io.github.ExampleUser.ExamplePlugin.db.DatabaseHandler;
-import io.github.ExampleUser.ExamplePlugin.db.DatabaseType;
-import io.github.ExampleUser.ExamplePlugin.db.jooq.JooqContext;
+import io.github.exampleuser.exampleplugin.ExamplePlugin;
+import io.github.exampleuser.exampleplugin.db.DatabaseHandler;
+import io.github.exampleuser.exampleplugin.db.DatabaseType;
+import io.github.exampleuser.exampleplugin.db.jooq.JooqContext;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 

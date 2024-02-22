@@ -1,7 +1,7 @@
-package io.github.ExampleUser.ExamplePlugin.utility;
+package io.github.exampleuser.exampleplugin.utility;
 
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
-import io.github.ExampleUser.ExamplePlugin.config.ConfigHandler;
+import io.github.exampleuser.exampleplugin.ExamplePlugin;
+import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import com.github.milkdrinkers.Crate.Config;
 import org.jetbrains.annotations.NotNull;
 

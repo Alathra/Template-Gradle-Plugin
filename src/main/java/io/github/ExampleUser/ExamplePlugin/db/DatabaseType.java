@@ -1,4 +1,4 @@
-package io.github.ExampleUser.ExamplePlugin.db;
+package io.github.exampleuser.exampleplugin.db;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.h2.jdbcx.JdbcDataSource;

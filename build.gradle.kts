@@ -15,10 +15,10 @@ plugins {
     idea
 }
 
-group = "io.github.ExampleUser"
+group = "io.github.exampleuser"
 version = "1.0.5"
 description = ""
-val mainPackage = "${project.group}.${rootProject.name}"
+val mainPackage = "${project.group}.${rootProject.name.lowercase()}"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_17.majorVersion)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.

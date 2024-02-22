@@ -1,7 +1,7 @@
-package io.github.ExampleUser.ExamplePlugin.utility;
+package io.github.exampleuser.exampleplugin.utility;
 
 
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
+import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package io.github.ExampleUser.ExamplePlugin.db.flyway;
+package io.github.exampleuser.exampleplugin.db.flyway;
 
 import org.flywaydb.core.api.ClassProvider;
 import org.flywaydb.core.api.migration.JavaMigration;
