@@ -22,7 +22,8 @@ val mainPackage = "${project.group}.${rootProject.name.lowercase()}"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
-//    withJavadocJar() // NOTE: Use if you want to generate javadocs for your plugin
+    withJavadocJar() // Enable Javadoc generation
+//    withSourcesJar()
 }
 
 repositories {
@@ -102,8 +103,13 @@ tasks {
     }
 
     javadoc {
-        options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
+        isFailOnError = false
         exclude("${mainPackage.replace(".", "/")}/db/schema/**") // Exclude generated jOOQ sources from javadocs
+        val options = options as StandardJavadocDocletOptions
+        options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
+        options.overview = "src/main/javadoc/overview.html"
+        options.tags("apiNote:a:API Note:", "implNote:a:Implementation Note:", "implSpec:a:Implementation Requirements:")
+        options.use()
     }
 
     processResources {
