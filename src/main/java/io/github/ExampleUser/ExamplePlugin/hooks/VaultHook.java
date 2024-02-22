@@ -1,7 +1,7 @@
-package io.github.ExampleUser.ExamplePlugin.hooks;
+package io.github.exampleuser.exampleplugin.hooks;
 
-import io.github.ExampleUser.ExamplePlugin.ExamplePlugin;
-import io.github.ExampleUser.ExamplePlugin.Reloadable;
+import io.github.exampleuser.exampleplugin.ExamplePlugin;
+import io.github.exampleuser.exampleplugin.Reloadable;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;

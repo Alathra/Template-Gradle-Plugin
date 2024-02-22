@@ -1,12 +1,12 @@
-package io.github.ExampleUser.ExamplePlugin;
+package io.github.exampleuser.exampleplugin;
 
 import com.github.milkdrinkers.colorparser.ColorParser;
-import io.github.ExampleUser.ExamplePlugin.command.CommandHandler;
-import io.github.ExampleUser.ExamplePlugin.config.ConfigHandler;
-import io.github.ExampleUser.ExamplePlugin.db.DatabaseHandler;
-import io.github.ExampleUser.ExamplePlugin.hooks.VaultHook;
-import io.github.ExampleUser.ExamplePlugin.listener.ListenerHandler;
-import io.github.ExampleUser.ExamplePlugin.utility.Logger;
+import io.github.exampleuser.exampleplugin.command.CommandHandler;
+import io.github.exampleuser.exampleplugin.config.ConfigHandler;
+import io.github.exampleuser.exampleplugin.db.DatabaseHandler;
+import io.github.exampleuser.exampleplugin.hooks.VaultHook;
+import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
+import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 

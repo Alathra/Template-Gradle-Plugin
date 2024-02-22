@@ -1,7 +1,7 @@
-package io.github.ExampleUser.ExamplePlugin.db;
+package io.github.exampleuser.exampleplugin.db;
 
-import io.github.ExampleUser.ExamplePlugin.utility.DB;
-import io.github.ExampleUser.ExamplePlugin.utility.Logger;
+import io.github.exampleuser.exampleplugin.utility.DB;
+import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jooq.DSLContext;
@@ -13,7 +13,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import static io.github.ExampleUser.ExamplePlugin.db.schema.Tables.SOME_LIST;
+import static io.github.exampleuser.exampleplugin.db.schema.Tables.SOME_LIST;
 
 /**
  * A holder class for all SQL queries
