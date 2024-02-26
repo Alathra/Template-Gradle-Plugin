@@ -74,7 +74,7 @@ dependencies {
     library("org.hsqldb:hsqldb:2.7.2")
     library("com.h2database:h2:2.2.224")
     library("com.mysql:mysql-connector-j:8.3.0")
-    library("org.mariadb.jdbc:mariadb-java-client:3.3.2")
+    library("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 }
 
 tasks {
