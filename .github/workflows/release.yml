@@ -75,7 +75,7 @@ jobs:
         run: ./gradlew clean build -PcustomVersion=${{ env.CUSTOM_VERSION }}
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         id: release
         with:
           name: ${{ format('Release {0}', github.ref_name) }}
