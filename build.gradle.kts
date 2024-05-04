@@ -53,7 +53,7 @@ dependencies {
         exclude("net.kyori")
     }
 
-    implementation("dev.jorel:commandapi-bukkit-shade:9.3.0")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.4.0")
 //    compileOnly("dev.jorel:commandapi-annotations:9.3.0")
 //    annotationProcessor("dev.jorel:commandapi-annotations:9.3.0")
 
