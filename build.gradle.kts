@@ -5,9 +5,9 @@ plugins {
     `java-library`
 
     id("com.github.johnrengelman.shadow") version "8.1.1" // Shades and relocates dependencies, See https://imperceptiblethoughts.com/shadow/introduction/
-    id("xyz.jpenilla.run-paper") version "2.2.4" // Adds runServer and runMojangMappedServer tasks for testing
+    id("xyz.jpenilla.run-paper") version "2.3.0" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
-//    id("io.papermc.paperweight.userdev") version "1.5.9" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
+//    id("io.papermc.paperweight.userdev") version "1.7.1" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
     id("org.flywaydb.flyway") version "10.12.0" // Database migrations
     id("org.jooq.jooq-codegen-gradle") version "3.19.7"
 
@@ -21,7 +21,7 @@ description = ""
 val mainPackage = "${project.group}.${rootProject.name.lowercase()}"
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // Configure the java toolchain. This allows gradle to auto-provision JDK 21 on systems that only have JDK 8 installed for example.
     withJavadocJar() // Enable Javadoc generation
 //    withSourcesJar()
 }
@@ -44,7 +44,7 @@ dependencies {
     compileOnly("org.jetbrains:annotations:24.1.0")
     annotationProcessor("org.jetbrains:annotations:24.1.0")
 
-    //paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
+    //paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     implementation("space.arim.morepaperlib:morepaperlib:latest.release")
 
@@ -53,9 +53,9 @@ dependencies {
         exclude("net.kyori")
     }
 
-    implementation("dev.jorel:commandapi-bukkit-shade:9.3.0")
-//    compileOnly("dev.jorel:commandapi-annotations:9.3.0")
-//    annotationProcessor("dev.jorel:commandapi-annotations:9.3.0")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.4.1")
+//    compileOnly("dev.jorel:commandapi-annotations:9.4.1")
+//    annotationProcessor("dev.jorel:commandapi-annotations:9.4.1")
 
     implementation("dev.triumphteam:triumph-gui:3.1.7") {
         exclude("net.kyori")
@@ -96,7 +96,7 @@ tasks {
 
         // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
         // See https://openjdk.java.net/jeps/247 for more information.
-        options.release.set(17)
+        options.release.set(21)
         options.compilerArgs.addAll(arrayListOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
 
         dependsOn(jooqCodegen) // Generate jOOQ sources before compilation
@@ -139,7 +139,7 @@ tasks {
 
     runServer {
         // Configure the Minecraft version for our task.
-        minecraftVersion("1.20.2")
+        minecraftVersion("1.20.6")
 
         // IntelliJ IDEA debugger setup: https://docs.papermc.io/paper/dev/debugging#using-a-remote-debugger
         jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-DPaper.IgnoreJavaVersion=true", "-Dcom.mojang.eula.agree=true", "-DIReallyKnowWhatIAmDoingISwear")
