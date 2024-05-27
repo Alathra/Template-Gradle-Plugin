@@ -53,9 +53,9 @@ dependencies {
         exclude("net.kyori")
     }
 
-    implementation("dev.jorel:commandapi-bukkit-shade:9.4.1")
-//    compileOnly("dev.jorel:commandapi-annotations:9.4.1")
-//    annotationProcessor("dev.jorel:commandapi-annotations:9.4.1")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.4.2")
+//    compileOnly("dev.jorel:commandapi-annotations:9.4.2")
+//    annotationProcessor("dev.jorel:commandapi-annotations:9.4.2")
 
     implementation("dev.triumphteam:triumph-gui:3.1.7") {
         exclude("net.kyori")
