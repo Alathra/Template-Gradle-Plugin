@@ -49,7 +49,7 @@ dependencies {
     implementation("space.arim.morepaperlib:morepaperlib:latest.release")
 
     implementation("com.github.milkdrinkers:crate:1.1.0")
-    implementation("com.github.milkdrinkers:colorparser:2.0.0") {
+    implementation("com.github.milkdrinkers:colorparser:2.0.3") {
         exclude("net.kyori")
     }
 
