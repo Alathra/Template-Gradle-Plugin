@@ -57,7 +57,7 @@ dependencies {
 //    compileOnly("dev.jorel:commandapi-annotations:9.4.2")
 //    annotationProcessor("dev.jorel:commandapi-annotations:9.4.2")
 
-    implementation("dev.triumphteam:triumph-gui:3.1.9") {
+    implementation("dev.triumphteam:triumph-gui:3.1.10") {
         exclude("net.kyori")
     }
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
