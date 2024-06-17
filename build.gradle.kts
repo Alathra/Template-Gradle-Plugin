@@ -9,7 +9,7 @@ plugins {
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
 //    id("io.papermc.paperweight.userdev") version "1.7.1" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
     id("org.flywaydb.flyway") version "10.13.0" // Database migrations
-    id("org.jooq.jooq-codegen-gradle") version "3.19.8"
+    id("org.jooq.jooq-codegen-gradle") version "3.19.10"
 
     eclipse
     idea
@@ -67,7 +67,7 @@ dependencies {
     library("org.flywaydb:flyway-core:10.13.0")
     library("org.flywaydb:flyway-mysql:10.13.0")
     library("org.flywaydb:flyway-database-hsqldb:10.13.0")
-    library("org.jooq:jooq:3.19.8")
+    library("org.jooq:jooq:3.19.10")
     jooqCodegen("com.h2database:h2:2.2.224")
 
     // JDBC Drivers
