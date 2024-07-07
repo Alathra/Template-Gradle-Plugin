@@ -61,6 +61,8 @@ dependencies {
     implementation("dev.triumphteam:triumph-gui:3.1.10") {
         exclude("net.kyori")
     }
+
+    compileOnly("org.bstats:bstats-bukkit:3.0.2")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
     // Database Dependencies
@@ -130,6 +132,7 @@ tasks {
         reloc("dev.jorel.commandapi", "commandapi")
         reloc("dev.triumphteam.gui", "gui")
         reloc("com.zaxxer.hikari", "hikaricp")
+        reloc("org.bstats", "bstats")
 
         mergeServiceFiles {
             setPath("META-INF/services/org.flywaydb.core.extensibility.Plugin") // Fix Flyway overriding its own files

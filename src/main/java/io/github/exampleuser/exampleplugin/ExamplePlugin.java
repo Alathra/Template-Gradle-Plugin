@@ -4,6 +4,7 @@ import com.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.db.DatabaseHandler;
+import io.github.exampleuser.exampleplugin.hooks.BStatsHook;
 import io.github.exampleuser.exampleplugin.hooks.VaultHook;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.utility.Logger;
@@ -19,6 +20,7 @@ public class ExamplePlugin extends JavaPlugin {
     private DatabaseHandler databaseHandler;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
+    private static BStatsHook bStatsHook;
     private static VaultHook vaultHook;
 
     /**
@@ -37,12 +39,14 @@ public class ExamplePlugin extends JavaPlugin {
         databaseHandler = new DatabaseHandler(instance);
         commandHandler = new CommandHandler(instance);
         listenerHandler = new ListenerHandler(instance);
+        bStatsHook = new BStatsHook(instance);
         vaultHook = new VaultHook(instance);
 
         configHandler.onLoad();
         databaseHandler.onLoad();
         commandHandler.onLoad();
         listenerHandler.onLoad();
+        bStatsHook.onLoad();
         vaultHook.onLoad();
     }
 
@@ -52,6 +56,7 @@ public class ExamplePlugin extends JavaPlugin {
         databaseHandler.onEnable();
         commandHandler.onEnable();
         listenerHandler.onEnable();
+        bStatsHook.onEnable();
         vaultHook.onEnable();
 
         if (vaultHook.isVaultLoaded()) {
@@ -67,6 +72,7 @@ public class ExamplePlugin extends JavaPlugin {
         databaseHandler.onDisable();
         commandHandler.onDisable();
         listenerHandler.onDisable();
+        bStatsHook.onDisable();
         vaultHook.onDisable();
     }
 
@@ -88,6 +94,16 @@ public class ExamplePlugin extends JavaPlugin {
     @NotNull
     public ConfigHandler getConfigHandler() {
         return configHandler;
+    }
+
+    /**
+     * Gets bStats hook.
+     *
+     * @return the bStats hook
+     */
+    @NotNull
+    public static BStatsHook getBStatsHook() {
+        return bStatsHook;
     }
 
     /**
