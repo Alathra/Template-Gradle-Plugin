@@ -32,9 +32,10 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://mvn-repo.arim.space/lesser-gpl3/")
 
+    maven("https://maven.athyrium.eu/releases")
+
     maven("https://jitpack.io/") {
         content {
-            includeGroup("com.github.milkdrinkers")
             includeGroup("com.github.MilkBowl")
         }
     }
