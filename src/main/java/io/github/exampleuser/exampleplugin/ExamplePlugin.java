@@ -5,6 +5,7 @@ import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.db.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.hooks.BStatsHook;
+import io.github.exampleuser.exampleplugin.hooks.ProtocolLibHook;
 import io.github.exampleuser.exampleplugin.hooks.VaultHook;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.utility.Logger;
@@ -20,8 +21,11 @@ public class ExamplePlugin extends JavaPlugin {
     private DatabaseHandler databaseHandler;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
+
+    // Hooks
     private static BStatsHook bStatsHook;
     private static VaultHook vaultHook;
+    private static ProtocolLibHook protocolLibHook;
 
     /**
      * Gets plugin instance.
@@ -41,6 +45,7 @@ public class ExamplePlugin extends JavaPlugin {
         listenerHandler = new ListenerHandler(instance);
         bStatsHook = new BStatsHook(instance);
         vaultHook = new VaultHook(instance);
+        protocolLibHook = new ProtocolLibHook(instance);
 
         configHandler.onLoad();
         databaseHandler.onLoad();
@@ -48,6 +53,7 @@ public class ExamplePlugin extends JavaPlugin {
         listenerHandler.onLoad();
         bStatsHook.onLoad();
         vaultHook.onLoad();
+        protocolLibHook.onLoad();
     }
 
     @Override
@@ -58,11 +64,18 @@ public class ExamplePlugin extends JavaPlugin {
         listenerHandler.onEnable();
         bStatsHook.onEnable();
         vaultHook.onEnable();
+        protocolLibHook.onEnable();
 
         if (vaultHook.isVaultLoaded()) {
             Logger.get().info(ColorParser.of("<green>Vault has been found on this server. Vault support enabled.").build());
         } else {
             Logger.get().warn(ColorParser.of("<yellow>Vault is not installed on this server. Vault support has been disabled.").build());
+        }
+
+        if (protocolLibHook.isHookLoaded()) {
+            Logger.get().info(ColorParser.of("<green>ProtocolLib has been found on this server. ProtocolLib support enabled.").build());
+        } else {
+            Logger.get().warn(ColorParser.of("<yellow>ProtocolLib is not installed on this server. ProtocolLib support has been disabled.").build());
         }
     }
 
@@ -74,6 +87,7 @@ public class ExamplePlugin extends JavaPlugin {
         listenerHandler.onDisable();
         bStatsHook.onDisable();
         vaultHook.onDisable();
+        protocolLibHook.onDisable();
     }
 
     /**
@@ -114,5 +128,15 @@ public class ExamplePlugin extends JavaPlugin {
     @NotNull
     public static VaultHook getVaultHook() {
         return vaultHook;
+    }
+
+    /**
+     * Gets ProtocolLib hook.
+     *
+     * @return the ProtocolLib hook
+     */
+    @NotNull
+    public static ProtocolLibHook getProtocolLibHook() {
+        return protocolLibHook;
     }
 }

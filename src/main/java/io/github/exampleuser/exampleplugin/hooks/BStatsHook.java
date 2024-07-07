@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public class BStatsHook implements Reloadable {
     private final static int bStatsId = 1234; // Signup to BStats and register your new plugin here: https://bstats.org/getting-started, replace the id with you new one!
     private final ExamplePlugin plugin;
-    private @Nullable Metrics metrics;
+    private @Nullable Metrics hook;
 
     /**
      * Instantiates a new BStats hook.
@@ -29,34 +29,42 @@ public class BStatsHook implements Reloadable {
 
     @Override
     public void onEnable() {
-        setMetrics(new Metrics(plugin, bStatsId));
+        setHook(new Metrics(plugin, bStatsId));
     }
 
     @Override
     public void onDisable() {
-        getMetrics().shutdown();
-        setMetrics(null);
+        getHook().shutdown();
+        setHook(null);
     }
 
     /**
-     * Gets BStats metrics instance.
-     *
-     * @return metrics instance
+     * Check if the BStats hook is loaded and ready for use.
+     * @return whether the BStats metrics hook is loaded or not
      */
-    public Metrics getMetrics() {
-        if (metrics == null)
-            throw new NullPointerException("The plugin tried to use BStats without it being properly loaded.");
+    public boolean isHookLoaded() {
+        return hook != null;
+    }
 
-        return metrics;
+    /**
+     * Gets BStats metrics instance. Should only be used following {@link #isHookLoaded()}.
+     *
+     * @return instance
+     */
+    public Metrics getHook() {
+        if (!isHookLoaded())
+            throw new IllegalStateException("Attempted to access BStats metrics instance hook when it is unavailable!");
+
+        return hook;
     }
 
     /**
      * Sets the BStats metrics instance.
      *
-     * @param metrics The BStats metrics instance {@link Metrics}
+     * @param hook The BStats metrics instance {@link Metrics}
      */
     @ApiStatus.Internal
-    public void setMetrics(@Nullable Metrics metrics) {
-        this.metrics = metrics;
+    private void setHook(@Nullable Metrics hook) {
+        this.hook = hook;
     }
 }

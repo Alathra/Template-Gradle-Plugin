@@ -34,9 +34,11 @@ repositories {
 
     maven("https://maven.athyrium.eu/releases")
 
+    maven("https://repo.dmulloy2.net/repository/public/") // ProtocolLib
+
     maven("https://jitpack.io/") {
         content {
-            includeGroup("com.github.MilkBowl")
+            includeGroup("com.github.MilkBowl") // VaultAPI
         }
     }
 }
@@ -64,6 +66,7 @@ dependencies {
 
     compileOnly("org.bstats:bstats-bukkit:3.0.2")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
 
     // Database Dependencies
     implementation("com.zaxxer:HikariCP:5.1.0")
@@ -157,6 +160,7 @@ tasks {
 //            hangar("squaremap", "1.2.0")
 //            url("https://download.luckperms.net/1515/bukkit/loader/LuckPerms-Bukkit-5.4.102.jar")
             github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
+            github("dmulloy2", "ProtocolLib", "5.2.0", "ProtocolLib.jar")
         }
     }
 }
@@ -177,7 +181,7 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     // Misc properties
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
     depend = listOf()
-    softDepend = listOf()
+    softDepend = listOf("Vault", "ProtocolLib")
 }
 
 flyway {
