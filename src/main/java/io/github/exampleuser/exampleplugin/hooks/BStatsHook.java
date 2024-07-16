@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
  * A hook to interface with <a href="https://github.com/Bastian/bstats-metrics">BStats</a>.
  */
 public class BStatsHook implements Reloadable {
-    private final static int bStatsId = 1234; // Signup to BStats and register your new plugin here: https://bstats.org/getting-started, replace the id with you new one!
+    private final static int BSTATS_ID = 1234; // Signup to BStats and register your new plugin here: https://bstats.org/getting-started, replace the id with you new one!
     private final ExamplePlugin plugin;
     private @Nullable Metrics hook;
 
@@ -29,7 +29,12 @@ public class BStatsHook implements Reloadable {
 
     @Override
     public void onEnable() {
-        setHook(new Metrics(plugin, bStatsId));
+        // Catch startup errors for bstats
+        try {
+            setHook(new Metrics(plugin, BSTATS_ID));
+        } catch (Exception ignored) {
+            setHook(null);
+        }
     }
 
     @Override
