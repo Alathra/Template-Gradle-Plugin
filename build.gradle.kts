@@ -64,7 +64,7 @@ dependencies {
         exclude("net.kyori")
     }
 
-    compileOnly("org.bstats:bstats-bukkit:3.0.2")
+    implementation("org.bstats:bstats-bukkit:3.0.2")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
 
