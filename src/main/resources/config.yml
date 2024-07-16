@@ -1,3 +1,9 @@
+# Update Checker Settings
+update-checker:
+  enable: true
+  console: true # Post message to console
+  op: true # Send update notification to opped players on join
+
 # Database Settings
 db:
   type: "hsqldb" # Available types: "hsqldb", "h2", "mysql", "mariadb"

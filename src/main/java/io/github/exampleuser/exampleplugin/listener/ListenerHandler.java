@@ -26,6 +26,7 @@ public class ListenerHandler implements Reloadable {
     public void onEnable() {
         // Register listeners here
         //plugin.getServer().getPluginManager().registerEvents(new PlayerJoinListener(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new UpdateCheckListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new VaultListener(), plugin);
     }
 

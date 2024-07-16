@@ -8,6 +8,7 @@ import io.github.exampleuser.exampleplugin.hooks.BStatsHook;
 import io.github.exampleuser.exampleplugin.hooks.ProtocolLibHook;
 import io.github.exampleuser.exampleplugin.hooks.VaultHook;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
+import io.github.exampleuser.exampleplugin.utility.updatechecker.UpdateChecker;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,7 @@ public class ExamplePlugin extends JavaPlugin {
     private DatabaseHandler databaseHandler;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
+    private UpdateChecker updateChecker;
 
     // Hooks
     private static BStatsHook bStatsHook;
@@ -43,6 +45,7 @@ public class ExamplePlugin extends JavaPlugin {
         databaseHandler = new DatabaseHandler(instance);
         commandHandler = new CommandHandler(instance);
         listenerHandler = new ListenerHandler(instance);
+        updateChecker = new UpdateChecker();
         bStatsHook = new BStatsHook(instance);
         vaultHook = new VaultHook(instance);
         protocolLibHook = new ProtocolLibHook(instance);
@@ -51,6 +54,7 @@ public class ExamplePlugin extends JavaPlugin {
         databaseHandler.onLoad();
         commandHandler.onLoad();
         listenerHandler.onLoad();
+        updateChecker.onLoad();
         bStatsHook.onLoad();
         vaultHook.onLoad();
         protocolLibHook.onLoad();
@@ -62,6 +66,7 @@ public class ExamplePlugin extends JavaPlugin {
         databaseHandler.onEnable();
         commandHandler.onEnable();
         listenerHandler.onEnable();
+        updateChecker.onEnable();
         bStatsHook.onEnable();
         vaultHook.onEnable();
         protocolLibHook.onEnable();
@@ -85,6 +90,7 @@ public class ExamplePlugin extends JavaPlugin {
         databaseHandler.onDisable();
         commandHandler.onDisable();
         listenerHandler.onDisable();
+        updateChecker.onDisable();
         bStatsHook.onDisable();
         vaultHook.onDisable();
         protocolLibHook.onDisable();
@@ -108,6 +114,16 @@ public class ExamplePlugin extends JavaPlugin {
     @NotNull
     public ConfigHandler getConfigHandler() {
         return configHandler;
+    }
+
+    /**
+     * Gets update checker.
+     *
+     * @return the update checker
+     */
+    @NotNull
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
     }
 
     /**
