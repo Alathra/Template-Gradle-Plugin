@@ -66,10 +66,12 @@ jobs:
     steps:
       # Checkout repository
       - name: Checkout Repository
+        if: contains(github.ref_name, '-RC-')
         uses: actions/checkout@v4
 
       # Update version field in project properties file
       - name: Update Gradle Project Version
+        if: contains(github.ref_name, '-RC-')
         uses: kurt-code/gha-properties@v0.0.2
         with:
           operation: "write"
@@ -78,6 +80,7 @@ jobs:
 
       # Commit and push updated version properties file
       - name: Update repository
+        if: contains(github.ref_name, '-RC-')
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: bump version to v${{ github.ref_name  }}"
