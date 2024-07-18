@@ -1,0 +1,50 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+    tags:
+      - "*.*.*"
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+permissions:
+  attestations: write
+  contents: write
+  id-token: write
+  checks: write
+
+concurrency:
+  group: ${{ format('{0}-{1}', github.job, github.ref) }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yml
+    with:
+      os: ubuntu-latest
+      java: 21
+
+  stage:
+    name: Stage
+    needs: test
+    if: ${{ github.event_name != 'pull_request' }}
+    uses: ./.github/workflows/stage.yml
+    with:
+      os: ubuntu-latest
+      java: 21
+    secrets: inherit
+
+  deploy:
+    name: Deploy
+    needs: stage
+    if: github.ref_type == 'tag'
+    uses: ./.github/workflows/deploy.yml
+    with:
+      os: ubuntu-latest
+    secrets: inherit

@@ -4,8 +4,12 @@ description: 'Set up JDK'
 inputs:
   java-version:
     description: 'Java version'
-    required: true
-    default: '17'
+    required: false
+    default: '21'
+  distribution:
+    description: 'JDK Distribution'
+    required: false
+    default: 'temurin'
 
 runs:
   using: 'composite'
@@ -14,4 +18,4 @@ runs:
       uses: actions/setup-java@v4
       with:
         java-version: ${{ inputs.java-version }}
-        distribution: 'temurin'
+        distribution: ${{ inputs.distribution }}

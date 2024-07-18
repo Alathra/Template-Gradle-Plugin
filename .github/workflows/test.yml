@@ -1,0 +1,97 @@
+name: Test
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: "The os the workflow shold use"
+        required: false
+        type: string
+        default: ubuntu-latest
+      java:
+        description: "The Java version the workflow should use"
+        required: false
+        type: number
+        default: 21
+
+permissions:
+  checks: write
+
+jobs:
+  test-build:
+    name: "Run Tests"
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ inputs.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+      - name: Test with Gradle
+        run: ./gradlew test --info
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          require_tests: false
+          fail_on_failure: true
+          check_name: Test Report
+
+  test-mysql:
+    name: "Run Tests MySQL"
+    runs-on: ${{ inputs.os }}
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: test
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ inputs.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+      - name: Test with Gradle
+        run: ./gradlew test --info
+
+  test-mariadb:
+    name: "Run Tests MariaDB"
+    runs-on: ${{ inputs.os }}
+    services:
+      mariadb:
+        image: mariadb:10.4
+        env:
+          MYSQL_DATABASE: test
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ inputs.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+      - name: Test with Gradle
+        run: ./gradlew test --info

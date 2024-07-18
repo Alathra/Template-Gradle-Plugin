@@ -1,5 +1,5 @@
 name: 'Setup Gradle'
-description: 'Grant execute permissions and validate Gradle wrapper'
+description: 'Grant execute permissions, validate Gradle wrapper, setup Gradle wrapper'
 
 runs:
   using: 'composite'
@@ -9,7 +9,7 @@ runs:
       shell: bash
 
     - name: Validate Gradle Wrapper Authenticity
-      uses: gradle/wrapper-validation-action@v2
+      uses: gradle/actions/wrapper-validation@v3
 
-    - name: Setup Gradle and Caching
+    - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3

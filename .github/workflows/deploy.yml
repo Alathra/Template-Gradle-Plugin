@@ -1,0 +1,67 @@
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: "The os the workflow shold use"
+        required: false
+        type: string
+        default: ubuntu-latest
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: "Release"
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: Download Snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: Snapshot-${{ github.run_attempt }}
+          run-id: ${{ github.event.workflow_run.id }}
+          path: "${{ github.workspace }}/tmp/"
+
+      # Generate changelog
+      - name: Generate Changelog
+        uses: ardalanamini/auto-changelog@v4
+        id: changelog
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-types: |
+            feat: New Features
+            fix: Bug Fixes
+            build: Build System & Dependencies
+            perf: Performance Improvements
+            docs: Documentation
+            test: Tests
+            refactor: Refactors
+            chore: Chores
+            ci: CI
+            style: Code Style
+            revert: Reverts
+          default-commit-type: Other Changes
+          release-name: ${{ github.ref_name }}
+          mention-authors: true
+          mention-new-contributors: true
+          include-compare-link: true
+          include-pr-links: true
+          include-commit-links: true
+          semver: true
+          use-github-autolink: true
+
+        # Create release
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ github.workspace }}/tmp/*
+          fail_on_unmatched_files: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-RC-') }}
+          generate_release_notes: false
+          body: ${{ steps.changelog.outputs.changelog }}
