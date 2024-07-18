@@ -224,7 +224,6 @@ jooq {
             }
             target {
                 packageName = "${mainPackage}.db.schema"
-                directory = layout.buildDirectory.dir("generated-src/jooq").get().toString()
                 withClean(true)
             }
         }
