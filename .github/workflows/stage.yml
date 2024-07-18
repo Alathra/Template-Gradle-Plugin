@@ -20,31 +20,9 @@ permissions:
   id-token: write
 
 jobs:
-  stage-version:
-    name: "Update Project Version"
-    runs-on: ${{ inputs.os }}
-    if: github.ref_type == 'tag'
-    steps:
-      # Checkout repository
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      # Update version field in project properties file
-      - name: Update Gradle Project Version
-        uses: kurt-code/gha-properties@v0.0.2
-        with:
-          operation: "write"
-          file-path: "./gradle.properties"
-          key-value-pairs: '{"version": "${{ github.ref_name }}"}'
-
-      # Commit and push updated version properties file
-      - name: Update repository
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: bump version to v${{ github.ref_name }}"
   stage-build-snapshot:
     name: "Build Snapshot"
-    if: ${{github.ref_type}} != 'tag'
+    if: github.ref_type != 'tag'
     runs-on: ${{ inputs.os }}
     steps:
       - name: Checkout Repository
@@ -80,10 +58,33 @@ jobs:
           name: Snapshot-${{ github.run_number }}
           path: ${{ github.workspace }}/build/libs/
           retention-days: 7
+
+  stage-version:
+    name: "Update Project Version"
+    runs-on: ${{ inputs.os }}
+    if: github.ref_type == 'tag'
+    steps:
+      # Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Update version field in project properties file
+      - name: Update Gradle Project Version
+        uses: kurt-code/gha-properties@v0.0.2
+        with:
+          operation: "write"
+          file-path: "./gradle.properties"
+          key-value-pairs: '{"version": "${{ github.ref_name }}"}'
+
+      # Commit and push updated version properties file
+      - name: Update repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: bump version to v${{ github.ref_name }}"
+  
   stage-build-release:
     name: "Build Release"
     needs: stage-version
-    if: ${{github.ref_type}} == 'tag'
     runs-on: ${{ inputs.os }}
     steps:
       - name: Checkout Repository
