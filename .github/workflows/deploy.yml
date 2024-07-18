@@ -20,7 +20,7 @@ jobs:
       - name: Download Snapshot
         uses: actions/download-artifact@v4
         with:
-          name: Snapshot-${{ github.run_attempt }}
+          name: Release
           run-id: ${{ github.event.workflow_run.id }}
           path: "${{ github.workspace }}/tmp/"
 
