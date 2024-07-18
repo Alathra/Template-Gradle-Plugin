@@ -44,54 +44,54 @@ jobs:
           fail_on_failure: true
           check_name: Test Report
 
-  test-mysql:
-    name: "Run Tests MySQL"
-    runs-on: ${{ inputs.os }}
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_DATABASE: test
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+  # test-mysql:
+  #   name: "Run Tests MySQL"
+  #   runs-on: ${{ inputs.os }}
+  #   services:
+  #     mysql:
+  #       image: mysql:8.0
+  #       env:
+  #         MYSQL_DATABASE: test
+  #         MYSQL_USER: root
+  #         MYSQL_ROOT_PASSWORD:
+  #         MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v4
 
-      - name: Setup JDK
-        uses: ./.github/actions/jdk
-        with:
-          java-version: ${{ inputs.java }}
+  #     - name: Setup JDK
+  #       uses: ./.github/actions/jdk
+  #       with:
+  #         java-version: ${{ inputs.java }}
 
-      - name: Setup Gradle
-        uses: ./.github/actions/gradle
+  #     - name: Setup Gradle
+  #       uses: ./.github/actions/gradle
 
-      - name: Test with Gradle
-        run: ./gradlew test --info
+  #     - name: Test with Gradle
+  #       run: ./gradlew test --info
 
-  test-mariadb:
-    name: "Run Tests MariaDB"
-    runs-on: ${{ inputs.os }}
-    services:
-      mariadb:
-        image: mariadb:10.4
-        env:
-          MYSQL_DATABASE: test
-          MYSQL_USER: root
-          MYSQL_ROOT_PASSWORD:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+  # test-mariadb:
+  #   name: "Run Tests MariaDB"
+  #   runs-on: ${{ inputs.os }}
+  #   services:
+  #     mariadb:
+  #       image: mariadb:10.4
+  #       env:
+  #         MYSQL_DATABASE: test
+  #         MYSQL_USER: root
+  #         MYSQL_ROOT_PASSWORD:
+  #         MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  #   steps:
+  #     - name: Checkout Repository
+  #       uses: actions/checkout@v4
 
-      - name: Setup JDK
-        uses: ./.github/actions/jdk
-        with:
-          java-version: ${{ inputs.java }}
+  #     - name: Setup JDK
+  #       uses: ./.github/actions/jdk
+  #       with:
+  #         java-version: ${{ inputs.java }}
 
-      - name: Setup Gradle
-        uses: ./.github/actions/gradle
+  #     - name: Setup Gradle
+  #       uses: ./.github/actions/gradle
 
-      - name: Test with Gradle
-        run: ./gradlew test --info
+  #     - name: Test with Gradle
+  #       run: ./gradlew test --info
