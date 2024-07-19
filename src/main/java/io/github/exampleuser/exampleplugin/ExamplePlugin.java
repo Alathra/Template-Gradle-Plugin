@@ -5,6 +5,7 @@ import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.db.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.hooks.BStatsHook;
+import io.github.exampleuser.exampleplugin.hooks.PAPIHook;
 import io.github.exampleuser.exampleplugin.hooks.ProtocolLibHook;
 import io.github.exampleuser.exampleplugin.hooks.VaultHook;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
@@ -28,6 +29,7 @@ public class ExamplePlugin extends JavaPlugin {
     private static BStatsHook bStatsHook;
     private static VaultHook vaultHook;
     private static ProtocolLibHook protocolLibHook;
+    private static PAPIHook papiHook;
 
     /**
      * Gets plugin instance.
@@ -49,6 +51,7 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook = new BStatsHook(instance);
         vaultHook = new VaultHook(instance);
         protocolLibHook = new ProtocolLibHook(instance);
+        papiHook = new PAPIHook(instance);
 
         configHandler.onLoad();
         databaseHandler.onLoad();
@@ -58,6 +61,7 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook.onLoad();
         vaultHook.onLoad();
         protocolLibHook.onLoad();
+        papiHook.onLoad();
     }
 
     @Override
@@ -70,6 +74,7 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook.onEnable();
         vaultHook.onEnable();
         protocolLibHook.onEnable();
+        papiHook.onEnable();
 
         if (vaultHook.isVaultLoaded()) {
             Logger.get().info(ColorParser.of("<green>Vault has been found on this server. Vault support enabled.").build());
@@ -94,6 +99,7 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook.onDisable();
         vaultHook.onDisable();
         protocolLibHook.onDisable();
+        papiHook.onDisable();
     }
 
     /**

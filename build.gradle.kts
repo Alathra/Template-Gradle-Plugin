@@ -32,8 +32,8 @@ repositories {
 
     maven("https://maven.athyrium.eu/releases")
 
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
     maven("https://repo.dmulloy2.net/repository/public/") // ProtocolLib
-
     maven("https://jitpack.io/") {
         content {
             includeGroup("com.github.MilkBowl") // VaultAPI
@@ -65,6 +65,7 @@ dependencies {
     implementation("org.bstats:bstats-bukkit:3.0.2")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
+    compileOnly("me.clip:placeholderapi:2.11.6")
 
     // Database Dependencies
     implementation("com.zaxxer:HikariCP:5.1.0")
@@ -179,7 +180,7 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     // Misc properties
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
     depend = listOf()
-    softDepend = listOf("Vault", "ProtocolLib")
+    softDepend = listOf("Vault", "ProtocolLib", "PlaceholderAPI")
 }
 
 flyway {
