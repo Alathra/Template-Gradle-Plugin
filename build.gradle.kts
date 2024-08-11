@@ -72,7 +72,7 @@ dependencies {
     library("org.flywaydb:flyway-core:10.16.0")
     library("org.flywaydb:flyway-mysql:10.16.0")
     library("org.jooq:jooq:3.19.10")
-    jooqCodegen("com.h2database:h2:2.2.224")
+    jooqCodegen("com.h2database:h2:2.3.230")
 
     // Database Dependencies (JDBC Drivers)
     library("com.h2database:h2:2.3.230")
