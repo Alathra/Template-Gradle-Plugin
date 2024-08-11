@@ -8,7 +8,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.0" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
 //    id("io.papermc.paperweight.userdev") version "1.7.1" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
-    id("org.flywaydb.flyway") version "10.15.2" // Database migrations
+    id("org.flywaydb.flyway") version "10.16.0" // Database migrations
     id("org.jooq.jooq-codegen-gradle") version "3.19.10"
 
     eclipse
@@ -20,8 +20,8 @@ applyCustomVersion()
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // Configure the java toolchain. This allows gradle to auto-provision JDK 21 on systems that only have JDK 8 installed for example.
-    withJavadocJar() // Enable Javadoc generation
-//    withSourcesJar()
+    withJavadocJar() // Enable javadoc jar generation
+    withSourcesJar() // Enable sources jar generation
 }
 
 repositories {
@@ -47,39 +47,61 @@ dependencies {
 
     //paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
-    implementation("space.arim.morepaperlib:morepaperlib:latest.release")
+    implementation("space.arim.morepaperlib:morepaperlib:0.4.4")
 
+    // API
     implementation("com.github.milkdrinkers:crate:1.2.1")
     implementation("com.github.milkdrinkers:colorparser:2.0.3") {
         exclude("net.kyori")
     }
-
     implementation("dev.jorel:commandapi-bukkit-shade:9.5.1")
-//    compileOnly("dev.jorel:commandapi-annotations:9.4.2")
-//    annotationProcessor("dev.jorel:commandapi-annotations:9.4.2")
-
+//    compileOnly("dev.jorel:commandapi-annotations:9.5.1")
+//    annotationProcessor("dev.jorel:commandapi-annotations:9.5.1")
     implementation("dev.triumphteam:triumph-gui:3.1.10") {
         exclude("net.kyori")
     }
 
+    // Plugin Dependencies
     implementation("org.bstats:bstats-bukkit:3.0.2")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.2.0-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
 
-    // Database Dependencies
+    // Database Dependencies (Core)
     implementation("com.zaxxer:HikariCP:5.1.0")
-    library("org.flywaydb:flyway-core:10.15.2")
-    library("org.flywaydb:flyway-mysql:10.15.2")
-    library("org.flywaydb:flyway-database-hsqldb:10.15.2")
+    library("org.flywaydb:flyway-core:10.16.0")
+    library("org.flywaydb:flyway-mysql:10.16.0")
     library("org.jooq:jooq:3.19.10")
     jooqCodegen("com.h2database:h2:2.2.224")
 
-    // JDBC Drivers
-    library("org.hsqldb:hsqldb:2.7.3")
-    library("com.h2database:h2:2.2.224")
+    // Database Dependencies (JDBC Drivers)
+    library("com.h2database:h2:2.3.230")
+    library("org.xerial:sqlite-jdbc:3.46.0.0")
     library("com.mysql:mysql-connector-j:9.0.0")
-    library("org.mariadb.jdbc:mariadb-java-client:3.4.0")
+    library("org.mariadb.jdbc:mariadb-java-client:3.4.1")
+
+    // Testing (Core)
+    testImplementation("org.jetbrains:annotations:24.1.0")
+    testImplementation(platform("org.junit:junit-bom:5.11.0-M2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.slf4j:slf4j-simple:2.1.0-alpha1")
+    testImplementation("org.testcontainers:testcontainers:1.20.0")
+    testImplementation("org.testcontainers:junit-jupiter:1.20.0")
+    testImplementation("org.testcontainers:mysql:1.20.0")
+    testImplementation("org.testcontainers:mariadb:1.20.0")
+
+    // Testing (Database Dependencies)
+    testImplementation("com.zaxxer:HikariCP:5.1.0")
+    testImplementation("org.flywaydb:flyway-core:10.16.0")
+    testImplementation("org.flywaydb:flyway-mysql:10.16.0")
+    testImplementation("org.jooq:jooq:3.19.10")
+
+    // Testing (JDBC Drivers)
+    testImplementation("com.h2database:h2:2.3.230")
+    testImplementation("org.xerial:sqlite-jdbc:3.46.0.0")
+    testImplementation("com.mysql:mysql-connector-j:9.0.0")
+    testImplementation("org.mariadb.jdbc:mariadb-java-client:3.4.1")
 }
 
 tasks {
@@ -109,11 +131,13 @@ tasks {
 
     javadoc {
         isFailOnError = false
-        exclude("${mainPackage.replace(".", "/")}/db/schema/**") // Exclude generated jOOQ sources from javadocs
+        exclude("**/database/schema/**") // Exclude generated jOOQ sources from javadocs
         val options = options as StandardJavadocDocletOptions
-        options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
+        options.encoding = Charsets.UTF_8.name()
         options.overview = "src/main/javadoc/overview.html"
+        options.windowTitle = "${rootProject.name} Javadoc"
         options.tags("apiNote:a:API Note:", "implNote:a:Implementation Note:", "implSpec:a:Implementation Requirements:")
+        options.addStringOption("Xdoclint:none", "-quiet")
         options.use()
     }
 
@@ -143,9 +167,14 @@ tasks {
         minimize()
     }
 
+    test {
+        useJUnitPlatform()
+        failFast = true
+    }
+
     runServer {
         // Configure the Minecraft version for our task.
-        minecraftVersion("1.20.6")
+        minecraftVersion("1.21")
 
         // IntelliJ IDEA debugger setup: https://docs.papermc.io/paper/dev/debugging#using-a-remote-debugger
         jvmArgs("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-DPaper.IgnoreJavaVersion=true", "-Dcom.mojang.eula.agree=true", "-DIReallyKnowWhatIAmDoingISwear", "-Dpaper.playerconnection.keepalive=6000")
@@ -159,9 +188,14 @@ tasks {
 //            hangar("squaremap", "1.2.0")
 //            url("https://download.luckperms.net/1515/bukkit/loader/LuckPerms-Bukkit-5.4.102.jar")
             github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
-            github("dmulloy2", "ProtocolLib", "5.2.0", "ProtocolLib.jar")
+            url("https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/build/libs/ProtocolLib.jar")
         }
     }
+}
+
+tasks.named<Jar>("sourcesJar") { // Required for sources jar generation witj jOOQ
+    dependsOn(tasks.jooqCodegen)
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
@@ -175,7 +209,7 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     description = "${project.description}"
     authors = listOf("GITHUB_USERNAME")
     contributors = listOf()
-    apiVersion = "1.19"
+    apiVersion = "1.21"
 
     // Misc properties
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
@@ -190,12 +224,6 @@ flyway {
     schemas = listOf("PUBLIC").toTypedArray()
     placeholders = mapOf( // Substitute placeholders for flyway
         "tablePrefix" to "",
-        "columnSuffix" to " VIRTUAL",
-        "tableDefaults" to "",
-        "uuidType" to "BINARY(16)",
-        "inetType" to "VARBINARY(16)",
-        "binaryType" to "BLOB",
-        "alterViewStatement" to "ALTER VIEW",
     )
     validateMigrationNaming = true
     baselineOnMigrate = true
@@ -219,12 +247,12 @@ jooq {
             database {
                 name = "org.jooq.meta.h2.H2Database"
                 includes = ".*"
-                excludes = "(flyway_schema_history)|(?i:information_schema\\..*)|(?i:system_lobs\\..*)"  // Exclude db specific files
+                excludes = "(flyway_schema_history)|(?i:information_schema\\..*)|(?i:system_lobs\\..*)"  // Exclude database specific files
                 inputSchema = "PUBLIC"
                 schemaVersionProvider = "SELECT :schema_name || '_' || MAX(\"version\") FROM \"flyway_schema_history\"" // Grab version from Flyway
             }
             target {
-                packageName = "${mainPackage}.db.schema"
+                packageName = "${mainPackage}.database.schema"
                 withClean(true)
             }
         }

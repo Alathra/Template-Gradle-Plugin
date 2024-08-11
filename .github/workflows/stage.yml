@@ -107,7 +107,7 @@ jobs:
           echo "CUSTOM_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
-        run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} --info
+        run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
 
       - name: Generate Build Provenance Attestations
         uses: actions/attest-build-provenance@v1

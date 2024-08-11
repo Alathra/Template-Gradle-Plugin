@@ -35,6 +35,9 @@ public class PAPIHook implements Reloadable {
 
     @Override
     public void onDisable() {
+        if (!Bukkit.getPluginManager().isPluginEnabled(pluginName))
+            return;
+
         PAPIExpansion.unregister();
         PAPIExpansion = null;
     }

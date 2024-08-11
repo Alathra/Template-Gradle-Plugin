@@ -1,11 +1,13 @@
-package io.github.exampleuser.exampleplugin.db;
+package io.github.exampleuser.exampleplugin.database;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.jdbc.Driver;
 import org.h2.jdbcx.JdbcDataSource;
-import org.hsqldb.jdbc.JDBCDataSource;
 import org.jetbrains.annotations.Nullable;
 import org.jooq.SQLDialect;
 import org.mariadb.jdbc.MariaDbDataSource;
+import org.sqlite.JDBC;
+import org.sqlite.SQLiteDataSource;
 
 import java.util.List;
 import java.util.Map;
@@ -15,17 +17,14 @@ import java.util.Map;
  */
 public enum DatabaseType {
     /**
-     * HSQLDB database type.
-     */
-    HSQLDB("HSQLDB", org.hsqldb.jdbcDriver.class.getName(), JDBCDataSource.class.getName(), "hsqldb", ';', ';'),
-    /**
-     * H2 Database Engine database type.
+     * SQLite database type.
      */
     H2("H2", org.h2.Driver.class.getName(), JdbcDataSource.class.getName(), "h2", ';', ';'),
+    SQLITE("SQLite", JDBC.class.getName(), SQLiteDataSource.class.getName(), "sqlite", '?', '&'),
     /**
      * MySQL database type.
      */
-    MYSQL("MySQL", com.mysql.jdbc.Driver.class.getName(), MysqlDataSource.class.getName(), "mysql", '?', '&'),
+    MYSQL("MySQL", Driver.class.getName(), MysqlDataSource.class.getName(), "mysql", '?', '&'),
     /**
      * MariaDB database type.
      */
@@ -115,7 +114,7 @@ public enum DatabaseType {
             .map(map -> "%s=%s".formatted(map.getKey(), map.getValue()))
             .toList();
 
-		return jdbcPropertyPrefix + String.join(Character.toString(jdbcPropertySeparator), connectionProperties);
+		return String.join(Character.toString(getJdbcPropertySeparator()), connectionProperties);
 	}
 
 
@@ -130,7 +129,7 @@ public enum DatabaseType {
         for (DatabaseType type : DatabaseType.values()) {
             if (type.equals(prefix.toLowerCase())) {
                 return type;
-            };
+            }
         }
 
         return null;
@@ -168,22 +167,10 @@ public enum DatabaseType {
      */
     public SQLDialect getSQLDialect() {
         return switch (this) {
-            case HSQLDB -> SQLDialect.HSQLDB;
             case H2 -> SQLDialect.H2;
+            case SQLITE -> SQLDialect.SQLITE;
             case MYSQL -> SQLDialect.MYSQL;
             case MARIADB -> SQLDialect.MARIADB;
-        };
-    }
-
-    /**
-     * Gets column suffix for this DatabaseType.
-     *
-     * @return the column suffix
-     */
-    public String getColumnSuffix() {
-        return switch (this) {
-            case HSQLDB -> "";
-            case H2, MARIADB, MYSQL -> " VIRTUAL";
         };
     }
 
@@ -194,49 +181,69 @@ public enum DatabaseType {
      */
     public String getTableDefaults() {
         return switch (this) {
-            case H2, HSQLDB -> "";
+            case H2, SQLITE -> "";
             case MARIADB, MYSQL -> " CHARACTER SET utf8mb4 COLLATE utf8mb4_bin";
         };
     }
 
     /**
-     * Gets uuid type for this DatabaseType.
+     * Gets connection properties for this DatabaseType.
      *
-     * @return the uuid type
+     * @return the connection properties
      */
-    public String getUuidType() {
-        return switch (this) {
-            case HSQLDB -> "UUID";
-            case H2, MARIADB, MYSQL -> "BINARY(16)";
-        };
-    }
+    public String getDefaultConnectionProperties() {
+        return getJdbcPropertyPrefix() + switch (this) {
+            case H2 -> DatabaseType.H2.formatJdbcConnectionProperties(
+                Map.of(
+                    "AUTO_SERVER", "TRUE",
+                    "MODE", "MySQL",  // MySQL support mode
+                    "CASE_INSENSITIVE_IDENTIFIERS", "TRUE",
+                    "IGNORECASE", "TRUE"
+                )
+            );
+            case SQLITE -> "";
+            case MYSQL -> DatabaseType.MYSQL.formatJdbcConnectionProperties(
+                Map.of(
+                    // Base settings
+                    "useUnicode", true,
+                    "characterEncoding", "UTF-8",
 
-    /**
-     * Gets inet type for this DatabaseType.
-     *
-     * @return the inet type
-     */
-    public String getInetType() {
-        return "VARBINARY(16)";
-    }
+                    // Performance improvements
+                    "defaultFetchSize", 1000,
 
-    /**
-     * Gets binary type for this DatabaseType.
-     *
-     * @return the binary type
-     */
-    public String getBinaryType() {
-        return "BLOB";
-    }
+                    // Help debug in case of deadlock
+                    "includeInnodbStatusInDeadlockExceptions", true,
+                    "includeThreadDumpInDeadlockExceptions", true,
 
-    /**
-     * Gets alter view statement for this DatabaseType.
-     *
-     * @return the alter view statement
-     */
-    public String getAlterViewStatement() {
-        return switch (this) {
-            case H2, HSQLDB, MYSQL, MARIADB -> "ALTER VIEW";
+                    // https://github.com/brettwooldridge/HikariCP/wiki/Rapid-Recovery#mysql
+                    "socketTimeout", 14000L,
+                    // Needed for use with connection init-SQL (hikariConf.setConnectionInitSql)
+                    "allowMultiQueries", true,
+                    // Help debug in case of exceptions
+                    "dumpQueriesOnException", true
+                )
+            );
+            case MARIADB -> DatabaseType.MARIADB.formatJdbcConnectionProperties(
+                Map.of(
+                    // Base settings
+                    "useUnicode", true,
+                    "characterEncoding", "UTF-8",
+
+                    // Performance improvements
+                    "defaultFetchSize", 1000,
+
+                    // Help debug in case of deadlock
+                    "includeInnodbStatusInDeadlockExceptions", true,
+                    "includeThreadDumpInDeadlockExceptions", true,
+
+                    // https://github.com/brettwooldridge/HikariCP/wiki/Rapid-Recovery#mysql
+                    "socketTimeout", 14000L,
+                    // Needed for use with connection init-SQL (hikariConf.setConnectionInitSql)
+                    "allowMultiQueries", true,
+                    // Help debug in case of exceptions
+                    "dumpQueriesOnException", true
+                )
+            );
         };
     }
 
@@ -247,7 +254,17 @@ public enum DatabaseType {
      */
     public String getConnectionInitSql() {
         return switch (this) {
-            case HSQLDB -> "SET DATABASE TRANSACTION CONTROL MVLOCKS;";
+            case SQLITE, H2 -> "";
+            case MYSQL -> "SET NAMES utf8mb4 COLLATE utf8mb4_bin; " + setSqlModes(
+                // MySQL defaults
+                "STRICT_TRANS_TABLES",
+                "ERROR_FOR_DIVISION_BY_ZERO",
+                "NO_ENGINE_SUBSTITUTION",
+                // ANSI SQL Compliance
+                "ANSI",
+                "NO_BACKSLASH_ESCAPES",
+                "NO_ZERO_IN_DATE",
+                "NO_ZERO_DATE");
             case MARIADB -> "SET NAMES utf8mb4 COLLATE utf8mb4_bin; " + setSqlModes(
                 // MariaDB defaults
                 "STRICT_TRANS_TABLES",
@@ -258,17 +275,6 @@ public enum DatabaseType {
                 "ANSI",
                 "NO_BACKSLASH_ESCAPES",
                 "SIMULTANEOUS_ASSIGNMENT", // MDEV-13417
-                "NO_ZERO_IN_DATE",
-                "NO_ZERO_DATE");
-            case H2 -> "";
-            case MYSQL -> "SET NAMES utf8mb4 COLLATE utf8mb4_bin; " + setSqlModes(
-                // MySQL defaults
-                "STRICT_TRANS_TABLES",
-                "ERROR_FOR_DIVISION_BY_ZERO",
-                "NO_ENGINE_SUBSTITUTION",
-                // ANSI SQL Compliance
-                "ANSI",
-                "NO_BACKSLASH_ESCAPES",
                 "NO_ZERO_IN_DATE",
                 "NO_ZERO_DATE");
         };

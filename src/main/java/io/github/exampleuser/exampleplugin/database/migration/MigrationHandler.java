@@ -1,8 +1,7 @@
-package io.github.exampleuser.exampleplugin.db.flyway;
+package io.github.exampleuser.exampleplugin.database.migration;
 
-import io.github.exampleuser.exampleplugin.db.DatabaseType;
-import io.github.exampleuser.exampleplugin.db.flyway.migration.V3__Example;
-import com.github.milkdrinkers.Crate.Config;
+import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
+import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationException;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.ClassProvider;
 import org.flywaydb.core.api.FlywayException;
@@ -15,46 +14,37 @@ import java.util.Map;
 /**
  * Handles Flyway migrations.
  */
-public class DatabaseMigrationHandler {
+public class MigrationHandler {
     // List of Java migrations
     private final List<Class<? extends JavaMigration>> migrations = List.of(
-        V3__Example.class
+//        V3__Example.class
     );
 
-    private final Config config;
     private final DataSource dataSource;
-    private final DatabaseType databaseType;
+    private final DatabaseConfig databaseConfig;
     private Flyway flyway;
 
     /**
      * Instantiates a new Database migration handler.
      *
-     * @param config       the config
      * @param dataSource   the data source
-     * @param databaseType the database type
+     * @param databaseConfig the database config
      */
-    public DatabaseMigrationHandler(Config config, DataSource dataSource, DatabaseType databaseType) {
-        this.config = config;
+    public MigrationHandler(DataSource dataSource, DatabaseConfig databaseConfig) {
         this.dataSource = dataSource;
-        this.databaseType = databaseType;
+        this.databaseConfig = databaseConfig;
         initializeFlywayInstance();
     }
 
     private void initializeFlywayInstance() {
-        final ClassProvider<JavaMigration> javaMigrationClassProvider = new FlywayMigrationsProvider(migrations);
-        final String SQL_TABLE_PREFIX = config.getOrDefault("db.prefix", "example_");
+        final ClassProvider<JavaMigration> javaMigrationClassProvider = new MigrationProvider(migrations);
         final Map<String, String> SQL_PLACEHOLDERS = Map.of(
-            "tablePrefix", SQL_TABLE_PREFIX,
-            "columnSuffix", databaseType.getColumnSuffix(),
-            "tableDefaults", databaseType.getTableDefaults(),
-            "uuidType", databaseType.getUuidType(),
-            "inetType", databaseType.getInetType(),
-            "binaryType", databaseType.getBinaryType(),
-            "alterViewStatement", databaseType.getAlterViewStatement()
+            "tablePrefix", databaseConfig.getTablePrefix()
         );
 
         this.flyway = Flyway
             .configure(getClass().getClassLoader())
+            .loggers("slf4j")
             .baselineOnMigrate(true)
             .baselineVersion("0.0")
             .validateMigrationNaming(true)
@@ -64,7 +54,7 @@ public class DatabaseMigrationHandler {
                 "classpath:database-migrations",
                 "db/migration"
             )
-            .table(SQL_TABLE_PREFIX + "schema_history") // Configure tables and migrations
+            .table(databaseConfig.getTablePrefix() + "schema_history") // Configure tables and migrations
             .placeholders(SQL_PLACEHOLDERS)
             .load();
     }
@@ -94,7 +84,7 @@ public class DatabaseMigrationHandler {
      */
     public void repair() throws DatabaseMigrationException {
         try {
-            if (config.getOrDefault("db.repair", false))
+            if (databaseConfig.isRepair())
                 this.flyway.repair();
         } catch (FlywayException e) {
             throw new DatabaseMigrationException(e);

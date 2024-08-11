@@ -3,14 +3,3 @@ update-checker:
   enable: true
   console: true # Post message to console
   op: true # Send update notification to opped players on join
-
-# Database Settings
-db:
-  type: "hsqldb" # Available types: "hsqldb", "h2", "mysql", "mariadb"
-  prefix: "example_" # The table prefix
-  host: "127.0.0.1"
-  port: 3306
-  database: "database_name"
-  user: "name"
-  pass: "123"
-  repair: false

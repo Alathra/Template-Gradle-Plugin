@@ -3,7 +3,7 @@ package io.github.exampleuser.exampleplugin;
 import com.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
-import io.github.exampleuser.exampleplugin.db.DatabaseHandler;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.hooks.BStatsHook;
 import io.github.exampleuser.exampleplugin.hooks.PAPIHook;
 import io.github.exampleuser.exampleplugin.hooks.ProtocolLibHook;
@@ -44,7 +44,7 @@ public class ExamplePlugin extends JavaPlugin {
     public void onLoad() {
         instance = this;
         configHandler = new ConfigHandler(instance);
-        databaseHandler = new DatabaseHandler(instance);
+        databaseHandler = new DatabaseHandler(configHandler, getComponentLogger());
         commandHandler = new CommandHandler(instance);
         listenerHandler = new ListenerHandler(instance);
         updateChecker = new UpdateChecker();
@@ -75,6 +75,10 @@ public class ExamplePlugin extends JavaPlugin {
         vaultHook.onEnable();
         protocolLibHook.onEnable();
         papiHook.onEnable();
+
+        if (!databaseHandler.isRunning()) {
+            Logger.get().warn(ColorParser.of("<yellow>Database handler failed to start. Database support has been disabled.").build());
+        }
 
         if (vaultHook.isVaultLoaded()) {
             Logger.get().info(ColorParser.of("<green>Vault has been found on this server. Vault support enabled.").build());

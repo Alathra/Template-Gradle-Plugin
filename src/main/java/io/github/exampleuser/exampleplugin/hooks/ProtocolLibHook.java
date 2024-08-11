@@ -42,6 +42,9 @@ public class ProtocolLibHook implements Reloadable {
 
     @Override
     public void onDisable() {
+        if (!Bukkit.getPluginManager().isPluginEnabled(pluginName))
+            return;
+
         setProtocolScheduler(null);
         setProtocolManager(null);
     }

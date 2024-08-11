@@ -1,4 +1,4 @@
-package io.github.exampleuser.exampleplugin.db.flyway;
+package io.github.exampleuser.exampleplugin.database.migration;
 
 import org.flywaydb.core.api.ClassProvider;
 import org.flywaydb.core.api.migration.JavaMigration;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Flyway migrations provider. Convenience/utility record for using Java migrations with Flyway.
  */
-public record FlywayMigrationsProvider(
+public record MigrationProvider(
     List<Class<? extends JavaMigration>> migrations
 ) implements ClassProvider<JavaMigration> {
     /**
@@ -17,7 +17,7 @@ public record FlywayMigrationsProvider(
      *
      * @param migrations the migrations
      */
-    public FlywayMigrationsProvider(List<Class<? extends JavaMigration>> migrations) {
+    public MigrationProvider(List<Class<? extends JavaMigration>> migrations) {
         this.migrations = List.copyOf(migrations);
     }
 

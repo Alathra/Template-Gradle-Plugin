@@ -1,6 +1,7 @@
-package io.github.exampleuser.exampleplugin.db.jooq;
+package io.github.exampleuser.exampleplugin.database.jooq;
 
-import io.github.exampleuser.exampleplugin.utility.Cfg;
+import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
+import org.jetbrains.annotations.TestOnly;
 import org.jooq.*;
 import org.jooq.conf.*;
 import org.jooq.exception.DataAccessException;
@@ -18,20 +19,32 @@ public final class JooqContext {
 		JooqLogger.globalThreshold(Log.Level.ERROR); // Silence JOOQ warnings
 	}
 
-	private static final String TABLE_PREFIX = Cfg.get().getOrDefault("db.prefix", "example_"); // The table prefix as grabbed from config
 	private static final Pattern MATCH_ALL_EXCEPT_INFORMATION_SCHEMA = Pattern.compile("^(?!INFORMATION_SCHEMA)(.*?)$");
 	private static final Pattern MATCH_ALL = Pattern.compile("^(.*?)$");
-	private static final String REPLACEMENT = "%s$0".formatted(TABLE_PREFIX); //
 	private final SQLDialect dialect;
+    private final String replacement; //
 
     /**
      * Instantiates a new Jooq context.
      *
-	 * @param dialect the getSQLDialect
+     * @param databaseConfig the database config
      */
-    public JooqContext(SQLDialect dialect) {
-		this.dialect = dialect;
+    @TestOnly
+    public JooqContext(DatabaseConfig databaseConfig) {
+		this.dialect = databaseConfig.getDatabaseType().getSQLDialect();
+        this.replacement = "%s$0".formatted(databaseConfig.getTablePrefix());
 	}
+
+    /**
+     * Instantiates a new Jooq context.
+     *
+     * @param dialect the getSQLDialect
+     * @param tablePrefix the prefix to add in front of tables
+     */
+    public JooqContext(SQLDialect dialect, String tablePrefix) {
+        this.dialect = dialect;
+        this.replacement = "%s$0".formatted(tablePrefix);
+    }
 
     /**
      * Create DSL Context.
@@ -82,11 +95,9 @@ public final class JooqContext {
 								.withInputExpression(MATCH_ALL_EXCEPT_INFORMATION_SCHEMA)
 								.withTables(new MappedTable()
 										.withInputExpression(MATCH_ALL)
-										.withOutput(REPLACEMENT)
+										.withOutput(replacement)
 								)
 						)
-				)
-            .withRenderQuotedNames(RenderQuotedNames.ALWAYS)
-            .withRenderNameCase(RenderNameCase.LOWER);
+				);
 	}
 }
