@@ -109,11 +109,13 @@ tasks {
 
     javadoc {
         isFailOnError = false
-        exclude("${mainPackage.replace(".", "/")}/db/schema/**") // Exclude generated jOOQ sources from javadocs
+        exclude("**/database/schema/**") // Exclude generated jOOQ sources from javadocs
         val options = options as StandardJavadocDocletOptions
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
         options.overview = "src/main/javadoc/overview.html"
+        options.windowTitle = "${rootProject.name} Javadoc"
         options.tags("apiNote:a:API Note:", "implNote:a:Implementation Note:", "implSpec:a:Implementation Requirements:")
+        options.addStringOption("Xdoclint:none", "-quiet")
         options.use()
     }
 
