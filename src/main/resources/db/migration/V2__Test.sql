@@ -1,2 +1,2 @@
-ALTER TABLE IF EXISTS ${tablePrefix}test
-	ADD COLUMN test INT NULL;
+ALTER TABLE "${tablePrefix}test"
+	ADD COLUMN "test" INT NULL;

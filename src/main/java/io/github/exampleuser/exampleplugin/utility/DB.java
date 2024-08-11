@@ -1,9 +1,9 @@
 package io.github.exampleuser.exampleplugin.utility;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
-import io.github.exampleuser.exampleplugin.db.DatabaseHandler;
-import io.github.exampleuser.exampleplugin.db.DatabaseType;
-import io.github.exampleuser.exampleplugin.db.jooq.JooqContext;
+import io.github.exampleuser.exampleplugin.database.DatabaseType;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
+import io.github.exampleuser.exampleplugin.database.jooq.JooqContext;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 
@@ -39,7 +39,7 @@ public abstract class DB {
     /**
      * Convenience method for {@link DatabaseHandler#getDB()} to getConnection {@link DatabaseType}
      *
-     * @return the db
+     * @return the database
      */
     public static DatabaseType getDB() {
         return ExamplePlugin.getInstance().getDataHandler().getDB();

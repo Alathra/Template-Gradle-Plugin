@@ -1,0 +1,39 @@
+# Database Settings
+database:
+  # Available types: "sqlite", "h2", "mysql", "mariadb"
+  type: "sqlite"
+  table-prefix: "example_"
+
+  # Authentication
+  host: "localhost"
+  port: 3306
+  database: "database_name"
+  username: "root"
+  password: ""
+
+  # Advanced settings (Please don't touch unless you know what you're doing!)
+  advanced:
+    # Should we try to repair broken migrations to the database
+    repair: false
+
+    # Configure the HikariCP connection pool
+    connection-pool:
+      max-pool-size: 10
+      min-idle: 10
+      max-lifetime: 180000
+      keepalive-time: 60000
+      connection-timeout: 20000
+
+    # A list of connection parameters, you can include more by adding them on a new line
+    connection-properties:
+      useSSL: false
+      cachePrepStmts: true
+      prepStmtCacheSize: 250
+      prepStmtCacheSqlLimit: 2048
+      useServerPrepStmts: true
+      useLocalSessionState: true
+      rewriteBatchedStatements: true
+      cacheResultSetMetadata: true
+      cacheServerConfiguration: true
+      elideSetAutoCommits: true
+      maintainTimeStats: false
