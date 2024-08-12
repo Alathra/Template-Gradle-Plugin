@@ -72,10 +72,10 @@ dependencies {
     library("org.flywaydb:flyway-core:10.16.0")
     library("org.flywaydb:flyway-mysql:10.16.0")
     library("org.jooq:jooq:3.19.10")
-    jooqCodegen("com.h2database:h2:2.2.224")
+    jooqCodegen("com.h2database:h2:2.3.232")
 
     // Database Dependencies (JDBC Drivers)
-    library("com.h2database:h2:2.3.230")
+    library("com.h2database:h2:2.3.232")
     library("org.xerial:sqlite-jdbc:3.46.0.0")
     library("com.mysql:mysql-connector-j:9.0.0")
     library("org.mariadb.jdbc:mariadb-java-client:3.4.1")
@@ -98,7 +98,7 @@ dependencies {
     testImplementation("org.jooq:jooq:3.19.10")
 
     // Testing (JDBC Drivers)
-    testImplementation("com.h2database:h2:2.3.230")
+    testImplementation("com.h2database:h2:2.3.232")
     testImplementation("org.xerial:sqlite-jdbc:3.46.0.0")
     testImplementation("com.mysql:mysql-connector-j:9.0.0")
     testImplementation("org.mariadb.jdbc:mariadb-java-client:3.4.1")
