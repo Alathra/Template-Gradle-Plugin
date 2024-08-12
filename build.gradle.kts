@@ -54,7 +54,7 @@ dependencies {
     implementation("com.github.milkdrinkers:colorparser:2.0.3") {
         exclude("net.kyori")
     }
-    implementation("dev.jorel:commandapi-bukkit-shade:9.5.1")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.5.3")
 //    compileOnly("dev.jorel:commandapi-annotations:9.5.1")
 //    annotationProcessor("dev.jorel:commandapi-annotations:9.5.1")
     implementation("dev.triumphteam:triumph-gui:3.1.10") {
