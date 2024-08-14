@@ -89,7 +89,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.20.0")
     testImplementation("org.testcontainers:junit-jupiter:1.20.0")
     testImplementation("org.testcontainers:mysql:1.20.0")
-    testImplementation("org.testcontainers:mariadb:1.20.0")
+    testImplementation("org.testcontainers:mariadb:1.20.1")
 
     // Testing (Database Dependencies)
     testImplementation("com.zaxxer:HikariCP:5.1.0")
