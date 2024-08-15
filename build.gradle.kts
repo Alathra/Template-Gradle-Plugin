@@ -64,7 +64,7 @@ dependencies {
     // Plugin Dependencies
     implementation("org.bstats:bstats-bukkit:3.0.2")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.2.0-SNAPSHOT")
+    compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
 
     // Database Dependencies (Core)
