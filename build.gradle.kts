@@ -62,7 +62,7 @@ dependencies {
     }
 
     // Plugin Dependencies
-    implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation("org.bstats:bstats-bukkit:3.0.3")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
