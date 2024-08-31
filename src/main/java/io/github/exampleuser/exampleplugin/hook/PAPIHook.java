@@ -1,4 +1,4 @@
-package io.github.exampleuser.exampleplugin.hooks;
+package io.github.exampleuser.exampleplugin.hook;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
