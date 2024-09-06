@@ -193,7 +193,7 @@ tasks {
     }
 }
 
-tasks.named<Jar>("sourcesJar") { // Required for sources jar generation witj jOOQ
+tasks.named<Jar>("sourcesJar") { // Required for sources jar generation with jOOQ
     dependsOn(tasks.jooqCodegen)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
