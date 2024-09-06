@@ -8,20 +8,22 @@ import org.bukkit.command.CommandSender;
 /**
  * Class containing the code for the example command.
  */
-public class ExampleCommand {
+class ExampleCommand {
+    private static final String BASE_PERM = "example.command";
+
     /**
      * Instantiates and registers a new command.
      */
-    public ExampleCommand() {
+    protected ExampleCommand() {
         new CommandAPICommand("example")
             .withFullDescription("Example command.")
             .withShortDescription("Example command.")
-            .withPermission("example.command")
-            .executes(this::example)
+            .withPermission(BASE_PERM)
+            .executes(this::executorExample)
             .register();
     }
 
-    private void example(CommandSender sender, CommandArguments args) {
+    private void executorExample(CommandSender sender, CommandArguments args) {
         sender.sendMessage(
             ColorParser.of("<white>Read more about CommandAPI &9<click:open_url:https://commandapi.jorel.dev/9.0.3/>here</click><white>.")
                 .parseLegacy() // Parse legacy color codes
