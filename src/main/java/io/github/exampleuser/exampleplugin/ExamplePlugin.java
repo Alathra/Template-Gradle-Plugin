@@ -10,7 +10,7 @@ import io.github.exampleuser.exampleplugin.hook.ProtocolLibHook;
 import io.github.exampleuser.exampleplugin.hook.VaultHook;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.translation.TranslationManager;
-import io.github.exampleuser.exampleplugin.utility.updatechecker.UpdateChecker;
+import io.github.exampleuser.exampleplugin.updatechecker.UpdateChecker;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
