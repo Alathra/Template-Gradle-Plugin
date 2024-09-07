@@ -9,6 +9,7 @@ import io.github.exampleuser.exampleplugin.hook.PAPIHook;
 import io.github.exampleuser.exampleplugin.hook.ProtocolLibHook;
 import io.github.exampleuser.exampleplugin.hook.VaultHook;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
+import io.github.exampleuser.exampleplugin.translation.TranslationManager;
 import io.github.exampleuser.exampleplugin.utility.updatechecker.UpdateChecker;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 public class ExamplePlugin extends JavaPlugin {
     private static ExamplePlugin instance;
     private ConfigHandler configHandler;
+    private TranslationManager translationManager;
     private DatabaseHandler databaseHandler;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
@@ -44,6 +46,7 @@ public class ExamplePlugin extends JavaPlugin {
     public void onLoad() {
         instance = this;
         configHandler = new ConfigHandler(instance);
+        translationManager = new TranslationManager(instance);
         databaseHandler = new DatabaseHandler(configHandler, getComponentLogger());
         commandHandler = new CommandHandler(instance);
         listenerHandler = new ListenerHandler(instance);
@@ -54,6 +57,7 @@ public class ExamplePlugin extends JavaPlugin {
         papiHook = new PAPIHook(instance);
 
         configHandler.onLoad();
+        translationManager.onLoad();
         databaseHandler.onLoad();
         commandHandler.onLoad();
         listenerHandler.onLoad();
@@ -67,6 +71,7 @@ public class ExamplePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         configHandler.onEnable();
+        translationManager.onEnable();
         databaseHandler.onEnable();
         commandHandler.onEnable();
         listenerHandler.onEnable();
@@ -96,6 +101,7 @@ public class ExamplePlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         configHandler.onDisable();
+        translationManager.onDisable();
         databaseHandler.onDisable();
         commandHandler.onDisable();
         listenerHandler.onDisable();
@@ -124,6 +130,16 @@ public class ExamplePlugin extends JavaPlugin {
     @NotNull
     public ConfigHandler getConfigHandler() {
         return configHandler;
+    }
+
+    /**
+     * Gets config handler.
+     *
+     * @return the translation handler
+     */
+    @NotNull
+    public TranslationManager getTranslationManager() {
+        return translationManager;
     }
 
     /**

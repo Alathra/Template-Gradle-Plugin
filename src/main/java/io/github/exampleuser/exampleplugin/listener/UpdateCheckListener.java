@@ -2,6 +2,7 @@ package io.github.exampleuser.exampleplugin.listener;
 
 import com.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
+import io.github.exampleuser.exampleplugin.translation.Translation;
 import io.github.exampleuser.exampleplugin.utility.Cfg;
 import io.github.exampleuser.exampleplugin.utility.updatechecker.SemanticVersion;
 import io.github.exampleuser.exampleplugin.utility.updatechecker.UpdateChecker;
@@ -33,14 +34,12 @@ public class UpdateCheckListener implements Listener {
             return;
 
         e.getPlayer().sendMessage(
-            ColorParser.of(
-                UpdateChecker.UPDATE_FOUND_PLAYER.formatted(
-                    pluginName,
-                    currentVersion.getVersionFull(),
-                    UpdateChecker.LATEST_RELEASE,
-                    latestVersion.getVersionFull()
-                )
-            ).build()
+            ColorParser.of(Translation.of("update-checker.update-found-player"))
+                .parseMinimessagePlaceholder("plugin_name", pluginName)
+                .parseMinimessagePlaceholder("version_current", currentVersion.getVersionFull())
+                .parseMinimessagePlaceholder("version_latest", latestVersion.getVersionFull())
+                .parseMinimessagePlaceholder("download_link", UpdateChecker.LATEST_RELEASE)
+                .build()
         );
     }
 }
