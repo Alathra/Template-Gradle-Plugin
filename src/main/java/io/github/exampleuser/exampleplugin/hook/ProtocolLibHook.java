@@ -1,4 +1,4 @@
-package io.github.exampleuser.exampleplugin.hooks;
+package io.github.exampleuser.exampleplugin.hook;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;

@@ -50,7 +50,8 @@ dependencies {
     implementation("space.arim.morepaperlib:morepaperlib:0.4.4")
 
     // API
-    implementation("com.github.milkdrinkers:crate:1.2.1")
+    implementation("com.github.milkdrinkers:crate-api:2.0.0")
+    implementation("com.github.milkdrinkers:crate-yaml:2.0.0")
     implementation("com.github.milkdrinkers:colorparser:2.0.3") {
         exclude("net.kyori")
     }
@@ -193,7 +194,7 @@ tasks {
     }
 }
 
-tasks.named<Jar>("sourcesJar") { // Required for sources jar generation witj jOOQ
+tasks.named<Jar>("sourcesJar") { // Required for sources jar generation with jOOQ
     dependsOn(tasks.jooqCodegen)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

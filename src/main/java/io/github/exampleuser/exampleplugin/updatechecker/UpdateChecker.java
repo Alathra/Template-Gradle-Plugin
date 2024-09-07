@@ -1,10 +1,11 @@
-package io.github.exampleuser.exampleplugin.utility.updatechecker;
+package io.github.exampleuser.exampleplugin.updatechecker;
 
 import com.github.milkdrinkers.colorparser.ColorParser;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
+import io.github.exampleuser.exampleplugin.translation.Translation;
 import io.github.exampleuser.exampleplugin.utility.Cfg;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -28,23 +29,6 @@ public class UpdateChecker implements Reloadable {
     private final static String GITHUB_REPO = "Template-Gradle-Plugin"; // The GitHub repository
     public final static String LATEST_RELEASE = "https://github.com/%s/%s/releases/latest".formatted(GITHUB_USER, GITHUB_REPO);
     public final static String LATEST_RELEASE_API = "https://api.github.com/repos/%s/%s/releases/latest".formatted(GITHUB_USER, GITHUB_REPO);
-
-    // Translations
-    public static final String UPDATE_LATEST = "<white>You are running the latest version of %s!";
-    public static final String UPDATE_FOUND_CONSOLE = """
-        
-        
-        <white>An update was found for %s!
-            <white>Current version: <red>v%s
-            <white>Latest version: <green><click:open_url:'%s'><hover:show_text:'<green>Open Download Page'>v%s</hover></click>
-        """;
-    public static final String UPDATE_FOUND_PLAYER = """
-        
-        <white>An update was found for %s!
-          <dark_gray>• <white>Current version: <red>v%s
-          <dark_gray>• <white>Latest version: <green><click:open_url:'%s'><hover:show_text:'<green>Open Download Page'>v%s</hover></click>
-        """;
-    public static final String UPDATE_FAIL = "<yellow>Failed to fetch latest version, error: %s";
 
     // Data
     private boolean isLatest = true;
@@ -91,7 +75,7 @@ public class UpdateChecker implements Reloadable {
                 .whenComplete((resp, err) -> {
                     if (err != null) {
                         if (shouldLog)
-                            Logger.get().warn(ColorParser.of(UPDATE_FAIL.formatted(err.getMessage())).build());
+                            Logger.get().warn(ColorParser.of(Translation.of("update-checker.update-failed")).parseMinimessagePlaceholder("error", err.getMessage()).build());
                         return;
                     }
                     setLatestVersion(parseLatestVersion(resp.body()));
@@ -99,7 +83,7 @@ public class UpdateChecker implements Reloadable {
                 });
         } catch (Exception err) {
             if (shouldLog)
-                Logger.get().warn(ColorParser.of(UPDATE_FAIL.formatted(err.getMessage())).build());
+                Logger.get().warn(ColorParser.of(Translation.of("update-checker.update-failed")).parseMinimessagePlaceholder("error", err.getMessage()).build());
         }
     }
 
@@ -133,14 +117,12 @@ public class UpdateChecker implements Reloadable {
                 return;
 
             Logger.get().info(
-                ColorParser.of(
-                    UPDATE_FOUND_CONSOLE.formatted(
-                        pluginName,
-                        currentVersion.getVersionFull(),
-                        LATEST_RELEASE,
-                        latestVersion.getVersionFull()
-                    )
-                ).build()
+                ColorParser.of(Translation.of("update-checker.update-found-console"))
+                    .parseMinimessagePlaceholder("plugin_name", pluginName)
+                    .parseMinimessagePlaceholder("version_current", currentVersion.getVersionFull())
+                    .parseMinimessagePlaceholder("version_latest", latestVersion.getVersionFull())
+                    .parseMinimessagePlaceholder("download_link", LATEST_RELEASE)
+                    .build()
             );
 
         } else if (SemanticVersion.isOlderOrEqual(latestVersion, currentVersion) || SemanticVersion.isEqual(latestVersion, currentVersion)) {
@@ -149,7 +131,11 @@ public class UpdateChecker implements Reloadable {
             if (!shouldLog)
                 return;
 
-            Logger.get().info(ColorParser.of(UPDATE_LATEST.formatted(pluginName)).build());
+            Logger.get().info(
+                ColorParser.of(Translation.of("update-checker.running-latest"))
+                    .parseMinimessagePlaceholder("plugin_name", pluginName)
+                    .build()
+            );
         }
     }
 

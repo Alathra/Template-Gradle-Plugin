@@ -1,4 +1,4 @@
-package io.github.exampleuser.exampleplugin.utility.updatechecker;
+package io.github.exampleuser.exampleplugin.updatechecker;
 
 import org.jetbrains.annotations.Nullable;
 

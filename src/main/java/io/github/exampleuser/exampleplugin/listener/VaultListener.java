@@ -10,11 +10,11 @@ import org.bukkit.event.server.ServiceRegisterEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
- * Event Listener for the Vault Hook {@link io.github.exampleuser.exampleplugin.hooks.VaultHook}.
+ * Event Listener for the Vault Hook {@link io.github.exampleuser.exampleplugin.hook.VaultHook}.
  */
 public class VaultListener implements Listener {
     /**
-     * Update the Vault hooks RegisteredServiceProviders in {@link io.github.exampleuser.exampleplugin.hooks.VaultHook}. <br>This ensures the Vault hook is lazily loaded and working properly, even on reloads.
+     * Update the Vault hooks RegisteredServiceProviders in {@link io.github.exampleuser.exampleplugin.hook.VaultHook}. <br>This ensures the Vault hook is lazily loaded and working properly, even on reloads.
      *
      * @param e event
      */
