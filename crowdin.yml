@@ -1,0 +1,3 @@
+files:
+  - source: /src/main/resources/translations/en-US.yml
+    translation: /src/main/resources/translations/%locale%.yml
