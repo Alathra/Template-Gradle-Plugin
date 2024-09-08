@@ -103,7 +103,7 @@ abstract class AbstractDatabaseTest {
     @ParameterizedTest
     @FieldSource("tablePrefixes")
     @DisplayName("Set query")
-    void testQuerySer(String prefix) throws SQLException {
+    void testQuerySet(String prefix) throws SQLException {
         databaseHandler.getDatabaseConfig().setTablePrefix(prefix);
         JooqContext jooqContext = new JooqContext(databaseHandler.getDatabaseConfig());
 
