@@ -1,6 +1,6 @@
 package io.github.exampleuser.exampleplugin.translation;
 
-import com.github.milkdrinkers.Crate.shaded.snakeyaml.snakeyaml.Yaml;
+import com.github.milkdrinkers.crate.shaded.snakeyaml.snakeyaml.Yaml;
 import com.github.milkdrinkers.colorparser.ColorParser;
 import com.github.milkdrinkers.crate.Config;
 import com.github.milkdrinkers.crate.ConfigBuilder;
