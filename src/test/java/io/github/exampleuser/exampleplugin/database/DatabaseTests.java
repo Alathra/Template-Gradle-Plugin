@@ -15,7 +15,7 @@ public class DatabaseTests {
     @Nested
     class MySQLTest extends AbstractExternalDatabaseTest {
         @Container
-        private static final GenericContainer<?> container = new MySQLContainer(DockerImageName.parse("mysql:8.0"))
+        private static final GenericContainer<?> container = new MySQLContainer(DockerImageName.parse("mysql:8.0.31"))
             .withDatabaseName("testing")
             .withUsername("root")
             .withPassword("")
@@ -30,7 +30,7 @@ public class DatabaseTests {
     @Nested
     class MariaDBTest extends AbstractExternalDatabaseTest {
         @Container
-        private static final GenericContainer<?> container = new MariaDBContainer(DockerImageName.parse("mariadb:10.4"))
+        private static final GenericContainer<?> container = new MariaDBContainer(DockerImageName.parse("mariadb:10.7"))
             .withDatabaseName("testing")
             .withUsername("root")
             .withPassword("")
