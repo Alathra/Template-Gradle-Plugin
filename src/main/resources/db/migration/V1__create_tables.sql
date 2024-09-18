@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS "${tablePrefix}some_list" (
     PRIMARY KEY (uuid)
 );
 
-
 CREATE TABLE IF NOT EXISTS "${tablePrefix}test" (
     "player_name" TINYTEXT NOT NULL
 );
