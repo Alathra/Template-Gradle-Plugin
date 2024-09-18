@@ -172,7 +172,7 @@ tasks {
 
     test {
         useJUnitPlatform()
-        failFast = true
+        failFast = false
     }
 
     runServer {
