@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS "${tablePrefix}colors" (
     "color_id" INT AUTO_INCREMENT, -- Your auto-incrementing column cannot be "NOT NULL" because of SQLite
     "some_field" TINYTEXT NOT NULL,
+    "enabled" TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY ("color_id")
 );
 
