@@ -8,7 +8,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1" // Adds runServer and runMojangMappedServer tasks for testing
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0" // Automatic plugin.yml generation
 //    id("io.papermc.paperweight.userdev") version "1.7.1" // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
-    id("org.flywaydb.flyway") version "10.18.1" // Database migrations
+    id("org.flywaydb.flyway") version "10.18.2" // Database migrations
     id("org.jooq.jooq-codegen-gradle") version "3.19.13"
 
     eclipse
@@ -72,8 +72,8 @@ dependencies {
 
     // Database Dependencies (Core)
     implementation("com.zaxxer:HikariCP:6.0.0")
-    library("org.flywaydb:flyway-core:10.18.1")
-    library("org.flywaydb:flyway-mysql:10.18.1")
+    library("org.flywaydb:flyway-core:10.18.2")
+    library("org.flywaydb:flyway-mysql:10.18.2")
     library("org.jooq:jooq:3.19.13")
     jooqCodegen("com.h2database:h2:2.3.232")
 
@@ -96,8 +96,8 @@ dependencies {
 
     // Testing (Database Dependencies)
     testImplementation("com.zaxxer:HikariCP:6.0.0")
-    testImplementation("org.flywaydb:flyway-core:10.18.1")
-    testImplementation("org.flywaydb:flyway-mysql:10.18.1")
+    testImplementation("org.flywaydb:flyway-core:10.18.2")
+    testImplementation("org.flywaydb:flyway-mysql:10.18.2")
     testImplementation("org.jooq:jooq:3.19.13")
 
     // Testing (JDBC Drivers)
