@@ -85,7 +85,7 @@ dependencies {
 
     // Testing (Core)
     testImplementation("org.jetbrains:annotations:25.0.0")
-    testImplementation(platform("org.junit:junit-bom:5.11.1"))
+    testImplementation(platform("org.junit:junit-bom:5.11.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("org.slf4j:slf4j-simple:2.1.0-alpha1")
