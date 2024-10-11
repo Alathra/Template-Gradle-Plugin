@@ -31,6 +31,7 @@ public class PAPIHook implements Reloadable {
             return;
 
         PAPIExpansion = new PAPIExpansion(plugin);
+        PAPIExpansion.register();
     }
 
     @Override
