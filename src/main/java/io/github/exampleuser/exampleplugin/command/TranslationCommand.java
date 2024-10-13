@@ -48,7 +48,7 @@ class TranslationCommand {
             .withShortDescription("Test a translation.")
             .withPermission(BASE_PERM + ".test")
             .withArguments(
-                new StringArgument("key").replaceSuggestions(ArgumentSuggestions.strings(Translation.getAllKeys()))
+                new StringArgument("key").replaceSuggestions(ArgumentSuggestions.stringCollection(unused -> Translation.getAllKeys()))
             )
             .executes(this::executorTest);
     }
