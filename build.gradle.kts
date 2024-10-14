@@ -42,8 +42,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jetbrains:annotations:26.0.0")
-    annotationProcessor("org.jetbrains:annotations:26.0.0")
+    compileOnly("org.jetbrains:annotations:26.0.1")
+    annotationProcessor("org.jetbrains:annotations:26.0.1")
 
     //paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT") // Use instead of the `paper-api` entry if developing plugins using Mojang mappings
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
@@ -84,7 +84,7 @@ dependencies {
     library("org.mariadb.jdbc:mariadb-java-client:3.4.1")
 
     // Testing (Core)
-    testImplementation("org.jetbrains:annotations:26.0.0")
+    testImplementation("org.jetbrains:annotations:26.0.1")
     testImplementation(platform("org.junit:junit-bom:5.11.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
