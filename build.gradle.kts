@@ -80,7 +80,7 @@ dependencies {
     // Database Dependencies (JDBC Drivers)
     library("com.h2database:h2:2.3.232")
     library("org.xerial:sqlite-jdbc:3.46.1.3")
-    library("com.mysql:mysql-connector-j:9.0.0")
+    library("com.mysql:mysql-connector-j:9.1.0")
     library("org.mariadb.jdbc:mariadb-java-client:3.4.1")
 
     // Testing (Core)
@@ -103,7 +103,7 @@ dependencies {
     // Testing (JDBC Drivers)
     testImplementation("com.h2database:h2:2.3.232")
     testImplementation("org.xerial:sqlite-jdbc:3.46.1.3")
-    testImplementation("com.mysql:mysql-connector-j:9.0.0")
+    testImplementation("com.mysql:mysql-connector-j:9.1.0")
     testImplementation("org.mariadb.jdbc:mariadb-java-client:3.4.1")
 }
 
