@@ -33,6 +33,11 @@ repositories {
     maven("https://maven.athyrium.eu/releases")
 
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
+    maven("https://repo.codemc.org/repository/maven-public/") {
+        content {
+            includeGroup("com.github.retrooper") // PacketEvents
+        }
+    }
     maven("https://repo.dmulloy2.net/repository/public/") // ProtocolLib
     maven("https://jitpack.io/") {
         content {
@@ -65,6 +70,7 @@ dependencies {
     // Plugin Dependencies
     implementation("org.bstats:bstats-bukkit:3.1.0")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
+    compileOnly("com.github.retrooper:packetevents-spigot:2.5.0")
     compileOnly("com.comphenix.protocol:ProtocolLib:5.3.0-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6") {
         exclude("me.clip.placeholderapi.libs", "kyori")
@@ -191,6 +197,7 @@ tasks {
 //            hangar("squaremap", "1.2.0")
 //            url("https://download.luckperms.net/1515/bukkit/loader/LuckPerms-Bukkit-5.4.102.jar")
             github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
+            github("retrooper", "packetevents", "v2.5.0", "packetevents-spigot-2.5.0.jar")
             url("https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/build/libs/ProtocolLib.jar")
             github("PlaceholderAPI", "PlaceholderAPI", "2.11.4", "PlaceholderAPI-2.11.4.jar")
         }
@@ -218,7 +225,7 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     // Misc properties
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
     depend = listOf()
-    softDepend = listOf("Vault", "ProtocolLib", "PlaceholderAPI")
+    softDepend = listOf("PacketEvents", "Vault", "ProtocolLib", "PlaceholderAPI")
 }
 
 flyway {

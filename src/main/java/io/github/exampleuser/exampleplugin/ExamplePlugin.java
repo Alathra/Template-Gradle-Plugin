@@ -4,10 +4,7 @@ import com.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
-import io.github.exampleuser.exampleplugin.hook.BStatsHook;
-import io.github.exampleuser.exampleplugin.hook.PAPIHook;
-import io.github.exampleuser.exampleplugin.hook.ProtocolLibHook;
-import io.github.exampleuser.exampleplugin.hook.VaultHook;
+import io.github.exampleuser.exampleplugin.hook.*;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.translation.TranslationManager;
 import io.github.exampleuser.exampleplugin.updatechecker.UpdateChecker;
@@ -30,6 +27,7 @@ public class ExamplePlugin extends JavaPlugin {
     // Hooks
     private static BStatsHook bStatsHook;
     private static VaultHook vaultHook;
+    private static PacketEventsHook packetEventsHook;
     private static ProtocolLibHook protocolLibHook;
     private static PAPIHook papiHook;
 
@@ -53,6 +51,7 @@ public class ExamplePlugin extends JavaPlugin {
         updateChecker = new UpdateChecker();
         bStatsHook = new BStatsHook(instance);
         vaultHook = new VaultHook(instance);
+        packetEventsHook = new PacketEventsHook(instance);
         protocolLibHook = new ProtocolLibHook(instance);
         papiHook = new PAPIHook(instance);
 
@@ -64,6 +63,7 @@ public class ExamplePlugin extends JavaPlugin {
         updateChecker.onLoad();
         bStatsHook.onLoad();
         vaultHook.onLoad();
+        packetEventsHook.onLoad();
         protocolLibHook.onLoad();
         papiHook.onLoad();
     }
@@ -78,6 +78,7 @@ public class ExamplePlugin extends JavaPlugin {
         updateChecker.onEnable();
         bStatsHook.onEnable();
         vaultHook.onEnable();
+        packetEventsHook.onEnable();
         protocolLibHook.onEnable();
         papiHook.onEnable();
 
@@ -108,6 +109,7 @@ public class ExamplePlugin extends JavaPlugin {
         updateChecker.onDisable();
         bStatsHook.onDisable();
         vaultHook.onDisable();
+        packetEventsHook.onDisable();
         protocolLibHook.onDisable();
         papiHook.onDisable();
     }
@@ -180,5 +182,15 @@ public class ExamplePlugin extends JavaPlugin {
     @NotNull
     public static ProtocolLibHook getProtocolLibHook() {
         return protocolLibHook;
+    }
+
+    /**
+     * Gets PacketEvents hook.
+     *
+     * @return the PacketEvents hook
+     */
+    @NotNull
+    public static PacketEventsHook getPacketEventsHook() {
+        return packetEventsHook;
     }
 }
