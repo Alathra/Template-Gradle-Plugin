@@ -89,7 +89,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("org.slf4j:slf4j-simple:2.1.0-alpha1")
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.20.2"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.20.3"))
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:mysql")
     testImplementation("org.testcontainers:mariadb")
