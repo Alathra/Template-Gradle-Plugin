@@ -1,10 +1,9 @@
 package io.github.exampleuser.exampleplugin.hook;
 
-import io.github.exampleuser.exampleplugin.Reloadable;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-public abstract class AbstractPluginHook<T> implements Reloadable {
+public abstract class AbstractPluginHook<T> implements Hook {
     private final String pluginName;
     private T pluginHook;
 

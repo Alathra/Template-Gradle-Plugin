@@ -82,7 +82,7 @@ public class ExamplePlugin extends JavaPlugin {
             Logger.get().warn(ColorParser.of("<yellow>Database handler failed to start. Database support has been disabled.").build());
         }
 
-        if (vaultHook.isVaultLoaded()) {
+        if (vaultHook.isHookLoaded()) {
             Logger.get().info(ColorParser.of("<green>Vault has been found on this server. Vault support enabled.").build());
         } else {
             Logger.get().warn(ColorParser.of("<yellow>Vault is not installed on this server. Vault support has been disabled.").build());

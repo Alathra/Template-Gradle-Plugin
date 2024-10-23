@@ -1,7 +1,6 @@
 package io.github.exampleuser.exampleplugin.hook;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
-import io.github.exampleuser.exampleplugin.Reloadable;
 import org.bstats.bukkit.Metrics;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A hook to interface with <a href="https://github.com/Bastian/bstats-metrics">BStats</a>.
  */
-public class BStatsHook implements Reloadable {
+public class BStatsHook implements Hook {
     private final static int BSTATS_ID = 1234; // Signup to BStats and register your new plugin here: https://bstats.org/getting-started, replace the id with you new one!
     private final ExamplePlugin plugin;
     private @Nullable Metrics hook;

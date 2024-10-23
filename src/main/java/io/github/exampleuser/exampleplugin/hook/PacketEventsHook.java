@@ -2,14 +2,13 @@ package io.github.exampleuser.exampleplugin.hook;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
-import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import org.bukkit.Bukkit;
 
 /**
  * A hook that enables API for PacketEvents.
  */
-public class PacketEventsHook implements Reloadable {
+public class PacketEventsHook implements Hook {
     private final ExamplePlugin plugin;
     private final static String pluginName = "PacketEvents";
 

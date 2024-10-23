@@ -1,13 +1,12 @@
 package io.github.exampleuser.exampleplugin.hook;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
-import io.github.exampleuser.exampleplugin.Reloadable;
 import org.bukkit.Bukkit;
 
 /**
  * A hook to interface with <a href="https://wiki.placeholderapi.com/">PlaceholderAPI</a>.
  */
-public class PAPIHook implements Reloadable {
+public class PAPIHook implements Hook {
     private final ExamplePlugin plugin;
     private final static String pluginName = "PlaceholderAPI";
     private PAPIExpansion PAPIExpansion;
@@ -27,7 +26,7 @@ public class PAPIHook implements Reloadable {
 
     @Override
     public void onEnable() {
-        if (!Bukkit.getPluginManager().isPluginEnabled(pluginName))
+        if (!isHookLoaded())
             return;
 
         PAPIExpansion = new PAPIExpansion(plugin);
@@ -36,10 +35,15 @@ public class PAPIHook implements Reloadable {
 
     @Override
     public void onDisable() {
-        if (!Bukkit.getPluginManager().isPluginEnabled(pluginName))
+        if (!isHookLoaded())
             return;
 
         PAPIExpansion.unregister();
         PAPIExpansion = null;
+    }
+
+    @Override
+    public boolean isHookLoaded() {
+        return Bukkit.getPluginManager().isPluginEnabled(pluginName);
     }
 }

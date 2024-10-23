@@ -1,7 +1,6 @@
 package io.github.exampleuser.exampleplugin.hook;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
-import io.github.exampleuser.exampleplugin.Reloadable;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A hook to interface with the <a href="https://github.com/MilkBowl/VaultAPI">Vault API</a>.
  */
-public class VaultHook implements Reloadable {
+public class VaultHook implements Hook {
     private final ExamplePlugin plugin;
     private @Nullable RegisteredServiceProvider<Economy> rspEconomy;
     private @Nullable RegisteredServiceProvider<Permission> rspPermissions;
@@ -33,7 +32,7 @@ public class VaultHook implements Reloadable {
 
     @Override
     public void onEnable() {
-        if (!isVaultLoaded()) return;
+        if (!isHookLoaded()) return;
 
         setEconomy(plugin.getServer().getServicesManager().getRegistration(Economy.class));
         setPermissions(plugin.getServer().getServicesManager().getRegistration(Permission.class));
@@ -42,7 +41,7 @@ public class VaultHook implements Reloadable {
 
     @Override
     public void onDisable() {
-        if (!isVaultLoaded()) return;
+        if (!isHookLoaded()) return;
 
         setEconomy(null);
         setPermissions(null);
@@ -54,7 +53,8 @@ public class VaultHook implements Reloadable {
      *
      * @return the boolean
      */
-    public boolean isVaultLoaded() {
+    @Override
+    public boolean isHookLoaded() {
         return plugin.getServer().getPluginManager().isPluginEnabled("Vault");
     }
 
@@ -74,7 +74,7 @@ public class VaultHook implements Reloadable {
      */
     public Economy getEconomy() {
         if (rspEconomy == null)
-            throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isVaultLoaded method before using vault methods.");
+            throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isHookLoaded method before using vault methods.");
         return rspEconomy.getProvider();
     }
 
@@ -104,7 +104,7 @@ public class VaultHook implements Reloadable {
      */
     public Permission getPermissions() {
         if (rspPermissions == null)
-            throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isVaultLoaded method before using vault methods.");
+            throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isHookLoaded method before using vault methods.");
         return rspPermissions.getProvider();
     }
 
@@ -134,7 +134,7 @@ public class VaultHook implements Reloadable {
      */
     public Chat getChat() {
         if (rspChat == null)
-            throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isVaultLoaded method before using vault methods.");
+            throw new NullPointerException("The plugin tried to use Vault without it being loaded. Use the VaultHook#isHookLoaded method before using vault methods.");
         return rspChat.getProvider();
     }
 
