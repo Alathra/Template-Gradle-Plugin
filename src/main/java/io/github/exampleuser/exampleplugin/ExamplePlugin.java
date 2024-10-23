@@ -28,7 +28,6 @@ public class ExamplePlugin extends JavaPlugin {
     private static BStatsHook bStatsHook;
     private static VaultHook vaultHook;
     private static PacketEventsHook packetEventsHook;
-    private static ProtocolLibHook protocolLibHook;
     private static PAPIHook papiHook;
 
     /**
@@ -52,7 +51,6 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook = new BStatsHook(instance);
         vaultHook = new VaultHook(instance);
         packetEventsHook = new PacketEventsHook(instance);
-        protocolLibHook = new ProtocolLibHook(instance);
         papiHook = new PAPIHook(instance);
 
         configHandler.onLoad();
@@ -64,7 +62,6 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook.onLoad();
         vaultHook.onLoad();
         packetEventsHook.onLoad();
-        protocolLibHook.onLoad();
         papiHook.onLoad();
     }
 
@@ -79,7 +76,6 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook.onEnable();
         vaultHook.onEnable();
         packetEventsHook.onEnable();
-        protocolLibHook.onEnable();
         papiHook.onEnable();
 
         if (!databaseHandler.isRunning()) {
@@ -92,10 +88,10 @@ public class ExamplePlugin extends JavaPlugin {
             Logger.get().warn(ColorParser.of("<yellow>Vault is not installed on this server. Vault support has been disabled.").build());
         }
 
-        if (protocolLibHook.isHookLoaded()) {
-            Logger.get().info(ColorParser.of("<green>ProtocolLib has been found on this server. ProtocolLib support enabled.").build());
+        if (packetEventsHook.isHookLoaded()) {
+            Logger.get().info(ColorParser.of("<green>PacketEvents has been found on this server. PacketEvents support enabled.").build());
         } else {
-            Logger.get().warn(ColorParser.of("<yellow>ProtocolLib is not installed on this server. ProtocolLib support has been disabled.").build());
+            Logger.get().warn(ColorParser.of("<yellow>PacketEvents is not installed on this server. PacketEvents support has been disabled.").build());
         }
     }
 
@@ -110,7 +106,6 @@ public class ExamplePlugin extends JavaPlugin {
         bStatsHook.onDisable();
         vaultHook.onDisable();
         packetEventsHook.onDisable();
-        protocolLibHook.onDisable();
         papiHook.onDisable();
     }
 
@@ -172,16 +167,6 @@ public class ExamplePlugin extends JavaPlugin {
     @NotNull
     public static VaultHook getVaultHook() {
         return vaultHook;
-    }
-
-    /**
-     * Gets ProtocolLib hook.
-     *
-     * @return the ProtocolLib hook
-     */
-    @NotNull
-    public static ProtocolLibHook getProtocolLibHook() {
-        return protocolLibHook;
     }
 
     /**
