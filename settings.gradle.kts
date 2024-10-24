@@ -10,3 +10,5 @@ plugins {
 }
 
 rootProject.name = "ExamplePlugin"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
