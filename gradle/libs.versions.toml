@@ -1,0 +1,60 @@
+[versions]
+crate = "2.1.0"
+commandapi = "9.5.3"
+flyway = "10.20.0"
+
+[libraries]
+# Core dependencies
+annotations = "org.jetbrains:annotations:26.0.1"
+paper-api = "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
+morepaperlib = "space.arim.morepaperlib:morepaperlib:0.4.4"
+
+# API dependencies
+crate-api = { module = "com.github.milkdrinkers:crate-api", version.ref = "crate" }
+crate-yaml = { module = "com.github.milkdrinkers:crate-yaml", version.ref = "crate" }
+colorparser = "com.github.milkdrinkers:colorparser:2.0.3"
+commandapi-shade = { module = "dev.jorel:commandapi-bukkit-shade", version.ref = "commandapi" }
+commandapi-annotations = { module = "dev.jorel:commandapi-annotations", version.ref = "commandapi" }
+triumph-gui = "dev.triumphteam:triumph-gui:3.1.10"
+
+# Plugin dependencies
+bstats = "org.bstats:bstats-bukkit:3.1.0"
+vault = "com.github.MilkBowl:VaultAPI:1.7.1"
+packetevents = "com.github.retrooper:packetevents-spigot:2.5.0"
+placeholderapi = "me.clip:placeholderapi:2.11.6"
+
+# Database dependencies
+hikaricp = "com.zaxxer:HikariCP:6.0.0"
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-mysql = { module = "org.flywaydb:flyway-mysql", version.ref = "flyway" }
+jooq = "org.jooq:jooq:3.19.14"
+
+# JDBC drivers
+h2 = "com.h2database:h2:2.3.232"
+sqlite = "org.xerial:sqlite-jdbc:3.47.0.0"
+mysql = "com.mysql:mysql-connector-j:9.1.0"
+mariadb = "org.mariadb.jdbc:mariadb-java-client:3.4.1"
+
+# Testing
+junit-bom = "org.junit:junit-bom:5.11.3"
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
+slf4j = "org.slf4j:slf4j-simple:2.1.0-alpha1"
+testcontainers-bom = "org.testcontainers:testcontainers-bom:1.20.3"
+testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
+testcontainers-mysql = { module = "org.testcontainers:mysql" }
+testcontainers-mariadb = { module = "org.testcontainers:mariadb" }
+
+[bundles]
+flyway = ["flyway-core", "flyway-mysql"]
+jdbcdrivers = ["h2", "sqlite", "mysql", "mariadb"]
+junit = ["junit-jupiter", "junit-platform"]
+testcontainers = ["testcontainers-jupiter", "testcontainers-mysql", "testcontainers-mariadb"]
+
+[plugins]
+shadow = "com.gradleup.shadow:8.3.3"
+run-paper = "xyz.jpenilla.run-paper:2.3.1"
+plugin-yml = "net.minecrell.plugin-yml.bukkit:0.6.0"
+paperweight = "io.papermc.paperweight.userdev:1.7.3"
+flyway = "org.flywaydb.flyway:10.20.0"
+jooq = "org.jooq.jooq-codegen-gradle:3.19.14"
