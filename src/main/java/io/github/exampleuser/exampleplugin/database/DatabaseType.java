@@ -29,23 +29,23 @@ public enum DatabaseType {
      * MariaDB database type.
      */
     MARIADB("MariaDB", org.mariadb.jdbc.Driver.class.getName(), MariaDbDataSource.class.getName(), "mariadb", '?', '&'),
-	;
+    ;
 
     private final String driverName;
     private final String driverClassName;
-	private final String dataSourceClassName;
-	private final String jdbcPrefix;
-	private final char jdbcPropertyPrefix;
-	private final char jdbcPropertySeparator;
+    private final String dataSourceClassName;
+    private final String jdbcPrefix;
+    private final char jdbcPropertyPrefix;
+    private final char jdbcPropertySeparator;
 
-	DatabaseType(String driverName, String driverClassName, String dataSourceClassName, String jdbcPrefix, char jdbcPropertyPrefix, char jdbcPropertySeparator) {
-		this.driverName = driverName;
-		this.driverClassName = driverClassName;
-		this.dataSourceClassName = dataSourceClassName;
+    DatabaseType(String driverName, String driverClassName, String dataSourceClassName, String jdbcPrefix, char jdbcPropertyPrefix, char jdbcPropertySeparator) {
+        this.driverName = driverName;
+        this.driverClassName = driverClassName;
+        this.dataSourceClassName = dataSourceClassName;
         this.jdbcPrefix = jdbcPrefix;
-		this.jdbcPropertyPrefix = jdbcPropertyPrefix;
-		this.jdbcPropertySeparator = jdbcPropertySeparator;
-	}
+        this.jdbcPropertyPrefix = jdbcPropertyPrefix;
+        this.jdbcPropertySeparator = jdbcPropertySeparator;
+    }
 
     /**
      * Gets driver name.
@@ -108,14 +108,14 @@ public enum DatabaseType {
      * @return the string
      */
     public String formatJdbcConnectionProperties(Map<String, Object> properties) {
-		if (properties.isEmpty()) return "";
+        if (properties.isEmpty()) return "";
 
         List<String> connectionProperties = properties.entrySet().stream()
             .map(map -> "%s=%s".formatted(map.getKey(), map.getValue()))
             .toList();
 
-		return String.join(Character.toString(getJdbcPropertySeparator()), connectionProperties);
-	}
+        return String.join(Character.toString(getJdbcPropertySeparator()), connectionProperties);
+    }
 
 
     /**

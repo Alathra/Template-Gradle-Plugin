@@ -56,7 +56,7 @@ public class DatabaseConfig {
      * @param connectionTimeout    the connection timeout
      * @param connectionProperties the connection properties
      */
-     DatabaseConfig(
+    DatabaseConfig(
         DatabaseType databaseType,
         String tablePrefix,
         @Nullable Path path,

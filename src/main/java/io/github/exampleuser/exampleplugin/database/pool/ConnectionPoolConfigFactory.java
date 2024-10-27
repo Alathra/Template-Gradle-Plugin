@@ -9,7 +9,7 @@ import io.github.exampleuser.exampleplugin.database.exception.DatabaseInitializa
 import java.nio.file.Path;
 import java.util.Optional;
 
-import static io.github.exampleuser.exampleplugin.database.DatabaseType.*;
+import static io.github.exampleuser.exampleplugin.database.DatabaseType.SQLITE;
 
 public abstract class ConnectionPoolConfigFactory {
     public static HikariConfig get() throws DatabaseInitializationException {

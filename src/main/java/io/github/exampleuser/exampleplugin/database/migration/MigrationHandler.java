@@ -27,7 +27,7 @@ public class MigrationHandler {
     /**
      * Instantiates a new Database migration handler.
      *
-     * @param dataSource   the data source
+     * @param dataSource     the data source
      * @param databaseConfig the database config
      */
     public MigrationHandler(DataSource dataSource, DatabaseConfig databaseConfig) {

@@ -3,11 +3,12 @@ package io.github.exampleuser.exampleplugin;
 import com.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
-import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandlerBuilder;
 import io.github.exampleuser.exampleplugin.hook.*;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.translation.TranslationManager;
 import io.github.exampleuser.exampleplugin.updatechecker.UpdateChecker;
+import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,6 @@ public class ExamplePlugin extends JavaPlugin {
     private static ExamplePlugin instance;
     private ConfigHandler configHandler;
     private TranslationManager translationManager;
-    private DatabaseHandler databaseHandler;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
     private UpdateChecker updateChecker;
@@ -44,7 +44,12 @@ public class ExamplePlugin extends JavaPlugin {
         instance = this;
         configHandler = new ConfigHandler(instance);
         translationManager = new TranslationManager(instance);
-        databaseHandler = new DatabaseHandler(configHandler, getComponentLogger());
+        DB.init(
+            new DatabaseHandlerBuilder()
+                .withConfigHandler(configHandler)
+                .withLogger(getComponentLogger())
+                .build()
+        );
         commandHandler = new CommandHandler(instance);
         listenerHandler = new ListenerHandler(instance);
         updateChecker = new UpdateChecker();
@@ -55,7 +60,7 @@ public class ExamplePlugin extends JavaPlugin {
 
         configHandler.onLoad();
         translationManager.onLoad();
-        databaseHandler.onLoad();
+        DB.getHandler().onLoad();
         commandHandler.onLoad();
         listenerHandler.onLoad();
         updateChecker.onLoad();
@@ -69,7 +74,7 @@ public class ExamplePlugin extends JavaPlugin {
     public void onEnable() {
         configHandler.onEnable();
         translationManager.onEnable();
-        databaseHandler.onEnable();
+        DB.getHandler().onEnable();
         commandHandler.onEnable();
         listenerHandler.onEnable();
         updateChecker.onEnable();
@@ -78,8 +83,8 @@ public class ExamplePlugin extends JavaPlugin {
         packetEventsHook.onEnable();
         papiHook.onEnable();
 
-        if (!databaseHandler.isRunning()) {
-            Logger.get().warn(ColorParser.of("<yellow>Database handler failed to start. Database support has been disabled.").build());
+        if (!DB.isReady()) {
+            Logger.get().warn(ColorParser.of("<yellow>DatabaseHolder handler failed to start. DatabaseHolder support has been disabled.").build());
         }
 
         if (vaultHook.isHookLoaded()) {
@@ -99,7 +104,7 @@ public class ExamplePlugin extends JavaPlugin {
     public void onDisable() {
         configHandler.onDisable();
         translationManager.onDisable();
-        databaseHandler.onDisable();
+        DB.getHandler().onDisable();
         commandHandler.onDisable();
         listenerHandler.onDisable();
         updateChecker.onDisable();
@@ -107,16 +112,6 @@ public class ExamplePlugin extends JavaPlugin {
         vaultHook.onDisable();
         packetEventsHook.onDisable();
         papiHook.onDisable();
-    }
-
-    /**
-     * Gets data handler.
-     *
-     * @return the data handler
-     */
-    @NotNull
-    public DatabaseHandler getDataHandler() {
-        return databaseHandler;
     }
 
     /**
