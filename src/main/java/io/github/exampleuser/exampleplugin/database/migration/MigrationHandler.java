@@ -2,6 +2,7 @@ package io.github.exampleuser.exampleplugin.database.migration;
 
 import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationException;
+import io.github.exampleuser.exampleplugin.database.migration.migrations.V4__example_test;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.ClassProvider;
 import org.flywaydb.core.api.FlywayException;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class MigrationHandler {
     // List of Java migrations
     private final List<Class<? extends JavaMigration>> migrations = List.of(
-//        V3__Example.class
+        V4__example_test.class
     );
 
     private final DataSource dataSource;
@@ -51,7 +52,6 @@ public class MigrationHandler {
             .javaMigrationClassProvider(javaMigrationClassProvider)
             .dataSource(dataSource)
             .locations(
-                "classpath:database-migrations",
                 "db/migration"
             )
             .table(databaseConfig.getTablePrefix() + "schema_history") // Configure tables and migrations

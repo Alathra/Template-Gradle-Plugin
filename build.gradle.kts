@@ -226,7 +226,7 @@ flyway {
     cleanDisabled = false
     locations = arrayOf(
         "filesystem:src/main/resources/db/migration",
-        "classpath:db/migration"
+        "classpath:${mainPackage.replace(".", "/")}/database/migration/migrations"
     )
 }
 
