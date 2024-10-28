@@ -7,6 +7,8 @@ import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigInteger;
+
 /**
  * Contains all test cases.
  */
@@ -51,20 +53,31 @@ abstract class AbstractDatabaseTest {
     }
 
     @Test
-    @DisplayName("Insert query")
-    void testQueryInsert() {
+    @DisplayName("Upsert")
+    void testUpsert() {
         Queries.upsert();
         Queries.upsert(); // Updates instead of inserts
     }
 
     @Test
-    @DisplayName("Batch execute queries")
+    @DisplayName("Upsert Returning")
+    void testUpsertReturning() {
+        BigInteger value = Queries.upsertReturning();
+        Assertions.assertNotNull(value);
+        Assertions.assertEquals(BigInteger.valueOf(1), value);
+        BigInteger value2 = Queries.upsertReturning();
+        Assertions.assertNotNull(value2);
+        Assertions.assertEquals(BigInteger.valueOf(2), value2);
+    }
+
+    @Test
+    @DisplayName("Batch")
     void testQueryBatch() {
         Queries.saveAll();
     }
 
     @Test
-    @DisplayName("Transaction execute queries")
+    @DisplayName("Transaction")
     void testQueryTransaction() {
         Queries.saveAllTransaction();
     }

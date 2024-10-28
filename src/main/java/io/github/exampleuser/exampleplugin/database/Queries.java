@@ -10,13 +10,14 @@ import org.jooq.Record1;
 import org.jooq.Record2;
 import org.jooq.Result;
 
-import java.nio.ByteBuffer;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import static io.github.exampleuser.exampleplugin.database.schema.Tables.COLORS;
 import static io.github.exampleuser.exampleplugin.database.schema.Tables.SOME_LIST;
+import static io.github.exampleuser.exampleplugin.database.QueryUtils.*;
 
 /**
  * A class providing access to all SQL queries.
@@ -36,7 +37,7 @@ public abstract class Queries {
             context
                 .insertInto(SOME_LIST, SOME_LIST.UUID, SOME_LIST._NAME)
                 .values(
-                    DatabaseQueries.convertUUIDToBytes(UUID.randomUUID()),
+                    UUIDUtil.toBytes(UUID.randomUUID()),
                     "testname"
                 )
                 .onDuplicateKeyUpdate()
@@ -50,26 +51,35 @@ public abstract class Queries {
     /**
      * Example insert with returning key.
      * <p>
-     * This method actually is an upsert and inserts or updates entries dependent on whether a duplicate row exists, and returns the relevant auto-incrementing field from the table.
+     * Inserts or updates entries dependent on whether a duplicate row exists, and returns the relevant auto-incrementing field from the table.
      *
      * @return a resulting integer or null if null if the query failed
      */
-    public static @Nullable Record1<Integer> upsertReturning() {
+    public static @Nullable BigInteger upsertReturning() {
         try (
             Connection con = DB.getConnection()
         ) {
             DSLContext context = DB.getContext(con);
 
-            return context
+            // jOOQ is broken in implementation when returning auto-increment field for SQLite!
+            // We need to use the returning result for all RDBMS's except SQLite, where we use "#lastID()" instead.
+            @Nullable Record1<Integer> record = context
                 .insertInto(COLORS, COLORS.SOME_FIELD, COLORS.ENABLED)
                 .values(
                     "testname",
-                    (byte) 1
+                    BooleanUtil.toByte(true)
                 )
                 .onDuplicateKeyUpdate()
                 .set(COLORS.SOME_FIELD, "testname")
                 .returningResult(COLORS.COLOR_ID) // Return the auto-incrementing id from the db
                 .fetchOne();
+
+            if (!DB.getHandler().getDatabaseConfig().getDatabaseType().equals(DatabaseType.SQLITE) && record != null && record.component1() != null) {
+                return BigInteger.valueOf(record.component1()); // For H2, MySQL, MariaDB
+            } else {
+                return context.lastID(); // For SQLite
+            }
+
         } catch (SQLException e) {
             Logger.get().error("SQL Query threw an error!", e);
         }
@@ -79,7 +89,7 @@ public abstract class Queries {
     /**
      * Example save all data to database.
      * <p>
-     * This method batch executes an upsert and inserts or updates entries dependent on whether a duplicate row exists.
+     * Batch executes multiple upserts.
      * Read <a href="https://www.jooq.org/doc/latest/manual/sql-execution/batch-execution/">jOOQ Batch Documentation</a> for more info.
      */
     public static void saveAll() {
@@ -93,7 +103,7 @@ public abstract class Queries {
                     context
                         .insertInto(SOME_LIST, SOME_LIST.UUID, SOME_LIST._NAME)
                         .values(
-                            DatabaseQueries.convertUUIDToBytes(UUID.randomUUID()),
+                            UUIDUtil.toBytes(UUID.randomUUID()),
                             "testname"
                         )
                         .onDuplicateKeyUpdate()
@@ -101,7 +111,7 @@ public abstract class Queries {
                     context
                         .insertInto(SOME_LIST, SOME_LIST.UUID, SOME_LIST._NAME)
                         .values(
-                            DatabaseQueries.convertUUIDToBytes(UUID.randomUUID()),
+                            UUIDUtil.toBytes(UUID.randomUUID()),
                             "othername"
                         )
                         .onDuplicateKeyUpdate()
@@ -116,7 +126,7 @@ public abstract class Queries {
     /**
      * Example save all data to database.
      * <p>
-     * This method uses a transaction to execute the queries.
+     * Transaction to execute upserts. If one operation should fail, everything is rolled back.
      * Read <a href="https://www.jooq.org/doc/latest/manual/sql-execution/transaction-management/">jOOQ Transaction Documentation</a> for more info.
      */
     public static void saveAllTransaction() {
@@ -132,7 +142,7 @@ public abstract class Queries {
                     internalContext
                         .insertInto(SOME_LIST, SOME_LIST.UUID, SOME_LIST._NAME)
                         .values(
-                            DatabaseQueries.convertUUIDToBytes(UUID.randomUUID()),
+                            UUIDUtil.toBytes(UUID.randomUUID()),
                             "testname"
                         )
                         .onDuplicateKeyUpdate()
@@ -142,7 +152,7 @@ public abstract class Queries {
                     internalContext
                         .insertInto(SOME_LIST, SOME_LIST.UUID, SOME_LIST._NAME)
                         .values(
-                            DatabaseQueries.convertUUIDToBytes(UUID.randomUUID()),
+                            UUIDUtil.toBytes(UUID.randomUUID()),
                             "othername"
                         )
                         .onDuplicateKeyUpdate()
@@ -175,31 +185,5 @@ public abstract class Queries {
             Logger.get().error("SQL Query threw an error!", e);
         }
         return null;
-    }
-
-    /**
-     * Convert uuid to an array of bytes.
-     *
-     * @param uuid the uuid
-     * @return the byte array
-     */
-    public static byte[] convertUUIDToBytes(UUID uuid) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(uuid.getMostSignificantBits());
-        bb.putLong(uuid.getLeastSignificantBits());
-        return bb.array();
-    }
-
-    /**
-     * Convert byte array to uuid.
-     *
-     * @param bytes the byte array
-     * @return the uuid
-     */
-    public static UUID convertBytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
     }
 }
