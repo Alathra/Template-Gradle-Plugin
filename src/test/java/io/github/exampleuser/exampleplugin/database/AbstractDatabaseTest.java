@@ -53,24 +53,25 @@ abstract class AbstractDatabaseTest {
     @Test
     @DisplayName("Insert query")
     void testQueryInsert() {
-        DatabaseQueries.addEntry();
+        Queries.upsert();
+        Queries.upsert(); // Updates instead of inserts
     }
 
     @Test
     @DisplayName("Batch execute queries")
     void testQueryBatch() {
-        DatabaseQueries.saveAll();
+        Queries.saveAll();
     }
 
     @Test
     @DisplayName("Transaction execute queries")
     void testQueryTransaction() {
-        DatabaseQueries.saveAllTransaction();
+        Queries.saveAllTransaction();
     }
 
     @Test
     @DisplayName("Select")
     void testQuerySelect() {
-        DatabaseQueries.loadAll();
+        Queries.loadAll();
     }
 }

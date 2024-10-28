@@ -18,15 +18,15 @@ import static io.github.exampleuser.exampleplugin.database.schema.Tables.COLORS;
 import static io.github.exampleuser.exampleplugin.database.schema.Tables.SOME_LIST;
 
 /**
- * A holder class for all SQL queries
+ * A class providing access to all SQL queries.
  */
-public abstract class DatabaseQueries {
+public abstract class Queries {
     /**
      * Example add data to database.
      * <p>
-     * This method actually is an upsert and inserts or updates entries dependent on whether a duplicate row exists.
+     * Inserts or updates entries dependent on whether a duplicate row exists.
      */
-    public static void addEntry() {
+    public static void upsert() {
         try (
             Connection con = DB.getConnection()
         ) {
