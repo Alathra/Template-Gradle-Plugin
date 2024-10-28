@@ -1,5 +1,6 @@
 package io.github.exampleuser.exampleplugin.database;
 
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.jetbrains.annotations.NotNull;

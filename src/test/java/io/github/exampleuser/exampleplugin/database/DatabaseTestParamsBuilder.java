@@ -1,5 +1,7 @@
 package io.github.exampleuser.exampleplugin.database;
 
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
+
 class DatabaseTestParamsBuilder {
     private String jdbcPrefix;
     private DatabaseType requiredDatabaseType;

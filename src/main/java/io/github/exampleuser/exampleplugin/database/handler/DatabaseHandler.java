@@ -3,7 +3,6 @@ package io.github.exampleuser.exampleplugin.database.handler;
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
-import io.github.exampleuser.exampleplugin.database.DatabaseType;
 import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseInitializationException;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationException;

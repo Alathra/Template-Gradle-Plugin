@@ -1,7 +1,7 @@
 package io.github.exampleuser.exampleplugin.database.config;
 
 import com.github.milkdrinkers.crate.Config;
-import io.github.exampleuser.exampleplugin.database.DatabaseType;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 

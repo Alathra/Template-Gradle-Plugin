@@ -1,7 +1,7 @@
 package io.github.exampleuser.exampleplugin.utility;
 
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHolder;
-import io.github.exampleuser.exampleplugin.database.DatabaseType;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.database.jooq.JooqContext;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,6 @@
 package io.github.exampleuser.exampleplugin.database.config;
 
-import io.github.exampleuser.exampleplugin.database.DatabaseType;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;

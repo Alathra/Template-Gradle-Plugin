@@ -1,4 +1,4 @@
-package io.github.exampleuser.exampleplugin.database;
+package io.github.exampleuser.exampleplugin.database.handler;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.mysql.jdbc.Driver;

@@ -1,5 +1,6 @@
 package io.github.exampleuser.exampleplugin.database;
 
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import org.jetbrains.annotations.TestOnly;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MariaDBContainer;
