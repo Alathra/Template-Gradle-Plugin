@@ -1,6 +1,6 @@
 [versions]
 crate = "2.1.0"
-commandapi = "9.6.0"
+commandapi = "9.6.1"
 flyway = "10.20.1"
 
 [libraries]
@@ -52,7 +52,7 @@ junit = ["junit-jupiter", "junit-platform"]
 testcontainers = ["testcontainers-jupiter", "testcontainers-mysql", "testcontainers-mariadb"]
 
 [plugins]
-shadow = "com.gradleup.shadow:8.3.3"
+shadow = "com.gradleup.shadow:8.3.4"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
 plugin-yml = "net.minecrell.plugin-yml.bukkit:0.6.0"
 paperweight = "io.papermc.paperweight.userdev:1.7.4"
