@@ -26,6 +26,7 @@ public class CommandHandler implements Reloadable {
             new CommandAPIBukkitConfig(plugin)
                 .shouldHookPaperReload(true)
                 .silentLogs(true)
+                .usePluginNamespace()
                 .beLenientForMinorVersions(true)
         );
     }
