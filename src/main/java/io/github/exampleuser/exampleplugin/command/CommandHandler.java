@@ -22,7 +22,12 @@ public class CommandHandler implements Reloadable {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(plugin).shouldHookPaperReload(true).silentLogs(true));
+        CommandAPI.onLoad(
+            new CommandAPIBukkitConfig(plugin)
+                .shouldHookPaperReload(true)
+                .silentLogs(true)
+                .beLenientForMinorVersions(true)
+        );
     }
 
     @Override
