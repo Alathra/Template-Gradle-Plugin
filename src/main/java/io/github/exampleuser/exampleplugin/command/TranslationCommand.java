@@ -71,16 +71,20 @@ class TranslationCommand {
     }
 
     private void executorTest(CommandSender sender, CommandArguments args) throws WrapperCommandSyntaxException {
-        if (!(args.getOrDefault("key", "") instanceof String key))
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>You need to specify a valid translation string!").build());
-
-        if (key.isEmpty() || key.startsWith(".") || Translation.of(key) == null || Translation.of(key).isEmpty())
+        if (!(args.getOrDefault("key", "") instanceof String key && (key.isEmpty() || key.isBlank() || key.startsWith(".") || key.endsWith("."))))
             throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>This translation entry doesn't exist or is an empty string!").build());
 
-        sender.sendMessage(
-            ColorParser.of(Translation.of(key))
-                .parseLegacy()
-                .build()
-        );
+        try {
+            if (Translation.of(key) == null || Translation.of(key).isEmpty() || Translation.of(key).isBlank())
+                throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>This translation entry doesn't exist or is an empty string!").build());
+
+            sender.sendMessage(
+                ColorParser.of(Translation.of(key))
+                    .parseLegacy()
+                    .build()
+            );
+        } catch (ClassCastException ignored) {
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>This translation entry doesn't exist or is an empty string!").build());
+        }
     }
 }
