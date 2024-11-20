@@ -1,10 +1,11 @@
-<h1 align="center">Paper Plugin Template (Gradle)</h1>
-<p align="center">
-    <img src="https://img.shields.io/github/license/Alathra/Template-Gradle-Plugin?color=blue&style=flat-square" alt="license"/>
-    <img alt="GitHub release (latest by SemVer including pre-releases)" src="https://img.shields.io/github/downloads-pre/Alathra/Template-Gradle-Plugin/latest/total?style=flat-square">
-    <img alt="GitHub release" src="https://img.shields.io/github/downloads-pre/Alathra/Template-Gradle-Plugin/latest?style=flat-square">
-    <img alt="GitHub Workflow Status (with event)" src="https://img.shields.io/github/actions/workflow/status/Alathra/Template-Gradle-Plugin/release.yml?style=flat-square">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/Alathra/Template-Gradle-Plugin?style=flat-square">
+<h1 style="text-align:center;">Paper Plugin Template (Gradle)</h1>
+<p style="text-align:center;">
+    <img alt="GitHub License" src="https://img.shields.io/github/license/Alathra/Template-Gradle-Plugin?style=for-the-badge&color=blue&labelColor=141417">
+    <img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/Alathra/Template-Gradle-Plugin/total?style=for-the-badge&labelColor=141417">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Alathra/Template-Gradle-Plugin?include_prereleases&sort=semver&style=for-the-badge&label=LATEST%20VERSION&labelColor=141417">
+    <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Alathra/Template-Gradle-Plugin/ci.yml?style=for-the-badge&labelColor=141417">
+    <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/Alathra/Template-Gradle-Plugin?style=for-the-badge&labelColor=141417">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Alathra/Template-Gradle-Plugin?style=for-the-badge&labelColor=141417">
 </p>
 
 ---

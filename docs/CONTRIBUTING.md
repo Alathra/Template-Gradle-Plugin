@@ -41,4 +41,4 @@ When contributing ensure your code follows existing conventions and styling. (*A
 
 ## Licensing
 
-You must agree that your patch will be licensed under the main license found in this repository, and if we change the license, we will assume that you agreed with the change unless you object to the changes in time.
+All contributors agree to adhere to the terms and conditions of our [Contributor License Agreement (CLA)](CONTRIBUTOR_LICENSE_AGREEMENT.md).
