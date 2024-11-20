@@ -1,3 +1,6 @@
+pull_request_title: 'refactor: update translations'
+commit_message: 'refactor: update translations'
+append_commit_message: false
 files:
   - source: /src/main/resources/translations/en-US.yml
     translation: /src/main/resources/translations/%locale%.yml
