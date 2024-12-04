@@ -110,7 +110,7 @@ jobs:
         run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
 
       - name: Generate Build Provenance Attestations
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: "${{ github.workspace }}/build/libs/*"
 
