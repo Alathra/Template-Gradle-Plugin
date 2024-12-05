@@ -1,6 +1,6 @@
 [versions]
 crate = "2.1.0"
-commandapi = "9.6.1"
+commandapi = "9.7.0"
 flyway = "11.0.1"
 
 [libraries]
