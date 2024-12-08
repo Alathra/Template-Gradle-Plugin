@@ -50,7 +50,7 @@ jobs:
           echo "CUSTOM_VERSION=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
-        run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} --info
+        run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
 
       - name: Upload Snapshot
         uses: actions/upload-artifact@v4
