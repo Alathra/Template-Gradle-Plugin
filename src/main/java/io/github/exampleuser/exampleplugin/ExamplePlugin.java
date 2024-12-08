@@ -10,6 +10,8 @@ import io.github.exampleuser.exampleplugin.translation.TranslationManager;
 import io.github.exampleuser.exampleplugin.updatechecker.UpdateChecker;
 import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
+
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -85,6 +87,7 @@ public class ExamplePlugin extends JavaPlugin {
 
         if (!DB.isReady()) {
             Logger.get().warn(ColorParser.of("<yellow>DatabaseHolder handler failed to start. Database support has been disabled.").build());
+            Bukkit.getPluginManager().disablePlugin(this);
         }
 
         if (vaultHook.isHookLoaded()) {
