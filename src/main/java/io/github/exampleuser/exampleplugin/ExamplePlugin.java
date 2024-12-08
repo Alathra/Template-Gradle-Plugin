@@ -84,7 +84,7 @@ public class ExamplePlugin extends JavaPlugin {
         papiHook.onEnable();
 
         if (!DB.isReady()) {
-            Logger.get().warn(ColorParser.of("<yellow>DatabaseHolder handler failed to start. DatabaseHolder support has been disabled.").build());
+            Logger.get().warn(ColorParser.of("<yellow>DatabaseHolder handler failed to start. Database support has been disabled.").build());
         }
 
         if (vaultHook.isHookLoaded()) {
