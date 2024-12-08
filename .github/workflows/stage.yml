@@ -72,11 +72,8 @@ jobs:
       # Update version field in project properties file
       - name: Update Gradle Project Version
         if: contains(github.ref_name, '-RC-') == false
-        uses: kurt-code/gha-properties@v0.0.2
-        with:
-          operation: "write"
-          file-path: "./gradle.properties"
-          key-value-pairs: '{"version": "${{ github.ref_name }}"}'
+        run: |
+          sed -i -b 's/^version=.*/version=${{ github.ref_name }}/' ./gradle.properties
 
       # Commit and push updated version properties file
       - name: Update repository
