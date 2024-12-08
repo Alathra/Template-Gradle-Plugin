@@ -38,16 +38,8 @@ jobs:
 
       # Get version field in project properties file for snapshot version
       - name: Get Project Version
-        uses: kurt-code/gha-properties@v0.0.2
-        id: version
-        with:
-          operation: "read"
-          file-path: "./gradle.properties"
-          keys: "version"
-
-      - name: Set Version Environment Variable
         run: |
-          echo "CUSTOM_VERSION=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }}" >> $GITHUB_ENV
+          echo "CUSTOM_VERSION=$(grep "^version=" ./gradle.properties | awk -F'=' '{print $2}')-SNAPSHOT-${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
         run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
