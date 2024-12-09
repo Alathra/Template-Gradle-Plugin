@@ -15,7 +15,7 @@ crate-yaml = { module = "com.github.milkdrinkers:crate-yaml", version.ref = "cra
 colorparser = "com.github.milkdrinkers:colorparser:2.0.3"
 commandapi-shade = { module = "dev.jorel:commandapi-bukkit-shade", version.ref = "commandapi" }
 commandapi-annotations = { module = "dev.jorel:commandapi-annotations", version.ref = "commandapi" }
-triumph-gui = "dev.triumphteam:triumph-gui:3.1.10"
+triumph-gui = "dev.triumphteam:triumph-gui:3.1.11"
 
 # Plugin dependencies
 bstats = "org.bstats:bstats-bukkit:3.1.0"
