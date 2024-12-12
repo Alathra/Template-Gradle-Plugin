@@ -1,7 +1,7 @@
 [versions]
 crate = "2.1.0"
 commandapi = "9.7.0"
-flyway = "11.0.1"
+flyway = "11.1.0"
 
 [libraries]
 # Core dependencies
@@ -56,5 +56,5 @@ shadow = "com.gradleup.shadow:8.3.5"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
 plugin-yml = "net.minecrell.plugin-yml.bukkit:0.6.0"
 paperweight = "io.papermc.paperweight.userdev:1.7.7"
-flyway = "org.flywaydb.flyway:11.0.1"
+flyway = "org.flywaydb.flyway:11.1.0"
 jooq = "org.jooq.jooq-codegen-gradle:3.19.16"
