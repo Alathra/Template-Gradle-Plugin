@@ -38,10 +38,12 @@ jobs:
 
       # Get version field in project properties file for snapshot version
       - name: Get Project Version
+        shell: bash
         run: |
           echo "CUSTOM_VERSION=$(grep "^version=" ./gradle.properties | awk -F'=' '{print $2}')-SNAPSHOT-${{ github.run_number }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
+        shell: bash
         run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
 
       - name: Upload Snapshot
@@ -64,6 +66,7 @@ jobs:
       # Update version field in project properties file
       - name: Update Gradle Project Version
         if: contains(github.ref_name, '-RC-') == false
+        shell: bash
         run: |
           sed -i -b 's/^version=.*/version=${{ github.ref_name }}/' ./gradle.properties
 
@@ -92,10 +95,12 @@ jobs:
         uses: ./.github/actions/gradle
 
       - name: Set Version Environment Variable
+        shell: bash
         run: |
           echo "CUSTOM_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
+        shell: bash
         run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
 
       - name: Generate Build Provenance Attestations
