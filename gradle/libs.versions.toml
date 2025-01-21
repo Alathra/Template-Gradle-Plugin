@@ -32,7 +32,7 @@ jooq = "org.jooq:jooq:3.19.18"
 # JDBC drivers
 h2 = "com.h2database:h2:2.3.232"
 sqlite = "org.xerial:sqlite-jdbc:3.48.0.0"
-mysql = "com.mysql:mysql-connector-j:9.1.0"
+mysql = "com.mysql:mysql-connector-j:9.2.0"
 mariadb = "org.mariadb.jdbc:mariadb-java-client:3.5.1"
 
 # Testing
