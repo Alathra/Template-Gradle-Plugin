@@ -5,7 +5,7 @@ flyway = "11.2.0"
 
 [libraries]
 # Core dependencies
-annotations = "org.jetbrains:annotations:26.0.1"
+annotations = "org.jetbrains:annotations:26.0.2"
 paper-api = "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
 morepaperlib = "space.arim.morepaperlib:morepaperlib:0.4.4"
 
