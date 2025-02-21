@@ -1,6 +1,7 @@
 package io.github.exampleuser.exampleplugin.database.handler;
 
 import com.zaxxer.hikari.HikariDataSource;
+import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
@@ -56,7 +57,7 @@ public class DatabaseHandler implements Reloadable {
      * On plugin load.
      */
     @Override
-    public void onLoad() {
+    public void onLoad(ExamplePlugin plugin) {
         try {
             // Load database config from file, or use provided databaseConfig from constructor
             if (configHandler != null)
@@ -78,14 +79,14 @@ public class DatabaseHandler implements Reloadable {
      * On plugin enable.
      */
     @Override
-    public void onEnable() {
+    public void onEnable(ExamplePlugin plugin) {
     }
 
     /**
      * On plugin disable.
      */
     @Override
-    public void onDisable() {
+    public void onDisable(ExamplePlugin plugin) {
         if (!isReady())
             return;
 

@@ -7,15 +7,15 @@ public interface Reloadable {
     /**
      * On plugin load.
      */
-    void onLoad();
+    void onLoad(ExamplePlugin plugin);
 
     /**
      * On plugin enable.
      */
-    void onEnable();
+    void onEnable(ExamplePlugin plugin);
 
     /**
      * On plugin disable.
      */
-    void onDisable();
+    void onDisable(ExamplePlugin plugin);
 }

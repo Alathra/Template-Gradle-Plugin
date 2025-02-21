@@ -19,11 +19,11 @@ public class ListenerHandler implements Reloadable {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoad(ExamplePlugin plugin) {
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable(ExamplePlugin plugin) {
         // Register listeners here
         //plugin.getServer().getPluginManager().registerEvents(new PlayerJoinListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new UpdateCheckListener(), plugin);
@@ -32,6 +32,6 @@ public class ListenerHandler implements Reloadable {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(ExamplePlugin plugin) {
     }
 }

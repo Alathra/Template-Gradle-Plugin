@@ -47,14 +47,14 @@ public class TranslationManager implements Reloadable {
      * On plugin load.
      */
     @Override
-    public void onLoad() {
+    public void onLoad(ExamplePlugin plugin) {
     }
 
     /**
      * On plugin enable.
      */
     @Override
-    public void onEnable() {
+    public void onEnable(ExamplePlugin plugin) {
         final Path translationsPath = plugin.getDataFolder().toPath().resolve(DEFAULT_DIR);
 
         // Create DEFAULT_DIR if not exists
@@ -76,7 +76,7 @@ public class TranslationManager implements Reloadable {
      * On plugin disable.
      */
     @Override
-    public void onDisable() {
+    public void onDisable(ExamplePlugin plugin) {
     }
 
     /**

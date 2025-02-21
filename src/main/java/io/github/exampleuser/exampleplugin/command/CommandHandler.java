@@ -21,7 +21,7 @@ public class CommandHandler implements Reloadable {
     }
 
     @Override
-    public void onLoad() {
+    public void onLoad(ExamplePlugin plugin) {
         CommandAPI.onLoad(
             new CommandAPIBukkitConfig(plugin)
                 .shouldHookPaperReload(true)
@@ -32,7 +32,7 @@ public class CommandHandler implements Reloadable {
     }
 
     @Override
-    public void onEnable() {
+    public void onEnable(ExamplePlugin plugin) {
         CommandAPI.onEnable();
 
         // Register commands here
@@ -40,7 +40,7 @@ public class CommandHandler implements Reloadable {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(ExamplePlugin plugin) {
         CommandAPI.getRegisteredCommands().forEach(registeredCommand -> CommandAPI.unregister(registeredCommand.namespace() + ':' + registeredCommand.commandName(), true));
         CommandAPI.onDisable();
     }
