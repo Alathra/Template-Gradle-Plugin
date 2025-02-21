@@ -27,7 +27,7 @@ placeholderapi = "me.clip:placeholderapi:2.11.6"
 hikaricp = "com.zaxxer:HikariCP:6.2.1"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-mysql = { module = "org.flywaydb:flyway-mysql", version.ref = "flyway" }
-jooq = "org.jooq:jooq:3.20.0"
+jooq = "org.jooq:jooq:3.20.1"
 
 # JDBC drivers
 h2 = "com.h2database:h2:2.3.232"
@@ -57,4 +57,4 @@ run-paper = "xyz.jpenilla.run-paper:2.3.1"
 plugin-yml = "net.minecrell.plugin-yml.bukkit:0.6.0"
 paperweight = "io.papermc.paperweight.userdev:1.7.7"
 flyway = "org.flywaydb.flyway:11.3.3"
-jooq = "org.jooq.jooq-codegen-gradle:3.20.0"
+jooq = "org.jooq.jooq-codegen-gradle:3.20.1"
