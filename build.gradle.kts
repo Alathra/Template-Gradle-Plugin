@@ -206,11 +206,14 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     authors = listOf("GITHUB_USERNAME")
     contributors = listOf()
     apiVersion = "1.21"
+    foliaSupported = true // Mark plugin as supporting Folia
 
     // Misc properties
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
     depend = listOf()
     softDepend = listOf("PacketEvents", "Vault", "PlaceholderAPI")
+    loadBefore = listOf()
+    provides = listOf()
 }
 
 flyway {
