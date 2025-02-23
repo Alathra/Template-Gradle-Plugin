@@ -183,8 +183,10 @@ tasks {
 //            hangar("squaremap", "1.2.0")
 //            url("https://download.luckperms.net/1515/bukkit/loader/LuckPerms-Bukkit-5.4.102.jar")
             github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
-            github("retrooper", "packetevents", "v2.5.0", "packetevents-spigot-2.5.0.jar")
-            github("PlaceholderAPI", "PlaceholderAPI", "2.11.4", "PlaceholderAPI-2.11.4.jar")
+            github("retrooper", "packetevents", "v2.7.0", "packetevents-spigot-2.7.0.jar")
+            hangar("PlaceholderAPI", "2.11.6")
+            hangar("ViaVersion", "5.2.1")
+            hangar("ViaBackwards", "5.2.1")
         }
     }
 }
