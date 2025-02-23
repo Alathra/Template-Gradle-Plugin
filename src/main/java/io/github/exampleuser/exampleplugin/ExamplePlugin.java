@@ -21,31 +21,21 @@ import java.util.List;
 /**
  * Main class.
  */
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class ExamplePlugin extends JavaPlugin {
     private static ExamplePlugin instance;
 
     // Handlers/Managers
-    private final ConfigHandler configHandler = new ConfigHandler(this);
-    private final TranslationManager translationManager = new TranslationManager(this);
-    private final DatabaseHandler databaseHandler = new DatabaseHandlerBuilder()
-        .withConfigHandler(configHandler)
-        .withLogger(getComponentLogger())
-        .build();
-    private final HookManager hookManager = new HookManager(this);
-    private final CommandHandler commandHandler = new CommandHandler(this);
-    private final ListenerHandler listenerHandler = new ListenerHandler(this);
-    private final UpdateHandler updateHandler = new UpdateHandler(this);
+    private ConfigHandler configHandler;
+    private TranslationManager translationManager;
+    private DatabaseHandler databaseHandler;
+    private HookManager hookManager;
+    private CommandHandler commandHandler;
+    private ListenerHandler listenerHandler;
+    private UpdateHandler updateHandler;
 
     // Handlers list (defines order of load/enable/disable)
-    private final List<? extends Reloadable> handlers = List.of(
-        configHandler,
-        translationManager,
-        databaseHandler,
-        hookManager,
-        commandHandler,
-        listenerHandler,
-        updateHandler
-    );
+    private List<? extends Reloadable> handlers;
 
     /**
      * Gets plugin instance.
@@ -59,6 +49,27 @@ public class ExamplePlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
+
+        configHandler = new ConfigHandler(this);
+        translationManager = new TranslationManager(this);
+        databaseHandler = new DatabaseHandlerBuilder()
+            .withConfigHandler(configHandler)
+            .withLogger(getComponentLogger())
+            .build();
+        hookManager = new HookManager(this);
+        commandHandler = new CommandHandler(this);
+        listenerHandler = new ListenerHandler(this);
+        updateHandler = new UpdateHandler(this);
+
+        handlers = List.of(
+            configHandler,
+            translationManager,
+            databaseHandler,
+            hookManager,
+            commandHandler,
+            listenerHandler,
+            updateHandler
+        );
 
         DB.init(databaseHandler);
         for (Reloadable handler : handlers)
