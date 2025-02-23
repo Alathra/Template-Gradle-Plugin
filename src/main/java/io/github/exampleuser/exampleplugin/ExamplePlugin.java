@@ -1,10 +1,11 @@
 package io.github.exampleuser.exampleplugin;
 
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
+import io.github.exampleuser.exampleplugin.hook.HookManager;
 import io.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandlerBuilder;
-import io.github.exampleuser.exampleplugin.hook.*;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.translation.TranslationManager;
 import io.github.exampleuser.exampleplugin.updatechecker.UpdateChecker;
@@ -15,22 +16,36 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * Main class.
  */
 public class ExamplePlugin extends JavaPlugin {
     private static ExamplePlugin instance;
-    private ConfigHandler configHandler;
-    private TranslationManager translationManager;
-    private CommandHandler commandHandler;
-    private ListenerHandler listenerHandler;
-    private UpdateChecker updateChecker;
 
-    // Hooks
-    private static BStatsHook bStatsHook;
-    private static VaultHook vaultHook;
-    private static PacketEventsHook packetEventsHook;
-    private static PAPIHook papiHook;
+    // Handlers/Managers
+    private final ConfigHandler configHandler = new ConfigHandler(this);
+    private final TranslationManager translationManager = new TranslationManager(this);
+    private final DatabaseHandler databaseHandler = new DatabaseHandlerBuilder()
+        .withConfigHandler(configHandler)
+        .withLogger(getComponentLogger())
+        .build();
+    private final HookManager hookManager = new HookManager(this);
+    private final CommandHandler commandHandler = new CommandHandler(this);
+    private final ListenerHandler listenerHandler = new ListenerHandler(this);
+    private final UpdateChecker updateChecker = new UpdateChecker(this);
+
+    // Handlers list (defines order of load/enable/disable)
+    private final List<? extends Reloadable> handlers = List.of(
+        configHandler,
+        translationManager,
+        databaseHandler,
+        hookManager,
+        commandHandler,
+        listenerHandler,
+        updateChecker
+    );
 
     /**
      * Gets plugin instance.
@@ -44,77 +59,27 @@ public class ExamplePlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
-        configHandler = new ConfigHandler(instance);
-        translationManager = new TranslationManager(instance);
-        DB.init(
-            new DatabaseHandlerBuilder()
-                .withConfigHandler(configHandler)
-                .withLogger(getComponentLogger())
-                .build()
-        );
-        commandHandler = new CommandHandler(instance);
-        listenerHandler = new ListenerHandler(instance);
-        updateChecker = new UpdateChecker();
-        bStatsHook = new BStatsHook(instance);
-        vaultHook = new VaultHook(instance);
-        packetEventsHook = new PacketEventsHook(instance);
-        papiHook = new PAPIHook(instance);
 
-        configHandler.onLoad();
-        translationManager.onLoad();
-        DB.getHandler().onLoad();
-        commandHandler.onLoad();
-        listenerHandler.onLoad();
-        updateChecker.onLoad();
-        bStatsHook.onLoad();
-        vaultHook.onLoad();
-        packetEventsHook.onLoad();
-        papiHook.onLoad();
+        DB.init(databaseHandler);
+        for (Reloadable handler : handlers)
+            handler.onLoad(instance);
     }
 
     @Override
     public void onEnable() {
-        configHandler.onEnable();
-        translationManager.onEnable();
-        DB.getHandler().onEnable();
-        commandHandler.onEnable();
-        listenerHandler.onEnable();
-        updateChecker.onEnable();
-        bStatsHook.onEnable();
-        vaultHook.onEnable();
-        packetEventsHook.onEnable();
-        papiHook.onEnable();
+        for (Reloadable handler : handlers)
+            handler.onEnable(instance);
 
         if (!DB.isReady()) {
             Logger.get().warn(ColorParser.of("<yellow>DatabaseHolder handler failed to start. Database support has been disabled.").build());
             Bukkit.getPluginManager().disablePlugin(this);
         }
-
-        if (vaultHook.isHookLoaded()) {
-            Logger.get().info(ColorParser.of("<green>Vault has been found on this server. Vault support enabled.").build());
-        } else {
-            Logger.get().warn(ColorParser.of("<yellow>Vault is not installed on this server. Vault support has been disabled.").build());
-        }
-
-        if (packetEventsHook.isHookLoaded()) {
-            Logger.get().info(ColorParser.of("<green>PacketEvents has been found on this server. PacketEvents support enabled.").build());
-        } else {
-            Logger.get().warn(ColorParser.of("<yellow>PacketEvents is not installed on this server. PacketEvents support has been disabled.").build());
-        }
     }
 
     @Override
     public void onDisable() {
-        configHandler.onDisable();
-        translationManager.onDisable();
-        DB.getHandler().onDisable();
-        commandHandler.onDisable();
-        listenerHandler.onDisable();
-        updateChecker.onDisable();
-        bStatsHook.onDisable();
-        vaultHook.onDisable();
-        packetEventsHook.onDisable();
-        papiHook.onDisable();
+        for (Reloadable handler : handlers.reversed()) // If reverse doesn't work implement a new List with your desired disable order
+            handler.onDisable(instance);
     }
 
     /**
@@ -138,6 +103,15 @@ public class ExamplePlugin extends JavaPlugin {
     }
 
     /**
+     * Gets hook manager.
+     * @return the hook manager
+     */
+    @NotNull
+    public HookManager getHookManager() {
+        return hookManager;
+    }
+
+    /**
      * Gets update checker.
      *
      * @return the update checker
@@ -145,35 +119,5 @@ public class ExamplePlugin extends JavaPlugin {
     @NotNull
     public UpdateChecker getUpdateChecker() {
         return updateChecker;
-    }
-
-    /**
-     * Gets bStats hook.
-     *
-     * @return the bStats hook
-     */
-    @NotNull
-    public static BStatsHook getBStatsHook() {
-        return bStatsHook;
-    }
-
-    /**
-     * Gets vault hook.
-     *
-     * @return the vault hook
-     */
-    @NotNull
-    public static VaultHook getVaultHook() {
-        return vaultHook;
-    }
-
-    /**
-     * Gets PacketEvents hook.
-     *
-     * @return the PacketEvents hook
-     */
-    @NotNull
-    public static PacketEventsHook getPacketEventsHook() {
-        return packetEventsHook;
     }
 }

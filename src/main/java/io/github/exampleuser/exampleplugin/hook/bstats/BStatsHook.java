@@ -1,6 +1,7 @@
-package io.github.exampleuser.exampleplugin.hook;
+package io.github.exampleuser.exampleplugin.hook.bstats;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
+import io.github.exampleuser.exampleplugin.hook.AbstractHook;
 import org.bstats.bukkit.Metrics;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -8,9 +9,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A hook to interface with <a href="https://github.com/Bastian/bstats-metrics">BStats</a>.
  */
-public class BStatsHook implements Hook {
+public class BStatsHook extends AbstractHook {
     private final static int BSTATS_ID = 1234; // Signup to BStats and register your new plugin here: https://bstats.org/getting-started, replace the id with you new one!
-    private final ExamplePlugin plugin;
     private @Nullable Metrics hook;
 
     /**
@@ -19,33 +19,26 @@ public class BStatsHook implements Hook {
      * @param plugin the plugin instance
      */
     public BStatsHook(ExamplePlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
     @Override
-    public void onLoad() {
-    }
-
-    @Override
-    public void onEnable() {
+    public void onEnable(ExamplePlugin plugin) {
         // Catch startup errors for bstats
         try {
-            setHook(new Metrics(plugin, BSTATS_ID));
+            setHook(new Metrics(getPlugin(), BSTATS_ID));
         } catch (Exception ignored) {
             setHook(null);
         }
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(ExamplePlugin plugin) {
         getHook().shutdown();
         setHook(null);
     }
 
-    /**
-     * Check if the BStats hook is loaded and ready for use.
-     * @return whether the BStats metrics hook is loaded or not
-     */
+    @Override
     public boolean isHookLoaded() {
         return hook != null;
     }

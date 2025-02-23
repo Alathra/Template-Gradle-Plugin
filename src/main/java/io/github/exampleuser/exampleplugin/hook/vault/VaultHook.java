@@ -1,9 +1,14 @@
-package io.github.exampleuser.exampleplugin.hook;
+package io.github.exampleuser.exampleplugin.hook.vault;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
+import io.github.exampleuser.exampleplugin.hook.AbstractHook;
+import io.github.exampleuser.exampleplugin.hook.Hook;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.ServiceRegisterEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -11,8 +16,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A hook to interface with the <a href="https://github.com/MilkBowl/VaultAPI">Vault API</a>.
  */
-public class VaultHook implements Hook {
-    private final ExamplePlugin plugin;
+public class VaultHook extends AbstractHook implements Listener {
     private @Nullable RegisteredServiceProvider<Economy> rspEconomy;
     private @Nullable RegisteredServiceProvider<Permission> rspPermissions;
     private @Nullable RegisteredServiceProvider<Chat> rspChat;
@@ -23,24 +27,20 @@ public class VaultHook implements Hook {
      * @param plugin the plugin instance
      */
     public VaultHook(ExamplePlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
     @Override
-    public void onLoad() {
-    }
-
-    @Override
-    public void onEnable() {
+    public void onEnable(ExamplePlugin plugin) {
         if (!isHookLoaded()) return;
 
-        setEconomy(plugin.getServer().getServicesManager().getRegistration(Economy.class));
-        setPermissions(plugin.getServer().getServicesManager().getRegistration(Permission.class));
-        setChat(plugin.getServer().getServicesManager().getRegistration(Chat.class));
+        setEconomy(getPlugin().getServer().getServicesManager().getRegistration(Economy.class));
+        setPermissions(getPlugin().getServer().getServicesManager().getRegistration(Permission.class));
+        setChat(getPlugin().getServer().getServicesManager().getRegistration(Chat.class));
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable(ExamplePlugin plugin) {
         if (!isHookLoaded()) return;
 
         setEconomy(null);
@@ -55,7 +55,7 @@ public class VaultHook implements Hook {
      */
     @Override
     public boolean isHookLoaded() {
-        return plugin.getServer().getPluginManager().isPluginEnabled("Vault");
+        return isPluginEnabled(Hook.Vault.getPluginName());
     }
 
     /**
@@ -84,7 +84,7 @@ public class VaultHook implements Hook {
      * @param rsp The service provider providing {@link Economy}
      */
     @ApiStatus.Internal
-    public void setEconomy(@Nullable RegisteredServiceProvider<Economy> rsp) {
+    private void setEconomy(@Nullable RegisteredServiceProvider<Economy> rsp) {
         this.rspEconomy = rsp;
     }
 
@@ -114,7 +114,7 @@ public class VaultHook implements Hook {
      * @param rsp The service provider providing {@link Permission}
      */
     @ApiStatus.Internal
-    public void setPermissions(@Nullable RegisteredServiceProvider<Permission> rsp) {
+    private void setPermissions(@Nullable RegisteredServiceProvider<Permission> rsp) {
         this.rspPermissions = rsp;
     }
 
@@ -144,7 +144,25 @@ public class VaultHook implements Hook {
      * @param rsp The service provider providing {@link Chat}
      */
     @ApiStatus.Internal
-    public void setChat(@Nullable RegisteredServiceProvider<Chat> rsp) {
+    private void setChat(@Nullable RegisteredServiceProvider<Chat> rsp) {
         this.rspChat = rsp;
+    }
+
+    /**
+     * Update the Vault hooks RegisteredServiceProviders in {@link VaultHook}. <br>This ensures the Vault hook is lazily loaded and working properly, even on reloads.
+     *
+     * @param e event
+     */
+    @SuppressWarnings({"unchecked", "unused"})
+    @EventHandler
+    public void onServiceRegisterEvent(ServiceRegisterEvent e) {
+        RegisteredServiceProvider<?> rsp = e.getProvider();
+        Object rspProvider = rsp.getProvider();
+        switch (rspProvider) {
+            case Economy ignored -> setEconomy((RegisteredServiceProvider<Economy>) rsp);
+            case Permission ignored -> setPermissions((RegisteredServiceProvider<Permission>) rsp);
+            case Chat ignored -> setChat((RegisteredServiceProvider<Chat>) rsp);
+            default -> {}
+        }
     }
 }

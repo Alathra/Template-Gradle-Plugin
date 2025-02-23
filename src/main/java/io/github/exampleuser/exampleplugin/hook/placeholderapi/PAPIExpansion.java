@@ -1,4 +1,4 @@
-package io.github.exampleuser.exampleplugin.hook;
+package io.github.exampleuser.exampleplugin.hook.placeholderapi;
 
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
