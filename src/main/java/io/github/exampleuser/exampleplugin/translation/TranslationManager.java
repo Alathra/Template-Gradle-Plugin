@@ -1,14 +1,14 @@
 package io.github.exampleuser.exampleplugin.translation;
 
-import com.github.milkdrinkers.crate.shaded.snakeyaml.snakeyaml.Yaml;
-import com.github.milkdrinkers.colorparser.ColorParser;
-import com.github.milkdrinkers.crate.Config;
-import com.github.milkdrinkers.crate.ConfigBuilder;
-import com.github.milkdrinkers.crate.internal.FileData;
-import com.github.milkdrinkers.crate.internal.provider.CrateProviders;
-import com.github.milkdrinkers.crate.internal.settings.ConfigSetting;
-import com.github.milkdrinkers.crate.internal.settings.DataType;
-import com.github.milkdrinkers.crate.internal.settings.ReloadSetting;
+import io.github.milkdrinkers.crate.shaded.snakeyaml.snakeyaml.Yaml;
+import io.github.milkdrinkers.colorparser.ColorParser;
+import io.github.milkdrinkers.crate.Config;
+import io.github.milkdrinkers.crate.ConfigBuilder;
+import io.github.milkdrinkers.crate.internal.FileData;
+import io.github.milkdrinkers.crate.internal.provider.CrateProviders;
+import io.github.milkdrinkers.crate.internal.settings.ConfigSetting;
+import io.github.milkdrinkers.crate.internal.settings.DataType;
+import io.github.milkdrinkers.crate.internal.settings.ReloadSetting;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.utility.FileUtils;

@@ -1,8 +1,8 @@
 package io.github.exampleuser.exampleplugin.updatechecker;
 
-import com.github.milkdrinkers.colorparser.ColorParser;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.translation.Translation;

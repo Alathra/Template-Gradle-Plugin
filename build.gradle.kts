@@ -148,8 +148,8 @@ tasks {
         fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${mainPackage}.lib.${targetPkg}")
 
         reloc("space.arim.morepaperlib", "morepaperlib")
-        reloc("com.github.milkdrinkers.crate", "crate")
-        reloc("com.github.milkdrinkers.colorparser", "colorparser")
+        reloc("io.github.milkdrinkers.crate", "crate")
+        reloc("io.github.milkdrinkers.colorparser", "colorparser")
         reloc("dev.jorel.commandapi", "commandapi")
         reloc("dev.triumphteam.gui", "gui")
         reloc("com.zaxxer.hikari", "hikaricp")

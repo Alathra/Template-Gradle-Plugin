@@ -5,7 +5,6 @@ import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.database.jooq.JooqContext;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.TestOnly;
 import org.jooq.DSLContext;
 
 import java.sql.Connection;
