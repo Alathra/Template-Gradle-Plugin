@@ -83,6 +83,15 @@ public class ExamplePlugin extends JavaPlugin {
     }
 
     /**
+     * Use to reload the entire plugin.
+     */
+    public void onReload() {
+        onDisable();
+        onLoad();
+        onEnable();
+    }
+
+    /**
      * Gets config handler.
      *
      * @return the config handler
