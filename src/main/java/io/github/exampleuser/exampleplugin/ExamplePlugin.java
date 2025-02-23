@@ -8,7 +8,7 @@ import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandlerBuilder;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.translation.TranslationManager;
-import io.github.exampleuser.exampleplugin.updatechecker.UpdateChecker;
+import io.github.exampleuser.exampleplugin.updatechecker.UpdateHandler;
 import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 
@@ -34,7 +34,7 @@ public class ExamplePlugin extends JavaPlugin {
     private final HookManager hookManager = new HookManager(this);
     private final CommandHandler commandHandler = new CommandHandler(this);
     private final ListenerHandler listenerHandler = new ListenerHandler(this);
-    private final UpdateChecker updateChecker = new UpdateChecker(this);
+    private final UpdateHandler updateHandler = new UpdateHandler(this);
 
     // Handlers list (defines order of load/enable/disable)
     private final List<? extends Reloadable> handlers = List.of(
@@ -44,7 +44,7 @@ public class ExamplePlugin extends JavaPlugin {
         hookManager,
         commandHandler,
         listenerHandler,
-        updateChecker
+        updateHandler
     );
 
     /**
@@ -121,12 +121,12 @@ public class ExamplePlugin extends JavaPlugin {
     }
 
     /**
-     * Gets update checker.
+     * Gets update handler.
      *
-     * @return the update checker
+     * @return the update handler
      */
     @NotNull
-    public UpdateChecker getUpdateChecker() {
-        return updateChecker;
+    public UpdateHandler getUpdateHandler() {
+        return updateHandler;
     }
 }

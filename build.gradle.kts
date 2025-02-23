@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.morepaperlib)
 
     // API
+    implementation(libs.version.watch)
     implementation(libs.crate.api)
     implementation(libs.crate.yaml)
     implementation(libs.colorparser) {
@@ -150,6 +151,7 @@ tasks {
         reloc("space.arim.morepaperlib", "morepaperlib")
         reloc("io.github.milkdrinkers.crate", "crate")
         reloc("io.github.milkdrinkers.colorparser", "colorparser")
+        reloc("io.github.milkdrinkers.versionwatch", "versionwatch")
         reloc("dev.jorel.commandapi", "commandapi")
         reloc("dev.triumphteam.gui", "gui")
         reloc("com.zaxxer.hikari", "hikaricp")
