@@ -13,7 +13,7 @@ morepaperlib = "space.arim.morepaperlib:morepaperlib:0.4.4"
 version-watch = "io.github.milkdrinkers:versionwatch:0.0.4"
 crate-api = { module = "io.github.milkdrinkers:crate-api", version.ref = "crate" }
 crate-yaml = { module = "io.github.milkdrinkers:crate-yaml", version.ref = "crate" }
-colorparser = "io.github.milkdrinkers:colorparser:3.0.0"
+colorparser = "io.github.milkdrinkers:colorparser:3.0.1"
 commandapi-shade = { module = "dev.jorel:commandapi-bukkit-shade", version.ref = "commandapi" }
 commandapi-annotations = { module = "dev.jorel:commandapi-annotations", version.ref = "commandapi" }
 triumph-gui = "dev.triumphteam:triumph-gui:3.1.11"
