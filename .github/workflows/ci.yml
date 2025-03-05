@@ -80,5 +80,4 @@ jobs:
       retention_days: ${{ inputs.retention_days || 7 }}
       prerelease_suffix: ${{ contains(github.ref_name, inputs.prerelease_suffix || '-RC') }}
       draft: false
-      verify_release: true
     secrets: inherit

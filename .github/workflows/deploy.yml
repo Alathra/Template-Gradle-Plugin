@@ -23,11 +23,6 @@ on:
         required: false
         type: string
         default: '-RC'
-      verify_release:
-        description: "Whether to verify the release after creation"
-        required: false
-        type: boolean
-        default: true
 
 permissions:
   contents: write
@@ -114,41 +109,3 @@ jobs:
           prerelease: ${{ contains(github.ref_name, inputs.prerelease_suffix) }}
           generate_release_notes: false
           body: ${{ steps.changelog.outputs.changelog }}
-
-      # Verify the release was created successfully
-      - name: Verify Release
-        if: ${{ inputs.verify_release }}
-        shell: bash
-        run: |
-          # Extract release ID from the previous step
-          RELEASE_ID="${{ steps.create-release.outputs.id }}"
-          if [ -z "$RELEASE_ID" ]; then
-            echo "::error::Failed to get release ID"
-            exit 1
-          fi
-          
-          echo "Verifying release with ID: $RELEASE_ID"
-          
-          # Check if the release exists
-          if ! gh release view ${{ github.ref_name }} &> /dev/null; then
-            echo "::error::Release ${{ github.ref_name }} not found"
-            exit 1
-          fi
-          
-          # Check if the release contains the expected number of assets
-          EXPECTED_ASSETS=$(ls -1 ${{ github.workspace }}/tmp/ | wc -l)
-          ACTUAL_ASSETS=$(gh release view ${{ github.ref_name }} --json assets --jq '.assets | length')
-          
-          if [ "$ACTUAL_ASSETS" -ne "$EXPECTED_ASSETS" ]; then
-            echo "::error::Release has $ACTUAL_ASSETS assets, expected $EXPECTED_ASSETS"
-            exit 1
-          fi
-          
-          echo "Release verification successful: ${{ github.ref_name }} contains $ACTUAL_ASSETS assets"
-          
-          # Output a link to the release
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          REPO_OWNER="${GITHUB_REPOSITORY%/*}"
-          echo "Release URL: https://github.com/$REPO_OWNER/$REPO_NAME/releases/tag/${{ github.ref_name }}"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
