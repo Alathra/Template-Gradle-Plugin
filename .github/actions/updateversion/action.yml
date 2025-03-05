@@ -1,0 +1,29 @@
+name: 'Set Version'
+description: 'Set the project version in the gradle.properties file'
+
+inputs:
+  version:
+    description: "Version to set"
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    # Update version field in project properties file
+    - name: Get Project Version
+      id: version
+      shell: bash
+      run: |
+        if [ ! -f ./gradle.properties ]; then
+          echo "::error::gradle.properties file not found"
+          exit 1
+        fi
+        
+        # Update version in properties file
+        sed -i -b 's/^version=.*/version=${{ inputs.version }}/' ./gradle.properties
+        
+        # Verify the update was successful
+        if ! grep -q "^version=${{ inputs.version }}" ./gradle.properties; then
+          echo "::error::Failed to update version in gradle.properties"
+          exit 1
+        fi

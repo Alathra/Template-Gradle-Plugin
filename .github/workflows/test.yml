@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       os:
-        description: "The os the workflow shold use"
+        description: "The OS the workflow should use"
         required: false
         type: string
         default: ubuntu-latest
@@ -13,6 +13,21 @@ on:
         required: false
         type: number
         default: 21
+      retention_days:
+        description: "Artifact retention days (default: 7)"
+        required: false
+        type: number
+        default: 7
+      fail_on_test_failure:
+        description: "Whether to fail the workflow on test failures (default: true)"
+        required: false
+        type: boolean
+        default: true
+      test_command:
+        description: "The Gradle test command to run (default: test --info)"
+        required: false
+        type: string
+        default: "test --info"
 
 permissions:
   checks: write
@@ -25,6 +40,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1 # Shallow clone for faster checkout
 
       - name: Setup JDK
         uses: ./.github/actions/jdk
@@ -34,15 +51,43 @@ jobs:
       - name: Setup Gradle
         uses: ./.github/actions/gradle
 
+      # Run tests with error handling
       - name: Test with Gradle
+        id: run-tests
         shell: bash
-        run: ./gradlew test --info
+        run: |
+          set +e  # Don't exit immediately on error
+          ./gradlew ${{ inputs.test_command }}
+          TEST_EXIT_CODE=$?
+          
+          # Record test result regardless of outcome
+          echo "test_exit_code=$TEST_EXIT_CODE" >> $GITHUB_OUTPUT
+          
+          if [ $TEST_EXIT_CODE -ne 0 ]; then
+            echo "::warning::Tests failed with exit code $TEST_EXIT_CODE"
+            # Only exit with error if fail_on_test_failure is true
+            if [ "${{ inputs.fail_on_test_failure }}" = "true" ]; then
+              exit $TEST_EXIT_CODE
+            fi
+          fi
 
+      # Publish test report regardless of test outcome
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
-        if: success() || failure()
+        if: always()
         with:
           require_tests: false
-          fail_on_failure: true
+          fail_on_failure: ${{ inputs.fail_on_test_failure }}
           check_name: Test Report
           report_paths: '**/build/test-results/**/TEST-*.xml'
+
+      # Archive test results for debugging if tests fail
+      - name: Archive Test Results
+        if: steps.run-tests.outputs.test_exit_code != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            **/build/test-results/**
+            **/build/reports/tests/**
+          retention-days: ${{ inputs.retention_days }}

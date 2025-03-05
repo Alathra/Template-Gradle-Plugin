@@ -1,0 +1,39 @@
+name: 'Get Version'
+description: 'Get the project version from the gradle.properties file'
+
+inputs:
+  snapshot_suffix:
+    description: "Suffix to add to snapshot versions (default: -SNAPSHOT)"
+    required: false
+    default: "-SNAPSHOT"
+
+outputs:
+  version:
+    description: ""
+    value: ${{ steps.version.outputs.version }}
+  version_snapshot:
+    description: ""
+    value: ${{ steps.version.outputs.version_snapshot }}
+
+runs:
+  using: 'composite'
+  steps:
+    # Get version from properties file and create snapshot version
+    - name: Get Project Version
+      id: version
+      shell: bash
+      run: |
+        if [ ! -f ./gradle.properties ]; then
+          echo "::error::gradle.properties file not found"
+          exit 1
+        fi
+        
+        VERSION=$(grep "^version=" ./gradle.properties | awk -F'=' '{print $2}')
+        if [ -z "$VERSION" ]; then
+          echo "::error::Version not found in gradle.properties"
+          exit 1
+        fi
+        
+        SNAPSHOT_VERSION="${VERSION}${{ inputs.snapshot_suffix }}.${{ github.run_number }}"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "version_snapshot=$SNAPSHOT_VERSION" >> $GITHUB_OUTPUT

@@ -1,0 +1,33 @@
+name: PR Tests
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      java:
+        description: 'Java version'
+        type: number
+        default: 21
+      os:
+        description: 'OS'
+        type: choice
+        default: 'ubuntu-latest'
+        options:
+          - 'ubuntu-latest'
+          - 'windows-latest'
+          - 'macos-latest'
+
+permissions:
+  contents: write
+  checks: write
+
+jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yml
+    with:
+      os: ${{ inputs.os || 'ubuntu-latest' }}
+      java: ${{ inputs.java || 21 }}
+      fail_on_test_failure: true

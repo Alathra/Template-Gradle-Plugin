@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       os:
-        description: "The os the workflow shold use"
+        description: "The OS the workflow should use"
         required: false
         type: string
         default: ubuntu-latest
@@ -13,6 +13,31 @@ on:
         required: false
         type: number
         default: 21
+      retention_days:
+        description: "Artifact retention days (default: 7)"
+        required: false
+        type: number
+        default: 7
+      generate_attestations:
+        description: "Whether to generate build provenance attestations (default: true)"
+        required: false
+        type: boolean
+        default: true
+      snapshot_suffix:
+        description: "Suffix to add to snapshot versions (default: -SNAPSHOT)"
+        required: false
+        type: string
+        default: "-SNAPSHOT"
+      prerelease_suffix:
+        description: "Pattern to identify pre-releases (default: -RC)"
+        required: false
+        type: string
+        default: '-RC'
+      gradle_build_options:
+        description: "Additional Gradle build options (default: --info)"
+        required: false
+        type: string
+        default: "--info"
 
 permissions:
   attestations: write
@@ -20,6 +45,7 @@ permissions:
   id-token: write
 
 jobs:
+  # Build and upload snapshot artifacts for non-tag pushes
   stage-build-snapshot:
     name: "Build Snapshot"
     if: github.ref_type != 'tag'
@@ -27,6 +53,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1 # Shallow clone for faster checkout
 
       - name: Setup JDK
         uses: ./.github/actions/jdk
@@ -38,21 +66,43 @@ jobs:
 
       # Get version field in project properties file for snapshot version
       - name: Get Project Version
-        shell: bash
-        run: |
-          echo "CUSTOM_VERSION=$(grep "^version=" ./gradle.properties | awk -F'=' '{print $2}')-SNAPSHOT-${{ github.run_number }}" >> $GITHUB_ENV
+        id: version
+        uses: ./.github/actions/version
+        with:
+          snapshot_suffix: ${{ inputs.snapshot_suffix }}
 
+      # Build the project with the snapshot version
       - name: Build with Gradle
         shell: bash
-        run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
+        run: |
+          set +e  # Don't exit immediately on error
+          ./gradlew build -PaltVer=${{ steps.version.outputs.version_snapshot }} -x test ${{ inputs.gradle_build_options }}
+          BUILD_EXIT_CODE=$?
+          
+          if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo "::error::Build failed with exit code $BUILD_EXIT_CODE"
+            exit $BUILD_EXIT_CODE
+          fi
 
-      - name: Upload Snapshot
+      # Generate build provenance attestations if enabled
+      - name: Generate Build Provenance Attestations
+        if: ${{ inputs.generate_attestations }}
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: "${{ github.workspace }}/build/libs/*"
+
+      # Upload the snapshot artifacts
+      - name: Upload Snapshot Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Snapshot-${{ github.run_number }}
           path: ${{ github.workspace }}/build/libs/
-          retention-days: 7
+          retention-days: ${{ inputs.retention_days }}
+          if-no-files-found: error
 
+      # Publish to maven TODO
+
+  # Update version in properties file for release builds
   stage-version:
     name: "Update Project Version"
     runs-on: ${{ inputs.os }}
@@ -60,24 +110,27 @@ jobs:
     steps:
       # Checkout repository
       - name: Checkout Repository
-        if: contains(github.ref_name, '-RC-') == false
+        if: ${{ !contains(github.ref_name, inputs.prerelease_suffix) }}
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1 # Shallow clone for faster checkout
 
       # Update version field in project properties file
-      - name: Update Gradle Project Version
-        if: contains(github.ref_name, '-RC-') == false
-        shell: bash
-        run: |
-          sed -i -b 's/^version=.*/version=${{ github.ref_name }}/' ./gradle.properties
+      - name: Update Project Version
+        if: ${{ !contains(github.ref_name, inputs.prerelease_suffix) }}
+        uses: ./.github/actions/updateversion
+        with:
+          version: ${{ github.ref_name }}
 
       # Commit and push updated version properties file
       - name: Update repository
-        if: contains(github.ref_name, '-RC-') == false
+        if: ${{ !contains(github.ref_name, inputs.prerelease_suffix) }}
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: bump version to v${{ github.ref_name  }}"
+          commit_message: "chore: bump version to ${{ github.ref_name }}"
           branch: ${{ github.event.repository.default_branch }}
 
+  # Build and upload release artifacts
   stage-build-release:
     name: "Build Release"
     needs: stage-version
@@ -85,6 +138,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1 # Shallow clone for faster checkout
 
       - name: Setup JDK
         uses: ./.github/actions/jdk
@@ -95,22 +150,36 @@ jobs:
         uses: ./.github/actions/gradle
 
       - name: Set Version Environment Variable
+        id: version
         shell: bash
         run: |
-          echo "CUSTOM_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
 
+      # Build with Gradle
       - name: Build with Gradle
         shell: bash
-        run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
+        run: |
+          set +e  # Don't exit immediately on error
+          ./gradlew build -PaltVer=${{ steps.version.outputs.version }} -x test ${{ inputs.gradle_build_options }}
+          BUILD_EXIT_CODE=$?
+          
+          if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo "::error::Build failed with exit code $BUILD_EXIT_CODE"
+            exit $BUILD_EXIT_CODE
+          fi
 
       - name: Generate Build Provenance Attestations
+        if: ${{ inputs.generate_attestations }}
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: "${{ github.workspace }}/build/libs/*"
 
-      - name: Upload Snapshot
+      - name: Upload Release Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Release
           path: ${{ github.workspace }}/build/libs/
-          retention-days: 7
+          retention-days: ${{ inputs.retention_days }}
+          if-no-files-found: error
+
+      # Publish to maven TODO
