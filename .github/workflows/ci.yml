@@ -78,6 +78,6 @@ jobs:
     with:
       os: ${{ inputs.os || 'ubuntu-latest' }}
       retention_days: ${{ inputs.retention_days || 7 }}
-      prerelease_suffix: ${{ contains(github.ref_name, inputs.prerelease_suffix || '-RC') }}
+      prerelease_suffix: ${{ inputs.prerelease_suffix || '-RC' }}
       draft: false
     secrets: inherit
