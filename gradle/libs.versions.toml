@@ -10,7 +10,7 @@ paper-api = "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
 morepaperlib = "space.arim.morepaperlib:morepaperlib:0.4.4"
 
 # API dependencies
-version-watch = "io.github.milkdrinkers:versionwatch:0.0.4"
+version-watch = "io.github.milkdrinkers:versionwatch:1.0.0"
 crate-api = { module = "io.github.milkdrinkers:crate-api", version.ref = "crate" }
 crate-yaml = { module = "io.github.milkdrinkers:crate-yaml", version.ref = "crate" }
 colorparser = "io.github.milkdrinkers:colorparser:3.0.0"
