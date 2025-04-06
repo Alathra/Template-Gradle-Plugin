@@ -1,5 +1,4 @@
 import org.jooq.meta.jaxb.Logging
-import java.time.Instant
 
 plugins {
     `java-library`
@@ -10,13 +9,13 @@ plugins {
     //alias(libs.plugins.paperweight) // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
     alias(libs.plugins.flyway) // Database migrations
     alias(libs.plugins.jooq) // Database ORM
+    flywayjooqcache
+    projectextensions
+    versioner
 
     eclipse
     idea
 }
-
-val mainPackage = "${project.group}.${project.name.lowercase()}"
-applyCustomVersion()
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // Configure the java toolchain. This allows gradle to auto-provision JDK 21 on systems that only have JDK 8 installed for example.
@@ -114,10 +113,6 @@ tasks {
         dependsOn(shadowJar)
     }
 
-    jooqCodegen {
-        dependsOn(flywayMigrate)
-    }
-
     compileJava {
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
 
@@ -150,7 +145,7 @@ tasks {
         archiveClassifier.set("")
 
         // Shadow classes
-        fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${mainPackage}.lib.${targetPkg}")
+        fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${project.relocationPackage}.${targetPkg}")
 
         reloc("space.arim.morepaperlib", "morepaperlib")
         reloc("io.github.milkdrinkers.javasemver", "javasemver")
@@ -164,11 +159,7 @@ tasks {
         reloc("com.zaxxer.hikari", "hikaricp")
         reloc("org.bstats", "bstats")
 
-        mergeServiceFiles {
-            setPath("META-INF/services/org.flywaydb.core.extensibility.Plugin") // Fix Flyway overriding its own files
-        }
-
-        minimize()
+        mergeServiceFiles()
     }
 
     test {
@@ -207,7 +198,7 @@ tasks.named<Jar>("sourcesJar") { // Required for sources jar generation with jOO
 
 bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     // Plugin main class (required)
-    main = "${mainPackage}.${project.name}"
+    main = project.entryPointClass
 
     // Plugin Information
     name = project.name
@@ -267,12 +258,4 @@ jooq {
             }
         }
     }
-}
-
-fun applyCustomVersion() {
-    // Apply custom version arg or append snapshot version
-    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT-${Instant.now().epochSecond}"
-
-    // Strip prefixed "v" from version tag
-    rootProject.version = (if (ver.first().equals('v', true)) ver.substring(1) else ver.uppercase()).uppercase()
 }
