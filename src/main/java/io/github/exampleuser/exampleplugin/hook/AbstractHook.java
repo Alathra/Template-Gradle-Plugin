@@ -14,6 +14,7 @@ public class AbstractHook implements Reloadable {
 
     /**
      * Get the plugin instance.
+     *
      * @return plugin instance
      */
     protected ExamplePlugin getPlugin() {

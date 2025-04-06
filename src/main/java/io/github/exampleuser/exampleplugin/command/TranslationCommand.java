@@ -1,14 +1,14 @@
 package io.github.exampleuser.exampleplugin.command;
 
-import io.github.milkdrinkers.colorparser.ColorParser;
 import dev.jorel.commandapi.CommandAPIBukkit;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.StringArgument;
 import dev.jorel.commandapi.exceptions.WrapperCommandSyntaxException;
 import dev.jorel.commandapi.executors.CommandArguments;
-import io.github.exampleuser.exampleplugin.ExamplePlugin;
-import io.github.exampleuser.exampleplugin.translation.Translation;
+import io.github.exampleuser.exampleplugin.utility.Cfg;
+import io.github.milkdrinkers.colorparser.ColorParser;
+import io.github.milkdrinkers.wordweaver.Translation;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -48,43 +48,39 @@ class TranslationCommand {
             .withShortDescription("Test a translation.")
             .withPermission(BASE_PERM + ".test")
             .withArguments(
-                new StringArgument("key").replaceSuggestions(ArgumentSuggestions.stringCollection(unused -> Translation.getAllKeys()))
+                new StringArgument("key").replaceSuggestions(ArgumentSuggestions.stringCollection(unused -> Translation.getKeys()))
             )
             .executes(this::executorTest);
     }
 
     private void executorHelp(CommandSender sender, CommandArguments args) {
-        sender.sendMessage(
-            ColorParser.of(Translation.of("commands.translation.help"))
-                .parseLegacy()
-                .build()
-        );
+        sender.sendMessage(Translation.as("commands.translation.help"));
     }
 
     private void executorReload(CommandSender sender, CommandArguments args) {
-        ExamplePlugin.getInstance().getTranslationManager().onReload();
-        sender.sendMessage(
-            ColorParser.of(Translation.of("commands.translation.reloaded"))
-                .parseLegacy()
-                .build()
-        );
+        Translation.setLanguage(Cfg.get().get("language", "en_US"));
+        Translation.reload();
+        sender.sendMessage(Translation.as("commands.translation.reloaded"));
     }
 
     private void executorTest(CommandSender sender, CommandArguments args) throws WrapperCommandSyntaxException {
-        if (!(args.getOrDefault("key", "") instanceof String key && (key.isEmpty() || key.isBlank() || key.startsWith(".") || key.endsWith("."))))
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>This translation entry doesn't exist or is an empty string!").build());
+        if (!(args.getOrDefault("key", "") instanceof final String key))
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>A translation key must be a string!").build());
 
-        try {
-            if (Translation.of(key) == null || Translation.of(key).isEmpty() || Translation.of(key).isBlank())
-                throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>This translation entry doesn't exist or is an empty string!").build());
+        if (key.isBlank())
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>A translation key cannot be empty!").build());
 
-            sender.sendMessage(
-                ColorParser.of(Translation.of(key))
-                    .parseLegacy()
-                    .build()
-            );
-        } catch (ClassCastException ignored) {
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>This translation entry doesn't exist or is an empty string!").build());
-        }
+        if (key.startsWith(".") || key.endsWith("."))
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>A translation key cannot begin/end with a period!").build());
+
+        final String translation = Translation.of(key);
+
+        if (translation == null)
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>That translation entry doesn't exist!").build());
+
+        if (translation.isBlank())
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>That translation entry is an empty string!").build());
+
+        sender.sendMessage(Translation.as(key));
     }
 }

@@ -1,8 +1,8 @@
 package io.github.exampleuser.exampleplugin.utility;
 
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHolder;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
-import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.database.jooq.JooqContext;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
@@ -61,6 +61,7 @@ public abstract class DB {
 
     /**
      * Convenience method for accessing the {@link DatabaseHandler} instance
+     *
      * @return the database handler
      */
     @NotNull

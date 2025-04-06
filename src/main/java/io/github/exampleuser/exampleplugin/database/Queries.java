@@ -15,9 +15,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import static io.github.exampleuser.exampleplugin.database.QueryUtils.BooleanUtil;
+import static io.github.exampleuser.exampleplugin.database.QueryUtils.UUIDUtil;
 import static io.github.exampleuser.exampleplugin.database.schema.Tables.COLORS;
 import static io.github.exampleuser.exampleplugin.database.schema.Tables.SOME_LIST;
-import static io.github.exampleuser.exampleplugin.database.QueryUtils.*;
 
 /**
  * A class providing access to all SQL queries.

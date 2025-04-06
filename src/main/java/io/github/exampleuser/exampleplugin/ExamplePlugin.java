@@ -1,17 +1,17 @@
 package io.github.exampleuser.exampleplugin;
 
-import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
-import io.github.exampleuser.exampleplugin.hook.HookManager;
-import io.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandlerBuilder;
+import io.github.exampleuser.exampleplugin.hook.HookManager;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
-import io.github.exampleuser.exampleplugin.translation.TranslationManager;
+import io.github.exampleuser.exampleplugin.threadutil.SchedulerHandler;
+import io.github.exampleuser.exampleplugin.translation.TranslationHandler;
 import io.github.exampleuser.exampleplugin.updatechecker.UpdateHandler;
 import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
-
+import io.github.milkdrinkers.colorparser.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -27,12 +27,13 @@ public class ExamplePlugin extends JavaPlugin {
 
     // Handlers/Managers
     private ConfigHandler configHandler;
-    private TranslationManager translationManager;
+    private TranslationHandler translationHandler;
     private DatabaseHandler databaseHandler;
     private HookManager hookManager;
     private CommandHandler commandHandler;
     private ListenerHandler listenerHandler;
     private UpdateHandler updateHandler;
+    private SchedulerHandler schedulerHandler;
 
     // Handlers list (defines order of load/enable/disable)
     private List<? extends Reloadable> handlers;
@@ -50,8 +51,9 @@ public class ExamplePlugin extends JavaPlugin {
     public void onLoad() {
         instance = this;
 
+
         configHandler = new ConfigHandler(this);
-        translationManager = new TranslationManager(this);
+        translationHandler = new TranslationHandler(configHandler);
         databaseHandler = new DatabaseHandlerBuilder()
             .withConfigHandler(configHandler)
             .withLogger(getComponentLogger())
@@ -60,15 +62,17 @@ public class ExamplePlugin extends JavaPlugin {
         commandHandler = new CommandHandler(this);
         listenerHandler = new ListenerHandler(this);
         updateHandler = new UpdateHandler(this);
+        schedulerHandler = new SchedulerHandler();
 
         handlers = List.of(
             configHandler,
-            translationManager,
+            translationHandler,
             databaseHandler,
             hookManager,
             commandHandler,
             listenerHandler,
-            updateHandler
+            updateHandler,
+            schedulerHandler
         );
 
         DB.init(databaseHandler);
@@ -113,17 +117,8 @@ public class ExamplePlugin extends JavaPlugin {
     }
 
     /**
-     * Gets config handler.
-     *
-     * @return the translation handler
-     */
-    @NotNull
-    public TranslationManager getTranslationManager() {
-        return translationManager;
-    }
-
-    /**
      * Gets hook manager.
+     *
      * @return the hook manager
      */
     @NotNull

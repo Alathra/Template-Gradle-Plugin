@@ -12,6 +12,7 @@ import java.sql.Connection;
 public abstract class MigrationUtils {
     /**
      * A safe way to get DSLContext inside Java migrations as they need to access different contexts during flyway migration build step and programmatic flyway migration.
+     *
      * @return dsl context
      */
     public static DSLContext getContext(Connection connection) {

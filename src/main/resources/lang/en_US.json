@@ -1,0 +1,14 @@
+{
+  "update-checker": {
+    "running-latest": "<white>You are running the latest version of <plugin_name>!",
+    "update-found-console": "\n\n<white>An update was found for <plugin_name>!\n    <white>Current version: <red>v<version_current>\n    <white>Latest version: <green><click:open_url:'<download_link>'><hover:show_text:'<green>Open Download Page'>v<version_latest></hover></click>\n",
+    "update-found-player": "\n<white>An update was found for <plugin_name>!\n  <dark_gray>• <white>Current version: <red>v<version_current>\n  <dark_gray>• <white>Latest version: <green><click:open_url:'<download_link>'><hover:show_text:'<green>Open Download Page'>v<version_latest></hover></click>\n",
+    "update-failed": "<yellow>Failed to fetch latest version, error: <error>"
+  },
+  "commands": {
+    "translation": {
+      "help": "\n<white>Translations subcommands:\n  <dark_gray>• <white>reload: <gray><i>Reloads the translation files.\n  <dark_gray>• <white>test <node>: <gray><i>Test a translation.\n",
+      "reloaded": "<green>Successfully reloaded translations!"
+    }
+  }
+}

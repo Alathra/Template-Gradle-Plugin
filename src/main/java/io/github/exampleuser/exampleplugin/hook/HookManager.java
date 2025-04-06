@@ -1,9 +1,9 @@
 package io.github.exampleuser.exampleplugin.hook;
 
-import io.github.milkdrinkers.colorparser.ColorParser;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.utility.Logger;
+import io.github.milkdrinkers.colorparser.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -96,6 +96,7 @@ public class HookManager implements Reloadable {
 
     /**
      * Get a list of all hooks.
+     *
      * @return the hooks
      */
     public HashMap<Class<? extends AbstractHook>, AbstractHook> getHooks() {

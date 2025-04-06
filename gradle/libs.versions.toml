@@ -1,7 +1,7 @@
 [versions]
 crate = "4.0.0-RC.2"
 commandapi = "9.7.0"
-flyway = "11.3.4"
+flyway = "11.4.0"
 
 [libraries]
 # Core dependencies
@@ -10,10 +10,13 @@ paper-api = "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
 morepaperlib = "space.arim.morepaperlib:morepaperlib:0.4.4"
 
 # API dependencies
-version-watch = "io.github.milkdrinkers:versionwatch:0.0.4"
+javasemver = "io.github.milkdrinkers:javasemver:1.0.0"
+versionwatch = "io.github.milkdrinkers:versionwatch:1.0.0"
+wordweaver = "io.github.milkdrinkers:wordweaver:0.0.5"
 crate-api = { module = "io.github.milkdrinkers:crate-api", version.ref = "crate" }
 crate-yaml = { module = "io.github.milkdrinkers:crate-yaml", version.ref = "crate" }
-colorparser = "io.github.milkdrinkers:colorparser:3.0.0"
+colorparser = "io.github.milkdrinkers:colorparser:3.0.1"
+threadutil-bukkit = "io.github.milkdrinkers:threadutil-bukkit:1.0.0"
 commandapi-shade = { module = "dev.jorel:commandapi-bukkit-shade", version.ref = "commandapi" }
 commandapi-annotations = { module = "dev.jorel:commandapi-annotations", version.ref = "commandapi" }
 triumph-gui = "dev.triumphteam:triumph-gui:3.1.11"
@@ -25,22 +28,22 @@ packetevents = "com.github.retrooper:packetevents-spigot:2.7.0"
 placeholderapi = "me.clip:placeholderapi:2.11.6"
 
 # Database dependencies
-hikaricp = "com.zaxxer:HikariCP:6.2.1"
+hikaricp = "com.zaxxer:HikariCP:6.3.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-mysql = { module = "org.flywaydb:flyway-mysql", version.ref = "flyway" }
-jooq = "org.jooq:jooq:3.20.1"
+jooq = "org.jooq:jooq:3.20.2"
 
 # JDBC drivers
 h2 = "com.h2database:h2:2.3.232"
 sqlite = "org.xerial:sqlite-jdbc:3.49.1.0"
 mysql = "com.mysql:mysql-connector-j:9.2.0"
-mariadb = "org.mariadb.jdbc:mariadb-java-client:3.5.2"
+mariadb = "org.mariadb.jdbc:mariadb-java-client:3.5.3"
 
 # Testing
-junit-bom = "org.junit:junit-bom:5.12.0"
+junit-bom = "org.junit:junit-bom:5.12.1"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
-slf4j = "org.slf4j:slf4j-simple:2.1.0-alpha1"
+slf4j = "org.slf4j:slf4j-simple:2.0.17"
 testcontainers-bom = "org.testcontainers:testcontainers-bom:1.20.6"
 testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-mysql = { module = "org.testcontainers:mysql" }
@@ -57,5 +60,5 @@ shadow = "com.gradleup.shadow:8.3.6"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
 plugin-yml = "de.eldoria.plugin-yml.bukkit:0.7.1"
 paperweight = "io.papermc.paperweight.userdev:1.7.7"
-flyway = "org.flywaydb.flyway:11.3.4"
-jooq = "org.jooq.jooq-codegen-gradle:3.20.1"
+flyway = "org.flywaydb.flyway:11.4.0"
+jooq = "org.jooq.jooq-codegen-gradle:3.20.2"

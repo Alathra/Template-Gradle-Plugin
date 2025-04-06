@@ -162,7 +162,8 @@ public class VaultHook extends AbstractHook implements Listener {
             case Economy ignored -> setEconomy((RegisteredServiceProvider<Economy>) rsp);
             case Permission ignored -> setPermissions((RegisteredServiceProvider<Permission>) rsp);
             case Chat ignored -> setChat((RegisteredServiceProvider<Chat>) rsp);
-            default -> {}
+            default -> {
+            }
         }
     }
 }

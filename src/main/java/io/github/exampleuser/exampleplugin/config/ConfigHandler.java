@@ -1,15 +1,12 @@
 package io.github.exampleuser.exampleplugin.config;
 
-import io.github.milkdrinkers.crate.Config;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
-
-import javax.inject.Singleton;
+import io.github.milkdrinkers.crate.Config;
 
 /**
  * A class that generates/loads {@literal &} provides access to a configuration file.
  */
-@Singleton
 public class ConfigHandler implements Reloadable {
     private final ExamplePlugin plugin;
     private Config cfg;

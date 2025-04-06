@@ -30,6 +30,7 @@ public enum Hook {
 
     /**
      * Get the hook class.
+     *
      * @return the hook class
      */
     @NotNull Class<? extends AbstractHook> getHookClass() {
@@ -38,6 +39,7 @@ public enum Hook {
 
     /**
      * Get the plugin name used by this hook. Can be null for hooks that do not use a plugin to provide functionality.
+     *
      * @return the plugin name
      */
     public @Nullable String getPluginName() {
@@ -46,6 +48,7 @@ public enum Hook {
 
     /**
      * Check if this hook is required for the plugin to enable.
+     *
      * @return whether this hook is required
      */
     public boolean isOptional() {
@@ -54,10 +57,11 @@ public enum Hook {
 
     /**
      * Get the hook object.
+     *
      * @return the hook object
+     * @throws IllegalStateException if the hook has not been loaded yet
      * @implNote Cast this {@link AbstractHook} into the correct hook class.
      * @implSpec You should check {@link #isLoaded()} before using this method.
-     * @throws IllegalStateException if the hook has not been loaded yet
      */
     public AbstractHook get() {
         if (loadedHook == null)
@@ -68,6 +72,7 @@ public enum Hook {
 
     /**
      * Check if the hook is loaded.
+     *
      * @return whether the hook is loaded
      * @implNote This check is a guarantee that the hook and its dependencies have loaded. It also checks {@link AbstractHook#isHookLoaded()}.
      */
@@ -80,6 +85,7 @@ public enum Hook {
 
     /**
      * Sets a weak reference to a hook
+     *
      * @param hook the hook object
      */
     @ApiStatus.Internal

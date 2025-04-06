@@ -3,12 +3,9 @@ package io.github.exampleuser.exampleplugin.database.handler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.inject.Singleton;
-
 /**
  * A singleton wrapping the database handler class for the plugin.
  */
-@Singleton
 public class DatabaseHolder {
     private static DatabaseHolder instance; // The global instance of database holder
 

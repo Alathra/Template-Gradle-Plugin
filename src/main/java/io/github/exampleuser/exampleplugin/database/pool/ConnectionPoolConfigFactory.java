@@ -1,10 +1,10 @@
 package io.github.exampleuser.exampleplugin.database.pool;
 
 import com.zaxxer.hikari.HikariConfig;
-import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
 import io.github.exampleuser.exampleplugin.database.config.DatabaseConfigBuilder;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseInitializationException;
+import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 
 import java.nio.file.Path;
 import java.util.Optional;
