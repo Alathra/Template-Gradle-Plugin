@@ -2,6 +2,7 @@
 crate = "4.0.0-RC.2"
 commandapi = "9.7.0"
 flyway = "11.4.0"
+jooq = "3.20.2"
 
 [libraries]
 # Core dependencies
@@ -31,7 +32,7 @@ placeholderapi = "me.clip:placeholderapi:2.11.6"
 hikaricp = "com.zaxxer:HikariCP:6.3.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-mysql = { module = "org.flywaydb:flyway-mysql", version.ref = "flyway" }
-jooq = "org.jooq:jooq:3.20.2"
+jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jakarta = "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2" # Compiler bug, see: https://github.com/jOOQ/jOOQ/issues/14865#issuecomment-2077182512
 
 # JDBC drivers
@@ -61,5 +62,5 @@ shadow = "com.gradleup.shadow:8.3.6"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
 plugin-yml = "de.eldoria.plugin-yml.bukkit:0.7.1"
 paperweight = "io.papermc.paperweight.userdev:1.7.7"
-flyway = "org.flywaydb.flyway:11.4.0"
-jooq = "org.jooq.jooq-codegen-gradle:3.20.2"
+flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
+jooq = { id = "org.jooq.jooq-codegen-gradle", version.ref = "jooq" }
