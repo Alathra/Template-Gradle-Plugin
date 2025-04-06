@@ -80,6 +80,7 @@ dependencies {
     // Database dependencies - Core
     implementation(libs.hikaricp)
     library(libs.bundles.flyway)
+    compileOnly(libs.jakarta) // Compiler bug, see: https://github.com/jOOQ/jOOQ/issues/14865#issuecomment-2077182512
     library(libs.jooq)
     jooqCodegen(libs.h2)
 
