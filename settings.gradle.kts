@@ -6,7 +6,7 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0" // allow automatic download of JDKs 
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0" // allow automatic download of JDKs 
 }
 
 rootProject.name = "ExamplePlugin"
