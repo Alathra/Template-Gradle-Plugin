@@ -2,7 +2,7 @@
 crate = "4.0.0-RC.2"
 commandapi = "9.7.0"
 flyway = "11.8.0"
-jooq = "3.20.3"
+jooq = "3.20.4"
 
 [libraries]
 # Core dependencies
