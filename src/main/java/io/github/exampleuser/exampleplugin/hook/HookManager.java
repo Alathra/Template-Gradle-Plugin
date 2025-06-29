@@ -3,7 +3,7 @@ package io.github.exampleuser.exampleplugin.hook;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.utility.Logger;
-import io.github.milkdrinkers.colorparser.ColorParser;
+import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -31,7 +31,7 @@ public class HookManager implements Reloadable {
                     // Warn on missing dependency
                     Logger.get().warn(
                         ColorParser.of("<yellow><plugin> is not installed on this server. <plugin> support has been disabled.")
-                            .parseMinimessagePlaceholder("plugin", hook.getPluginName())
+                            .with("plugin", hook.getPluginName())
                             .build()
                     );
 
@@ -53,15 +53,15 @@ public class HookManager implements Reloadable {
                 if (hook.getPluginName() != null) {
                     Logger.get().info(
                         ColorParser.of("<green><plugin> has been found on this server. <plugin> support enabled.")
-                            .parseMinimessagePlaceholder("plugin", hook.getPluginName())
+                            .with("plugin", hook.getPluginName())
                             .build()
                     );
                 }
             } catch (Exception e) {
                 Logger.get().warn(
                     ColorParser.of("<yellow><hook> failed to load: <exception>")
-                        .parseMinimessagePlaceholder("hook", hook.getHookClass().getName())
-                        .parseMinimessagePlaceholder("exception", e.getMessage())
+                        .with("hook", hook.getHookClass().getName())
+                        .with("exception", e.getMessage())
                         .build()
                 );
             }

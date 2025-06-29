@@ -3,7 +3,7 @@ package io.github.exampleuser.exampleplugin.translation;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
-import io.github.milkdrinkers.colorparser.ColorParser;
+import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import io.github.milkdrinkers.wordweaver.Translation;
 import io.github.milkdrinkers.wordweaver.config.TranslationConfig;
 
@@ -33,7 +33,7 @@ public class TranslationHandler implements Reloadable {
             .updateLanguages(true)
             .language(configHandler.getConfig().get("language", "en_US"))
             .defaultLanguage("en_US")
-            .componentConverter(s -> ColorParser.of(s).parseLegacy().build()) // Use color parser for components by default
+            .componentConverter(s -> ColorParser.of(s).build()) // Use color parser for components by default
             .build()
         );
     }

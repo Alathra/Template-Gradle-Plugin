@@ -11,7 +11,7 @@ import io.github.exampleuser.exampleplugin.translation.TranslationHandler;
 import io.github.exampleuser.exampleplugin.updatechecker.UpdateHandler;
 import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
-import io.github.milkdrinkers.colorparser.ColorParser;
+import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;

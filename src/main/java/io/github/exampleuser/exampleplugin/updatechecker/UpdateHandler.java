@@ -4,7 +4,7 @@ import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.utility.Cfg;
 import io.github.exampleuser.exampleplugin.utility.Logger;
-import io.github.milkdrinkers.colorparser.ColorParser;
+import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import io.github.milkdrinkers.javasemver.Version;
 import io.github.milkdrinkers.javasemver.exception.VersionParseException;
 import io.github.milkdrinkers.versionwatch.Platform;
@@ -59,22 +59,22 @@ public class UpdateHandler implements Reloadable {
             if (watcher.isLatest()) {
                 Logger.get().info(
                     ColorParser.of(Translation.of("update-checker.running-latest"))
-                        .parseMinimessagePlaceholder("plugin_name", plugin.getName())
+                        .with("plugin_name", plugin.getName())
                         .build()
                 );
             } else {
                 Logger.get().info(
                     ColorParser.of(Translation.of("update-checker.update-found-console"))
-                        .parseMinimessagePlaceholder("plugin_name", plugin.getName())
-                        .parseMinimessagePlaceholder("version_current", watcher.getCurrentVersion().getVersionFull())
-                        .parseMinimessagePlaceholder("version_latest", version.getVersionFull())
-                        .parseMinimessagePlaceholder("download_link", watcher.getDownloadURL())
+                        .with("plugin_name", plugin.getName())
+                        .with("version_current", watcher.getCurrentVersion().getVersionFull())
+                        .with("version_latest", version.getVersionFull())
+                        .with("download_link", watcher.getDownloadURL())
                         .build()
                 );
             }
         }).exceptionally(throwable -> {
             if (shouldLog)
-                Logger.get().warn(ColorParser.of(Translation.of("update-checker.update-failed")).parseMinimessagePlaceholder("error", throwable.getMessage()).build());
+                Logger.get().warn(ColorParser.of(Translation.of("update-checker.update-failed")).with("error", throwable.getMessage()).build());
             return null;
         });
 
@@ -99,10 +99,10 @@ public class UpdateHandler implements Reloadable {
 
                 p.sendMessage(
                     ColorParser.of(Translation.of("update-checker.update-found-player"))
-                        .parseMinimessagePlaceholder("plugin_name", plugin.getName())
-                        .parseMinimessagePlaceholder("version_current", watcher.getCurrentVersion().getVersionFull())
-                        .parseMinimessagePlaceholder("version_latest", watcher.getLatestVersion().getVersionFull())
-                        .parseMinimessagePlaceholder("download_link", watcher.getDownloadURL())
+                        .with("plugin_name", plugin.getName())
+                        .with("version_current", watcher.getCurrentVersion().getVersionFull())
+                        .with("version_latest", watcher.getLatestVersion().getVersionFull())
+                        .with("download_link", watcher.getDownloadURL())
                         .build()
                 );
             }
