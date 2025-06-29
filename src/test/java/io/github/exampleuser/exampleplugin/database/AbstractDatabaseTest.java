@@ -26,6 +26,7 @@ abstract class AbstractDatabaseTest {
 
     /**
      * Exposes the database parameters of this test.
+     *
      * @return the database test config
      */
     public DatabaseTestParams getTestConfig() {

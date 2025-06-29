@@ -32,6 +32,7 @@ abstract class DatabaseTestUtils {
 
     /**
      * Test database container boilerplate for MySQL.
+     *
      * @return container
      */
     @SuppressWarnings({"resource", "rawtypes"})
@@ -46,6 +47,7 @@ abstract class DatabaseTestUtils {
 
     /**
      * Test database container boilerplate for MySQL.
+     *
      * @return container
      */
     @SuppressWarnings({"resource", "rawtypes"})
@@ -60,6 +62,7 @@ abstract class DatabaseTestUtils {
 
     /**
      * {@link DatabaseTestParams} factory method used for MySQL tests.
+     *
      * @param tablePrefix the database table prefix to use in the tests
      * @return a database test config object
      */
@@ -74,6 +77,7 @@ abstract class DatabaseTestUtils {
 
     /**
      * {@link DatabaseTestParams} factory method used for MariaDB tests.
+     *
      * @param tablePrefix the database table prefix to use in the tests
      * @return a database test config object
      */
@@ -88,6 +92,7 @@ abstract class DatabaseTestUtils {
 
     /**
      * {@link DatabaseTestParams} factory method used for SQLite tests.
+     *
      * @param tablePrefix the database table prefix to use in the tests
      * @return a database test config object
      */
@@ -102,6 +107,7 @@ abstract class DatabaseTestUtils {
 
     /**
      * {@link DatabaseTestParams} factory method used for H2 tests.
+     *
      * @param tablePrefix the database table prefix to use in the tests
      * @return a database test config object
      */
