@@ -140,7 +140,7 @@ public class DatabaseHandler implements Reloadable {
      */
     public DatabaseConfig getDatabaseConfig() {
         if (databaseConfig == null)
-            throw new IllegalStateException("Database config is still null but was accessed in getDB!");
+            throw new IllegalStateException("Database config is still null but was accessed in getDatabaseConfig!");
 
         return databaseConfig;
     }
