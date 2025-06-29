@@ -14,6 +14,7 @@ public class SchedulerHandler implements Reloadable {
     @Override
     public void onLoad(ExamplePlugin plugin) {
         Scheduler.init(new PlatformBukkit(plugin)); // Initialize thread-util
+        Scheduler.setErrorHandler(e -> plugin.getSLF4JLogger().error("[Scheduler]: {}", e.getMessage()));
     }
 
     @Override
