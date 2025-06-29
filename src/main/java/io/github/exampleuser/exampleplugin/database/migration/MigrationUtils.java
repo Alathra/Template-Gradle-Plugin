@@ -9,7 +9,7 @@ import java.sql.Connection;
 /**
  * Utility class for Java based Flyway migrations.
  */
-public abstract class MigrationUtils {
+public final class MigrationUtils {
     /**
      * A safe way to get DSLContext inside Java migrations as they need to access different contexts during flyway migration build step and programmatic flyway migration.
      *

@@ -23,7 +23,7 @@ import static io.github.exampleuser.exampleplugin.database.schema.Tables.SOME_LI
 /**
  * A class providing access to all SQL queries.
  */
-public abstract class Queries {
+public final class Queries {
     /**
      * Example add data to database.
      * <p>

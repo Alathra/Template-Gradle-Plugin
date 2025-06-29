@@ -51,7 +51,6 @@ public class ExamplePlugin extends JavaPlugin {
     public void onLoad() {
         instance = this;
 
-
         configHandler = new ConfigHandler(this);
         translationHandler = new TranslationHandler(configHandler);
         databaseHandler = new DatabaseHandlerBuilder()

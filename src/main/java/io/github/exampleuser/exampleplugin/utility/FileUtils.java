@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 /**
  * A class that provides a plethora of useful file utilities.
  */
-public abstract class FileUtils {
+public final class FileUtils {
     // Parent
 
     /**

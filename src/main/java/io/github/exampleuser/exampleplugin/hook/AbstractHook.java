@@ -5,7 +5,7 @@ import io.github.exampleuser.exampleplugin.Reloadable;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 
-public class AbstractHook implements Reloadable {
+public abstract class AbstractHook implements Reloadable {
     private final ExamplePlugin plugin;
 
     protected AbstractHook(ExamplePlugin plugin) {

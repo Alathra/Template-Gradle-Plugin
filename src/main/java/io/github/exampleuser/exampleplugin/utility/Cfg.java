@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Convenience class for accessing {@link ConfigHandler#getConfig}
  */
-public abstract class Cfg {
+public final class Cfg {
     /**
      * Convenience method for {@link ConfigHandler#getConfig} to getConnection {@link Config}
      *

@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Convenience class for accessing methods in {@link DatabaseHandler#getConnection}
  * This class abstracts away accessing the {@link DatabaseHolder} singleton
  */
-public abstract class DB {
+public final class DB {
     /**
      * Convenience method for {@link DatabaseHolder#setDatabaseHandler(DatabaseHandler)}
      * Used to set the globally used database handler instance for the plugin

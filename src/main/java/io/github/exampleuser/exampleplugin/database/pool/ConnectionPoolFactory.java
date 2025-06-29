@@ -6,7 +6,7 @@ import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseInitializationException;
 import org.slf4j.Logger;
 
-public abstract class ConnectionPoolFactory {
+public final class ConnectionPoolFactory {
     public static HikariDataSource create(DatabaseConfig databaseConfig, Logger logger) throws DatabaseInitializationException {
         try {
             HikariConfig hikariConfig = ConnectionPoolConfigFactory.get(databaseConfig);

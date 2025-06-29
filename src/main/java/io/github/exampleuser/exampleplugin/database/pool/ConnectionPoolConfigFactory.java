@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static io.github.exampleuser.exampleplugin.database.handler.DatabaseType.SQLITE;
 
-public abstract class ConnectionPoolConfigFactory {
+public final class ConnectionPoolConfigFactory {
     public static HikariConfig get() throws DatabaseInitializationException {
         return get(new DatabaseConfigBuilder().build());
     }

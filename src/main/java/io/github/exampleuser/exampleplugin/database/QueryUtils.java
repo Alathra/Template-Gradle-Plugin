@@ -1,5 +1,9 @@
 package io.github.exampleuser.exampleplugin.database;
 
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.AnimalTamer;
+import org.bukkit.entity.Entity;
+import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
@@ -9,9 +13,9 @@ import java.time.ZoneOffset;
 /**
  * Utility class containing converters and other logic for queries.
  */
-public class QueryUtils {
+public final class QueryUtils {
     @SuppressWarnings("unused")
-    public abstract static class BooleanUtil {
+    public static final class BooleanUtil {
         /**
          * Convert boolean to a byte.
          *
@@ -34,7 +38,47 @@ public class QueryUtils {
     }
 
     @SuppressWarnings("unused")
-    public abstract static class UUIDUtil {
+    public static final class UUIDUtil {
+        /**
+         * Convert animal tamer object to an array of bytes.
+         *
+         * @param value the animal tamer
+         * @return the byte array
+         */
+        public static byte[] toBytes(AnimalTamer value) {
+            return toBytes(value.getUniqueId());
+        }
+
+        /**
+         * Convert offline player object to an array of bytes.
+         *
+         * @param value the offline player
+         * @return the byte array
+         */
+        public static byte[] toBytes(Entity value) {
+            return toBytes(value.getUniqueId());
+        }
+
+        /**
+         * Convert offline player object to an array of bytes.
+         *
+         * @param value the offline player
+         * @return the byte array
+         */
+        public static byte[] toBytes(OfflinePlayer value) {
+            return toBytes(value.getUniqueId());
+        }
+
+        /**
+         * Convert world info object to an array of bytes.
+         *
+         * @param value the world info
+         * @return the byte array
+         */
+        public static byte[] toBytes(WorldInfo value) {
+            return toBytes(value.getUID());
+        }
+
         /**
          * Convert uuid to an array of bytes.
          *
@@ -67,7 +111,7 @@ public class QueryUtils {
     }
 
     @SuppressWarnings("unused")
-    public abstract static class InstantUtil {
+    public static final class InstantUtil {
         /**
          * Convert instant to a date time.
          *
