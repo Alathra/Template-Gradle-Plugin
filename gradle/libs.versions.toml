@@ -39,7 +39,7 @@ jakarta = "jakarta.xml.bind:jakarta.xml.bind-api:4.0.2" # Compiler bug, see: htt
 h2 = "com.h2database:h2:2.3.232"
 sqlite = "org.xerial:sqlite-jdbc:3.50.2.0"
 mysql = "com.mysql:mysql-connector-j:9.3.0"
-mariadb = "org.mariadb.jdbc:mariadb-java-client:3.5.3"
+mariadb = "org.mariadb.jdbc:mariadb-java-client:3.5.4"
 
 # Testing
 junit-bom = "org.junit:junit-bom:5.13.2"
