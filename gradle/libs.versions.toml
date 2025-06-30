@@ -46,7 +46,7 @@ junit-bom = "org.junit:junit-bom:5.13.2"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
 slf4j = "org.slf4j:slf4j-simple:2.0.17"
-testcontainers-bom = "org.testcontainers:testcontainers-bom:1.21.2"
+testcontainers-bom = "org.testcontainers:testcontainers-bom:1.21.3"
 testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-mysql = { module = "org.testcontainers:mysql" }
 testcontainers-mariadb = { module = "org.testcontainers:mariadb" }
