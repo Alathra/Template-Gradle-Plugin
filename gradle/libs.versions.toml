@@ -1,7 +1,7 @@
 [versions]
 crate = "4.0.0-RC.2"
 commandapi = "10.1.1"
-flyway = "11.10.0"
+flyway = "11.10.1"
 jooq = "3.20.5"
 
 [libraries]
