@@ -5,19 +5,18 @@ import dev.jorel.commandapi.executors.CommandArguments;
 import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import org.bukkit.command.CommandSender;
 
+import static io.github.exampleuser.exampleplugin.command.CommandHandler.BASE_PERM;
+
 /**
  * Class containing the code for the example command.
  */
 class ExampleCommand {
-    private static final String BASE_PERM = "example.command";
-
     /**
      * Instantiates and registers a new command.
      */
     protected ExampleCommand() {
         new CommandAPICommand("example")
-            .withFullDescription("Example command.")
-            .withShortDescription("Example command.")
+            .withHelp("Example command.", "Example command.")
             .withPermission(BASE_PERM)
             .withSubcommands(
                 new TranslationCommand().command()

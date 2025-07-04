@@ -9,6 +9,7 @@ import io.github.exampleuser.exampleplugin.Reloadable;
  * A class to handle registration of commands.
  */
 public class CommandHandler implements Reloadable {
+    public static final String BASE_PERM = "example.command";
     private final ExamplePlugin plugin;
 
     /**

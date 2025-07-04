@@ -11,20 +11,21 @@ import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import io.github.milkdrinkers.wordweaver.Translation;
 import org.bukkit.command.CommandSender;
 
+import static io.github.exampleuser.exampleplugin.command.CommandHandler.BASE_PERM;
+
 /**
  * Class containing the code for the translation commands.
  */
 class TranslationCommand {
-    private static final String BASE_PERM = "example.command.translation";
+    private static final String TRANSLATION_PERM = BASE_PERM + ".translation";
 
     /**
      * Instantiates a new command tree.
      */
     protected CommandAPICommand command() {
         return new CommandAPICommand("translation")
-            .withFullDescription("Example command.")
-            .withShortDescription("Example command.")
-            .withPermission(BASE_PERM)
+            .withHelp("Translation related commands.", "Translation related commands.")
+            .withPermission(TRANSLATION_PERM)
             .withSubcommands(
                 commandReload(),
                 commandTest(),
@@ -36,17 +37,15 @@ class TranslationCommand {
 
     private CommandAPICommand commandReload() {
         return new CommandAPICommand("reload")
-            .withFullDescription("Reloads the translation files.")
-            .withShortDescription("Reload the translation files.")
-            .withPermission(BASE_PERM + ".reload")
+            .withHelp("Reload the translation files.", "Reload the translation files.")
+            .withPermission(TRANSLATION_PERM + ".reload")
             .executes(this::executorReload);
     }
 
     private CommandAPICommand commandTest() {
         return new CommandAPICommand("test")
-            .withFullDescription("Test a translation.")
-            .withShortDescription("Test a translation.")
-            .withPermission(BASE_PERM + ".test")
+            .withHelp("Test a translation.", "Test a translation.")
+            .withPermission(TRANSLATION_PERM + ".test")
             .withArguments(
                 new StringArgument("key").replaceSuggestions(ArgumentSuggestions.stringCollection(unused -> Translation.getKeys()))
             )
