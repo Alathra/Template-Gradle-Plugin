@@ -8,7 +8,12 @@
   "commands": {
     "translation": {
       "help": "\n<white>Translations subcommands:\n  <dark_gray>• <white>reload: <gray><i>Reloads the translation files.\n  <dark_gray>• <white>test <node>: <gray><i>Test a translation.\n",
-      "reloaded": "<green>Successfully reloaded translations!"
+      "reloaded": "<green>Successfully reloaded translations!",
+    },
+    "dump": {
+      "success": "<green>Successfully uploaded dump to <hover:show_text:'Click to open link'><click:open_url:'<link>'><u><link></u></click></hover>.",
+      "failure": "<red>Failed to upload dump: <error>",
+      "dumping": "<green>Gathering dump information and uploading to mclo.gs..."
     }
   }
 }

@@ -19,7 +19,8 @@ class ExampleCommand {
             .withHelp("Example command.", "Example command.")
             .withPermission(BASE_PERM)
             .withSubcommands(
-                new TranslationCommand().command()
+                new TranslationCommand().command(),
+                new DumpCommand().command()
             )
             .executes(this::executorExample)
             .register();
