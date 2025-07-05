@@ -9,6 +9,13 @@
     "translation": {
       "help": "\n<white>Translations subcommands:\n  <dark_gray>• <white>reload: <gray><i>Reloads the translation files.\n  <dark_gray>• <white>test <node>: <gray><i>Test a translation.\n",
       "reloaded": "<green>Successfully reloaded translations!",
+      "test": {
+        "not-string": "<red>Translation node must be a string!",
+        "not-empty": "<red>Translation node \"<u><node></u>\" cannot be empty!",
+        "illegal": "<red>Translation node \"<u><node></u>\" cannot begin or end with a period!",
+        "not-found": "<red>Translation entry for node \"<u><node></u>\" doesn't exist!",
+        "not-empty2": "<red>Translation entry for node \"<u><node></u>\" is empty!"
+      }
     },
     "dump": {
       "success": "<green>Successfully uploaded dump to <hover:show_text:'Click to open link'><click:open_url:'<link>'><u><link></u></click></hover>.",

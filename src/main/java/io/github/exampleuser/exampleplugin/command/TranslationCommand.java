@@ -10,19 +10,20 @@ import io.github.exampleuser.exampleplugin.utility.Cfg;
 import io.github.milkdrinkers.colorparser.paper.ColorParser;
 import io.github.milkdrinkers.wordweaver.Translation;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import static io.github.exampleuser.exampleplugin.command.CommandHandler.BASE_PERM;
 
 /**
  * Class containing the code for the translation commands.
  */
-class TranslationCommand {
+final class TranslationCommand {
     private static final String TRANSLATION_PERM = BASE_PERM + ".translation";
 
     /**
      * Instantiates a new command tree.
      */
-    protected CommandAPICommand command() {
+    CommandAPICommand command() {
         return new CommandAPICommand("translation")
             .withHelp("Translation related commands.", "Translation related commands.")
             .withPermission(TRANSLATION_PERM)
@@ -44,7 +45,7 @@ class TranslationCommand {
 
     private CommandAPICommand commandTest() {
         return new CommandAPICommand("test")
-            .withHelp("Test a translation.", "Test a translation.")
+            .withHelp("Test a translation entry.", "Test a translation entry.")
             .withPermission(TRANSLATION_PERM + ".test")
             .withArguments(
                 new StringArgument("key").replaceSuggestions(ArgumentSuggestions.stringCollection(unused -> Translation.getKeys()))
@@ -63,23 +64,34 @@ class TranslationCommand {
     }
 
     private void executorTest(CommandSender sender, CommandArguments args) throws WrapperCommandSyntaxException {
-        if (!(args.getOrDefault("key", "") instanceof final String key))
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>A translation key must be a string!").build());
+        final String node = args.getByClassOrDefault("key", String.class, "");
 
-        if (key.isBlank())
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>A translation key cannot be empty!").build());
+        if (node == null)
+            throw CommandAPIBukkit.failWithAdventureComponent(Translation.as("commands.translation.test.not-string"));
 
-        if (key.startsWith(".") || key.endsWith("."))
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>A translation key cannot begin/end with a period!").build());
+        if (node.isBlank())
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of(Translation.of("commands.translation.test.not-empty")).with("node", node).build());
 
-        final String translation = Translation.of(key);
+        if (node.startsWith(".") || node.endsWith("."))
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of(Translation.of("commands.translation.test.illegal")).with("node", node).build());
+
+        final String translation = Translation.of(node);
 
         if (translation == null)
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>That translation entry doesn't exist!").build());
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of(Translation.of("commands.translation.test.not-found")).with("node", node).build());
 
         if (translation.isBlank())
-            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of("<red>That translation entry is an empty string!").build());
+            throw CommandAPIBukkit.failWithAdventureComponent(ColorParser.of(Translation.of("commands.translation.test.not-empty2")).with("node", node).build());
 
-        sender.sendMessage(Translation.as(key));
+        if (sender instanceof Player player) {
+            sender.sendMessage(
+                ColorParser.of(Translation.of(node))
+                    .papi(player)
+                    .mini(player)
+                    .build()
+            );
+        } else {
+            sender.sendMessage(Translation.as(node));
+        }
     }
 }
