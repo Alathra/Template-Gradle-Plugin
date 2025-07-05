@@ -185,8 +185,8 @@ tasks {
             github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
             github("retrooper", "packetevents", "v2.7.0", "packetevents-spigot-2.7.0.jar")
             hangar("PlaceholderAPI", "2.11.6")
-            hangar("ViaVersion", "5.2.1")
-            hangar("ViaBackwards", "5.2.1")
+            hangar("ViaVersion", "5.4.1")
+            hangar("ViaBackwards", "5.4.1")
         }
     }
 }
