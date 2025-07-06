@@ -2,24 +2,17 @@ package io.github.exampleuser.exampleplugin.database.migration;
 
 import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationException;
-import io.github.exampleuser.exampleplugin.database.migration.migrations.V4__example_test;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.ClassProvider;
 import org.flywaydb.core.api.FlywayException;
-import org.flywaydb.core.api.migration.JavaMigration;
 
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Handles Flyway migrations.
  */
-public class MigrationHandler {
-    // List of Java migrations
-    private final List<Class<? extends JavaMigration>> migrations = List.of(
-        V4__example_test.class
-    );
+@SuppressWarnings({"UnusedReturnValue"})
+public final class MigrationHandler {
 
     private final DataSource dataSource;
     private final DatabaseConfig databaseConfig;
@@ -38,7 +31,7 @@ public class MigrationHandler {
     }
 
     private void initializeFlywayInstance() {
-        final ClassProvider<JavaMigration> javaMigrationClassProvider = new MigrationProvider(migrations);
+        final String packagePath = getClass().getPackageName().replace('.', '/');
         final Map<String, String> SQL_PLACEHOLDERS = Map.of(
             "tablePrefix", databaseConfig.getTablePrefix()
         );
@@ -49,10 +42,10 @@ public class MigrationHandler {
             .baselineOnMigrate(true)
             .baselineVersion("0.0")
             .validateMigrationNaming(true)
-            .javaMigrationClassProvider(javaMigrationClassProvider)
             .dataSource(dataSource)
             .locations(
                 "db/migration"
+                "classpath:%s/migrations".formatted(packagePath),
             )
             .table(databaseConfig.getTablePrefix() + "schema_history") // Configure tables and migrations
             .placeholders(SQL_PLACEHOLDERS)
