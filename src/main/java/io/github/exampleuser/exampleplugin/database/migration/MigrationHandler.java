@@ -6,6 +6,7 @@ import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 import org.flywaydb.core.api.output.MigrateResult;
 import org.flywaydb.core.api.output.RepairResult;
+import org.flywaydb.core.api.output.ValidateResult;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +102,31 @@ public final class MigrationHandler {
             return null;
         } catch (FlywayException e) {
             LOGGER.error("Database repair failed: {}", e.getMessage(), e);
+            throw new DatabaseMigrationException(e);
+        }
+    }
+
+    /**
+     * Validates the applied migrations against the available ones.
+     *
+     * @return ValidateResult with validation details
+     * @throws DatabaseMigrationException database migration exception
+     */
+    public ValidateResult validate() throws DatabaseMigrationException {
+        try {
+            LOGGER.info("Validating database migrations...");
+            final ValidateResult result = this.flyway.validateWithResult();
+
+            if (result.validationSuccessful) {
+                LOGGER.info("Migration validation successful.");
+            } else {
+                LOGGER.warn("Migration validation failed with {} errors", result.invalidMigrations.size());
+                LOGGER.warn("Validation error: {}", result.getAllErrorMessages());
+            }
+
+            return result;
+        } catch (FlywayException e) {
+            LOGGER.error("Migration validation failed: {}", e.getMessage(), e);
             throw new DatabaseMigrationException(e);
         }
     }
