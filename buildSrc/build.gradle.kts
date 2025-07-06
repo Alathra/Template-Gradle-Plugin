@@ -28,9 +28,9 @@ gradlePlugin {
         }
     }
     plugins {
-        create("flywayjooqcache") {
-            id = "flywayjooqcache"
-            implementationClass = "FlywayJooqCachePlugin"
+        create("flywaypatches") {
+            id = "flywaypatches"
+            implementationClass = "FlywayPatchesPlugin"
         }
     }
 }

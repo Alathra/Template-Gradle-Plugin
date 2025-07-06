@@ -9,7 +9,7 @@ plugins {
     //alias(libs.plugins.paperweight) // Used to develop internal plugins using Mojang mappings, See https://github.com/PaperMC/paperweight
     alias(libs.plugins.flyway) // Database migrations
     alias(libs.plugins.jooq) // Database ORM
-    flywayjooqcache
+    flywaypatches
     projectextensions
     versioner
 
@@ -119,14 +119,11 @@ tasks {
         // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
         // See https://openjdk.java.net/jeps/247 for more information.
         options.release.set(21)
-        options.compilerArgs.addAll(arrayListOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
-
-        dependsOn(jooqCodegen) // Generate jOOQ sources before compilation
+        options.compilerArgs.addAll(listOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
     }
 
     javadoc {
         isFailOnError = false
-        exclude("**/database/schema/**") // Exclude generated jOOQ sources from javadocs
         val options = options as StandardJavadocDocletOptions
         options.encoding = Charsets.UTF_8.name()
         options.overview = "src/main/javadoc/overview.html"
@@ -191,11 +188,6 @@ tasks {
     }
 }
 
-tasks.named<Jar>("sourcesJar") { // Required for sources jar generation with jOOQ
-    dependsOn(tasks.jooqCodegen)
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
 bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     // Plugin main class (required)
     main = project.entryPointClass
@@ -230,7 +222,7 @@ flyway {
     baselineOnMigrate = true
     cleanDisabled = false
     locations = arrayOf(
-        "filesystem:src/main/resources/db/migration",
+        "filesystem:${project.tasks.named<AssimilateMigrationsTask>("assimilateMigrations").get().outputDir.get().dir("h2")}",
         "classpath:${mainPackage.replace(".", "/")}/database/migration/migrations"
     )
 }
