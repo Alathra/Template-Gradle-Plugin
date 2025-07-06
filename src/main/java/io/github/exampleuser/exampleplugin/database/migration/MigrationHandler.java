@@ -44,8 +44,8 @@ public final class MigrationHandler {
             .validateMigrationNaming(true)
             .dataSource(dataSource)
             .locations(
-                "db/migration"
                 "classpath:%s/migrations".formatted(packagePath),
+                "db/migration/%s".formatted(databaseConfig.getDatabaseType().getJdbcPrefix())
             )
             .table(databaseConfig.getTablePrefix() + "schema_history") // Configure tables and migrations
             .placeholders(SQL_PLACEHOLDERS)
