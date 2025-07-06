@@ -4,6 +4,9 @@ import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationException;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
+import org.flywaydb.core.api.output.MigrateResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.util.Map;
@@ -13,6 +16,7 @@ import java.util.Map;
  */
 @SuppressWarnings({"UnusedReturnValue"})
 public final class MigrationHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MigrationHandler.class);
 
     private final DataSource dataSource;
     private final DatabaseConfig databaseConfig;
@@ -55,12 +59,20 @@ public final class MigrationHandler {
     /**
      * Execute Flyway migration. All pending migrations will be applied in order.
      *
+     * @return MigrateResult with migration details
      * @throws DatabaseMigrationException database migration exception
      */
-    public void migrate() throws DatabaseMigrationException {
+    public MigrateResult migrate() throws DatabaseMigrationException {
         try {
-            this.flyway.migrate();
+            LOGGER.info("Starting database migration...");
+
+            final MigrateResult result = this.flyway.migrate();
+
+            LOGGER.info("Migration completed successfully. Applied {} migrations.", result.migrationsExecuted);
+
+            return result;
         } catch (FlywayException e) {
+            LOGGER.error("Migration failed: {}", e.getMessage(), e);
             throw new DatabaseMigrationException(e);
         }
     }

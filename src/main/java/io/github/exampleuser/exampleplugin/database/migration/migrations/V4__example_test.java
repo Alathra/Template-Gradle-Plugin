@@ -15,6 +15,7 @@ import static org.jooq.impl.SQLDataType.VARCHAR;
  * Example Java Flyway migration using jOOQ.
  * This is useful if you don't like sql files or you want do programmatic processing of data when migrating.
  */
+@SuppressWarnings("unused")
 public class V4__example_test extends BaseJavaMigration {
     @Override
     public void migrate(final Context flywayContext) throws Exception {
