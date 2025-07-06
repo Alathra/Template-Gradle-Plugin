@@ -4,6 +4,8 @@ import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationException;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
+import org.flywaydb.core.api.MigrationInfo;
+import org.flywaydb.core.api.MigrationInfoService;
 import org.flywaydb.core.api.output.MigrateResult;
 import org.flywaydb.core.api.output.RepairResult;
 import org.flywaydb.core.api.output.ValidateResult;
@@ -129,5 +131,22 @@ public final class MigrationHandler {
             LOGGER.error("Migration validation failed: {}", e.getMessage(), e);
             throw new DatabaseMigrationException(e);
         }
+    }
+
+    /**
+     * Gets information about all migrations (applied and pending).
+     *
+     * @return Array of MigrationInfo objects
+     */
+    public MigrationInfo[] info() {
+        final MigrationInfoService infoService = this.flyway.info();
+        final MigrationInfo[] migrations = infoService.all();
+
+        LOGGER.info("Found {} total migrations ({} applied, {} pending).",
+            migrations.length,
+            infoService.applied().length,
+            infoService.pending().length);
+
+        return migrations;
     }
 }
