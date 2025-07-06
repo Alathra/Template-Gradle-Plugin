@@ -5,6 +5,8 @@ import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationE
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
 import org.flywaydb.core.api.output.MigrateResult;
+import org.flywaydb.core.api.output.RepairResult;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,13 +87,20 @@ public final class MigrationHandler {
      * <li>Realign the checksums, descriptions and types of the applied migration</li>
      * </ul>
      *
+     * @return RepairResult with repair details
      * @throws DatabaseMigrationException database migration exception
      */
-    public void repair() throws DatabaseMigrationException {
+    public @Nullable RepairResult repair() throws DatabaseMigrationException {
         try {
-            if (databaseConfig.isRepair())
-                this.flyway.repair();
+            if (databaseConfig.isRepair()) {
+                LOGGER.info("Starting database repair...");
+                final RepairResult result = this.flyway.repair();
+                LOGGER.info("Database repair completed successfully.");
+                return result;
+            }
+            return null;
         } catch (FlywayException e) {
+            LOGGER.error("Database repair failed: {}", e.getMessage(), e);
             throw new DatabaseMigrationException(e);
         }
     }
