@@ -7,3 +7,6 @@ CREATE TABLE IF NOT EXISTS "${tablePrefix}some_list" (
 CREATE TABLE IF NOT EXISTS "${tablePrefix}test" (
     "player_name" TINYTEXT NOT NULL
 );
+
+ALTER TABLE "${tablePrefix}test"
+	ADD COLUMN "test" INT NULL;
