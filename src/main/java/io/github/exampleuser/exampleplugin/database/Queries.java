@@ -1,8 +1,12 @@
 package io.github.exampleuser.exampleplugin.database;
 
+import io.github.exampleuser.exampleplugin.cooldown.CooldownType;
+import io.github.exampleuser.exampleplugin.cooldown.Cooldowns;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
+import io.github.exampleuser.exampleplugin.database.schema.tables.records.CooldownsRecord;
 import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
+import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jooq.DSLContext;
@@ -13,12 +17,13 @@ import org.jooq.Result;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.UUID;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static io.github.exampleuser.exampleplugin.database.QueryUtils.BooleanUtil;
 import static io.github.exampleuser.exampleplugin.database.QueryUtils.UUIDUtil;
-import static io.github.exampleuser.exampleplugin.database.schema.Tables.COLORS;
-import static io.github.exampleuser.exampleplugin.database.schema.Tables.SOME_LIST;
+import static io.github.exampleuser.exampleplugin.database.schema.Tables.*;
 
 /**
  * A class providing access to all SQL queries.
@@ -172,6 +177,7 @@ public final class Queries {
      *
      * @return the result
      */
+    @SuppressWarnings("UnusedReturnValue")
     public static @Nullable Result<Record2<String, byte[]>> loadAll() {
         try (
             Connection con = DB.getConnection()
@@ -186,5 +192,76 @@ public final class Queries {
             Logger.get().error("SQL Query threw an error!", e);
         }
         return null;
+    }
+
+    /**
+     * Wrapper class to organize cooldown-related queries.
+     */
+    public static final class Cooldown {
+        public static Map<CooldownType, Instant> load(OfflinePlayer player) {
+            return load(player.getUniqueId());
+        }
+
+        public static Map<CooldownType, Instant> load(UUID uuid) {
+            try (
+                Connection con = DB.getConnection()
+            ) {
+                DSLContext context = DB.getContext(con);
+
+                final Result<CooldownsRecord> cooldownsRecords = context
+                    .selectFrom(COOLDOWNS)
+                    .where(COOLDOWNS.UUID.eq(UUIDUtil.toBytes(uuid)))
+                    .fetch();
+
+                return cooldownsRecords.stream()
+                    .collect(Collectors.toMap(
+                        r -> CooldownType.valueOf(r.getCooldownType()),
+                        r -> QueryUtils.InstantUtil.fromDateTime(r.getCooldownTime())
+                    ));
+            } catch (SQLException e) {
+                Logger.get().error("SQL Query threw an error!", e);
+            }
+            return Collections.emptyMap();
+        }
+
+        public static void save(OfflinePlayer player) {
+            save(player.getUniqueId());
+        }
+
+        public static void save(UUID uuid) {
+            try (
+                Connection con = DB.getConnection()
+            ) {
+                DSLContext context = DB.getContext(con);
+
+                context.transaction(config -> {
+                    DSLContext ctx = config.dsl();
+
+                    // Delete old cooldowns
+                    ctx.deleteFrom(COOLDOWNS)
+                        .where(COOLDOWNS.UUID.eq(UUIDUtil.toBytes(uuid)))
+                        .execute();
+
+                    // Insert new cooldowns
+                    final List<CooldownsRecord> cooldownsRecords = new ArrayList<>();
+
+                    for (CooldownType cooldownType : CooldownType.values()) {
+                        if (!Cooldowns.has(uuid, cooldownType))
+                            continue;
+
+                        cooldownsRecords.add(new CooldownsRecord(
+                            UUIDUtil.toBytes(uuid),
+                            cooldownType.name(),
+                            QueryUtils.InstantUtil.toDateTime(Cooldowns.get(uuid, cooldownType))
+                        ));
+                    }
+
+                    if (!cooldownsRecords.isEmpty())
+                        ctx.batchInsert(cooldownsRecords).execute();
+                });
+            } catch (SQLException e) {
+                Logger.get().error("SQL Query threw an error!", e);
+            }
+        }
     }
 }

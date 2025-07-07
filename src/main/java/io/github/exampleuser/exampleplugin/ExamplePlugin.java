@@ -2,6 +2,7 @@ package io.github.exampleuser.exampleplugin;
 
 import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
+import io.github.exampleuser.exampleplugin.cooldown.CooldownHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandlerBuilder;
 import io.github.exampleuser.exampleplugin.hook.HookManager;
@@ -34,6 +35,7 @@ public class ExamplePlugin extends JavaPlugin {
     private ListenerHandler listenerHandler;
     private UpdateHandler updateHandler;
     private SchedulerHandler schedulerHandler;
+    private CooldownHandler cooldownHandler;
 
     // Handlers list (defines order of load/enable/disable)
     private List<? extends Reloadable> handlers;
@@ -62,6 +64,7 @@ public class ExamplePlugin extends JavaPlugin {
         listenerHandler = new ListenerHandler(this);
         updateHandler = new UpdateHandler(this);
         schedulerHandler = new SchedulerHandler();
+        cooldownHandler = new CooldownHandler();
 
         handlers = List.of(
             configHandler,
@@ -71,7 +74,8 @@ public class ExamplePlugin extends JavaPlugin {
             commandHandler,
             listenerHandler,
             updateHandler,
-            schedulerHandler
+            schedulerHandler,
+            cooldownHandler
         );
 
         DB.init(databaseHandler);
