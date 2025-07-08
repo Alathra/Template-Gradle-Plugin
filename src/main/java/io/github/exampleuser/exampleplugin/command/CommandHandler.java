@@ -33,6 +33,9 @@ public class CommandHandler implements Reloadable {
 
     @Override
     public void onEnable(ExamplePlugin plugin) {
+        if (!CommandAPI.isLoaded())
+            return;
+
         CommandAPI.onEnable();
 
         // Register commands here
@@ -41,6 +44,9 @@ public class CommandHandler implements Reloadable {
 
     @Override
     public void onDisable(ExamplePlugin plugin) {
+        if (!CommandAPI.isLoaded())
+            return;
+
         CommandAPI.getRegisteredCommands().forEach(registeredCommand -> CommandAPI.unregister(registeredCommand.namespace() + ':' + registeredCommand.commandName(), true));
         CommandAPI.onDisable();
     }
