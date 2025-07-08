@@ -42,7 +42,7 @@ mysql = "com.mysql:mysql-connector-j:9.3.0"
 mariadb = "org.mariadb.jdbc:mariadb-java-client:3.5.4"
 
 # Testing
-junit-bom = "org.junit:junit-bom:5.13.2"
+junit-bom = "org.junit:junit-bom:5.13.3"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
 slf4j = "org.slf4j:slf4j-simple:2.0.17"
