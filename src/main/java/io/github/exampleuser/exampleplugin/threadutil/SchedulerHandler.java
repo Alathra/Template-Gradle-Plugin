@@ -24,6 +24,7 @@ public class SchedulerHandler implements Reloadable {
 
     @Override
     public void onDisable(ExamplePlugin plugin) {
-        Scheduler.shutdown(Duration.ofSeconds(60));
+        if (Scheduler.isInitialized())
+            Scheduler.shutdown(Duration.ofSeconds(60));
     }
 }
