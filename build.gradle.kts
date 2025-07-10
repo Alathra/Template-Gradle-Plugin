@@ -86,6 +86,9 @@ dependencies {
     // Database dependencies - JDBC drivers
     library(libs.bundles.jdbcdrivers)
 
+    // Messaging service clients
+    library(libs.bundles.messagingclients)
+
     // Testing - Core
     testImplementation(libs.annotations)
     testImplementation(platform(libs.junit.bom))

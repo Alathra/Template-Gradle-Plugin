@@ -37,3 +37,29 @@ database:
       cacheServerConfiguration: true
       elideSetAutoCommits: true
       maintainTimeStats: false
+
+# Message Broker Settings
+messenger:
+  # Enable or disable the message broker
+  # This is only required if you are running the plugin on a server network
+  enabled: true
+
+  # How often to poll for new messages (in milliseconds)
+  # This value MUST be less than the cleanup-interval, preferably less than 1/3 of it.
+  polling-interval: 1000
+
+  # How often to clean up old messages (in milliseconds)
+  # This value MUST be greater than the polling-interval, preferably at least 3 times it.
+  cleanup-interval: 30000
+
+  # Available types: "sql", "plugin", "redis", "rabbitmq", "nats"
+  type: "sql"
+
+  # Shared settings (redis, rabbitmq, nats)
+  address: "localhost:6379" # Address can be a single entry, or a list of address entries if you wish to connect to a
+  username: ""
+  password: ""
+  ssl: false
+
+  # RabbitMQ specific settings
+  virtual-host: "/"

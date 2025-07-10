@@ -41,6 +41,11 @@ sqlite = "org.xerial:sqlite-jdbc:3.50.2.0"
 mysql = "com.mysql:mysql-connector-j:9.3.0"
 mariadb = "org.mariadb.jdbc:mariadb-java-client:3.5.4"
 
+# Messaging drivers
+jedis = "redis.clients:jedis:6.0.0"
+nats = "io.nats:jnats:2.21.3"
+rabbitmq = "com.rabbitmq:amqp-client:5.25.0"
+
 # Testing
 junit-bom = "org.junit:junit-bom:5.13.2"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
@@ -54,6 +59,7 @@ testcontainers-mariadb = { module = "org.testcontainers:mariadb" }
 [bundles]
 flyway = ["flyway-core", "flyway-mysql"]
 jdbcdrivers = ["h2", "sqlite", "mysql", "mariadb"]
+messagingclients = ["jedis", "nats", "rabbitmq"]
 junit = ["junit-jupiter", "junit-platform"]
 testcontainers = ["testcontainers-jupiter", "testcontainers-mysql", "testcontainers-mariadb"]
 

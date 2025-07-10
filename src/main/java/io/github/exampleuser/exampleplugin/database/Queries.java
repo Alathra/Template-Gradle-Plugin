@@ -4,15 +4,16 @@ import io.github.exampleuser.exampleplugin.cooldown.CooldownType;
 import io.github.exampleuser.exampleplugin.cooldown.Cooldowns;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 import io.github.exampleuser.exampleplugin.database.schema.tables.records.CooldownsRecord;
+import io.github.exampleuser.exampleplugin.messenger.message.IncomingMessage;
+import io.github.exampleuser.exampleplugin.messenger.message.Message;
+import io.github.exampleuser.exampleplugin.messenger.message.OutgoingMessage;
 import io.github.exampleuser.exampleplugin.utility.DB;
 import io.github.exampleuser.exampleplugin.utility.Logger;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jooq.DSLContext;
-import org.jooq.Record1;
-import org.jooq.Record2;
-import org.jooq.Result;
+import org.jooq.*;
 
 import java.math.BigInteger;
 import java.sql.Connection;
@@ -24,10 +25,12 @@ import java.util.stream.Collectors;
 import static io.github.exampleuser.exampleplugin.database.QueryUtils.BooleanUtil;
 import static io.github.exampleuser.exampleplugin.database.QueryUtils.UUIDUtil;
 import static io.github.exampleuser.exampleplugin.database.schema.Tables.*;
+import static org.jooq.impl.DSL.*;
 
 /**
  * A class providing access to all SQL queries.
  */
+@SuppressWarnings({"LoggingSimilarMessage", "StringConcatenationArgumentToLogCall"})
 public final class Queries {
     /**
      * Example add data to database.
@@ -192,6 +195,102 @@ public final class Queries {
             Logger.get().error("SQL Query threw an error!", e);
         }
         return null;
+    }
+
+    /**
+     * Holds all queries related to using the database as a messaging service.
+     */
+    @ApiStatus.Internal
+    public static final class Sync {
+        /**
+         * Fetch the latest (greatest) message ID from the database.
+         * @return the message id or empty if no messages are queued
+         */
+        public static Optional<Integer> fetchLatestMessageId() {
+            try (
+                Connection con = DB.getConnection()
+            ) {
+                DSLContext context = DB.getContext(con);
+
+                return context
+                    .select(max(SYNC.ID))
+                    .from(SYNC)
+                    .fetchOptional(0, Integer.class);
+            } catch (SQLException e) {
+                Logger.get().error("SQL Query threw an error!" + e);
+                return Optional.empty();
+            }
+        }
+
+        /**
+         * Adds a message to the database.
+         * @param message the outgoing message to send
+         * @return the new message id or empty if insert failed
+         */
+        public static <T> Optional<Integer> send(OutgoingMessage<T> message) {
+            try (
+                Connection con = DB.getConnection()
+            ) {
+                DSLContext context = DB.getContext(con);
+
+                return context
+                    .insertInto(SYNC, SYNC.TIMESTAMP, SYNC.MESSAGE)
+                    .values(
+                        currentLocalDateTime(),
+                        val(message.encode())
+                    )
+                    .returningResult(SYNC.ID)
+                    .fetchOptional(0, Integer.class);
+            } catch (SQLException e) {
+                Logger.get().error("SQL Query threw an error!" + e);
+                return Optional.empty();
+            }
+        }
+
+        /**
+         * Fetch all messages from the database.
+         * @param latestSyncId the currently synced to message id
+         * @param cleanupInterval the configured cleanup interval
+         * @return the messages
+         */
+        public static Map<Integer, IncomingMessage<?, ?>> receive(int latestSyncId, long cleanupInterval) {
+            try (
+                Connection con = DB.getConnection()
+            ) {
+                DSLContext context = DB.getContext(con);
+
+                return context
+                    .selectFrom(SYNC)
+                    .where(SYNC.ID.greaterThan(latestSyncId)
+                        .and(SYNC.TIMESTAMP.greaterOrEqual(localDateTimeSub(currentLocalDateTime(), cleanupInterval / 1000, DatePart.SECOND))) // Checks TIMESTAMP >= now() - cleanupInterval
+                    )
+                    .orderBy(SYNC.ID.asc())
+                    .fetch()
+                    .intoMap(SYNC.ID, r -> Message.from(r.getMessage()));
+            } catch (SQLException e) {
+                Logger.get().error("SQL Query threw an error!" + e);
+                return Map.of();
+            }
+        }
+
+        /**
+         * Deletes all outdate messages from the database.
+         * @param cleanupInterval the configured cleanup interval
+         */
+        public static void cleanup(long cleanupInterval) {
+            try (
+                Connection con = DB.getConnection()
+            ) {
+                DSLContext context = DB.getContext(con);
+
+                context
+                    .deleteFrom(SYNC)
+                    .where(SYNC.TIMESTAMP.lessThan(localDateTimeSub(currentLocalDateTime(), cleanupInterval / 1000, DatePart.SECOND))) // Checks TIMESTAMP < now() - cleanupInterval
+                    .execute();
+            } catch (SQLException e) {
+                Logger.get().error("SQL Query threw an error!" + e);
+            }
+        }
     }
 
     /**
