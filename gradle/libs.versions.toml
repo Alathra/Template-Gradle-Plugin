@@ -55,13 +55,15 @@ testcontainers-bom = "org.testcontainers:testcontainers-bom:1.21.3"
 testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-mysql = { module = "org.testcontainers:mysql" }
 testcontainers-mariadb = { module = "org.testcontainers:mariadb" }
+testcontainers-redis = { module = "com.redis:testcontainers-redis", version = "2.2.2" }
+testcontainers-rabbitmq = { module = "org.testcontainers:rabbitmq" }
 
 [bundles]
 flyway = ["flyway-core", "flyway-mysql"]
 jdbcdrivers = ["h2", "sqlite", "mysql", "mariadb"]
 messagingclients = ["jedis", "nats", "rabbitmq"]
 junit = ["junit-jupiter", "junit-platform"]
-testcontainers = ["testcontainers-jupiter", "testcontainers-mysql", "testcontainers-mariadb"]
+testcontainers = ["testcontainers-jupiter", "testcontainers-mysql", "testcontainers-mariadb", "testcontainers-redis", "testcontainers-rabbitmq"]
 
 [plugins]
 shadow = "com.gradleup.shadow:8.3.8"

@@ -96,6 +96,7 @@ dependencies {
     testRuntimeOnly(libs.slf4j)
     testImplementation(platform(libs.testcontainers.bom))
     testImplementation(libs.bundles.testcontainers)
+    testRuntimeOnly(libs.paper.api)
 
     // Testing - Database dependencies
     testImplementation(libs.hikaricp)
@@ -104,6 +105,9 @@ dependencies {
 
     // Testing - JDBC drivers
     testImplementation(libs.bundles.jdbcdrivers)
+
+    // Testing - Messaging service clients
+    testImplementation(libs.bundles.messagingclients)
 }
 
 tasks {
