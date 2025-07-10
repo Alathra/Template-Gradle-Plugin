@@ -1,9 +1,14 @@
 package io.github.exampleuser.exampleplugin.database.exception;
 
+import java.io.Serial;
+
 /**
  * Database initialization exception is thrown during database initialization.
  */
 public class DatabaseInitializationException extends RuntimeException {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * Instantiates a new Database initialization exception.
      *
