@@ -2,7 +2,6 @@ package io.github.exampleuser.exampleplugin.database.pool;
 
 import com.zaxxer.hikari.HikariConfig;
 import io.github.exampleuser.exampleplugin.database.config.DatabaseConfig;
-import io.github.exampleuser.exampleplugin.database.config.DatabaseConfigBuilder;
 import io.github.exampleuser.exampleplugin.database.exception.DatabaseInitializationException;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseType;
 
@@ -13,7 +12,7 @@ import static io.github.exampleuser.exampleplugin.database.handler.DatabaseType.
 
 public final class ConnectionPoolConfigFactory {
     public static HikariConfig get() throws DatabaseInitializationException {
-        return get(new DatabaseConfigBuilder().build());
+        return get(DatabaseConfig.builder().build());
     }
 
     public static HikariConfig get(DatabaseConfig config) throws DatabaseInitializationException {

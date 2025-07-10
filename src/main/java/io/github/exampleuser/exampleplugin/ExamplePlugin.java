@@ -4,7 +4,6 @@ import io.github.exampleuser.exampleplugin.command.CommandHandler;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
 import io.github.exampleuser.exampleplugin.cooldown.CooldownHandler;
 import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandler;
-import io.github.exampleuser.exampleplugin.database.handler.DatabaseHandlerBuilder;
 import io.github.exampleuser.exampleplugin.hook.HookManager;
 import io.github.exampleuser.exampleplugin.listener.ListenerHandler;
 import io.github.exampleuser.exampleplugin.threadutil.SchedulerHandler;
@@ -55,9 +54,11 @@ public class ExamplePlugin extends JavaPlugin {
 
         configHandler = new ConfigHandler(this);
         translationHandler = new TranslationHandler(configHandler);
-        databaseHandler = new DatabaseHandlerBuilder()
+        databaseHandler = DatabaseHandler.builder()
             .withConfigHandler(configHandler)
             .withLogger(getComponentLogger())
+            .withMigrate(true)
+            .build();
             .build();
         hookManager = new HookManager(this);
         commandHandler = new CommandHandler(this);
@@ -89,7 +90,7 @@ public class ExamplePlugin extends JavaPlugin {
             handler.onEnable(instance);
 
         if (!DB.isReady()) {
-            Logger.get().warn(ColorParser.of("<yellow>DatabaseHolder handler failed to start. Database support has been disabled.").build());
+            Logger.get().warn(ColorParser.of("<yellow>Database handler failed to start. Database support has been disabled.").build());
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }

@@ -18,7 +18,7 @@ import java.math.BigInteger;
 abstract class AbstractDatabaseTest {
     private final DatabaseTestParams testConfig;
     public DatabaseConfig databaseConfig;
-    public Logger logger = LoggerFactory.getLogger("Database Test Logger");
+    public Logger logger = LoggerFactory.getLogger("Database");
 
     AbstractDatabaseTest(DatabaseTestParams testConfig) {
         this.testConfig = testConfig;
@@ -43,7 +43,7 @@ abstract class AbstractDatabaseTest {
 
     @AfterAll
     void afterAllTests() {
-        DB.getHandler().shutdown(); // Shut down the connection pool after all tests have been run
+        DB.getHandler().doShutdown(); // Shut down the connection pool after all tests have been run
     }
 
     @Test

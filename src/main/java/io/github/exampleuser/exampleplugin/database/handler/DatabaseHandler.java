@@ -1,6 +1,7 @@
 package io.github.exampleuser.exampleplugin.database.handler;
 
 import com.zaxxer.hikari.HikariDataSource;
+import io.github.exampleuser.exampleplugin.AbstractService;
 import io.github.exampleuser.exampleplugin.ExamplePlugin;
 import io.github.exampleuser.exampleplugin.Reloadable;
 import io.github.exampleuser.exampleplugin.config.ConfigHandler;
@@ -10,8 +11,8 @@ import io.github.exampleuser.exampleplugin.database.exception.DatabaseMigrationE
 import io.github.exampleuser.exampleplugin.database.jooq.JooqContext;
 import io.github.exampleuser.exampleplugin.database.migration.MigrationHandler;
 import io.github.exampleuser.exampleplugin.database.pool.ConnectionPoolFactory;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 import org.slf4j.Logger;
 
@@ -22,35 +23,34 @@ import java.sql.SQLException;
 /**
  * Class that handles HikariCP connection pool, jOOQ and Flyway migrations.
  */
-public class DatabaseHandler implements Reloadable {
+public class DatabaseHandler extends AbstractService implements Reloadable {
+    private final Logger logger;
     private JooqContext jooqContext;
     private HikariDataSource connectionPool;
-    private @Nullable DatabaseConfig databaseConfig = null;
-    private @Nullable ConfigHandler configHandler = null;
-    private final Logger logger;
-    private boolean isReady = false; // If the connection pool is connected and working, and Flyway migrations executed without any errors during startup.
+    private DatabaseConfig config;
+    private final boolean migrateOnStartup;
 
     /**
      * Instantiates a new Database handler.
      *
-     * @param configHandler the config handler
      * @param logger        the logger
      */
-    DatabaseHandler(@NotNull ConfigHandler configHandler, Logger logger) {
-        this.configHandler = configHandler;
+    private DatabaseHandler(Logger logger, boolean migrateOnStartup) {
         this.logger = logger;
+        this.migrateOnStartup = migrateOnStartup;
     }
 
     /**
      * Instantiates a new Database handler.
      *
-     * @param databaseConfig the database config
+     * @param config the database config
      * @param logger         the logger
      */
     @TestOnly
-    DatabaseHandler(@NotNull DatabaseConfig databaseConfig, Logger logger) {
-        this.databaseConfig = databaseConfig;
+    private DatabaseHandler(@NotNull DatabaseConfig config, Logger logger, boolean migrateOnStartup) {
+        this.config = config;
         this.logger = logger;
+        this.migrateOnStartup = migrateOnStartup;
     }
 
     /**
@@ -58,14 +58,11 @@ public class DatabaseHandler implements Reloadable {
      */
     @Override
     public void onLoad(ExamplePlugin plugin) {
-        try {
-            // Load database config from file, or use provided databaseConfig from constructor
-            if (configHandler != null)
-                this.databaseConfig = DatabaseConfig.getDatabaseConfigFromFile(configHandler.getDatabaseConfig());
+        if (config == null)
+            config = DatabaseConfig.fromConfig(plugin.getConfigHandler().getDatabaseConfig());
 
-            // Start connection pool
-            startup();
-            migrate();
+        try {
+            doStartup(); // Start connection pool
         } catch (DatabaseInitializationException e) {
             logger.error("[DB] Database initialization error: {}", e.getMessage());
         } finally {
@@ -87,11 +84,8 @@ public class DatabaseHandler implements Reloadable {
      */
     @Override
     public void onDisable(ExamplePlugin plugin) {
-        if (!isReady())
-            return;
-
         try {
-            shutdown();
+            doShutdown();
         } catch (Exception e) {
             logger.error("[DB] Error while shutting down database:", e);
         }
@@ -103,7 +97,7 @@ public class DatabaseHandler implements Reloadable {
      * @return the boolean
      */
     public boolean isReady() {
-        return isReady;
+        return isStarted();
     }
 
     /**
@@ -139,10 +133,10 @@ public class DatabaseHandler implements Reloadable {
      * @return the database config
      */
     public DatabaseConfig getDatabaseConfig() {
-        if (databaseConfig == null)
+        if (config == null)
             throw new IllegalStateException("Database config is still null but was accessed in getDatabaseConfig!");
 
-        return databaseConfig;
+        return config;
     }
 
     /**
@@ -167,11 +161,10 @@ public class DatabaseHandler implements Reloadable {
      * Creates a connection pool using HikariCP and setups jOOQ DSLContext.
      * Should always be followed by running Flyway migrations with {@link #migrate()}.
      */
+    @Override
+    @ApiStatus.Internal
     public void startup() throws DatabaseInitializationException {
-        if (isReady())
-            return;
-
-        if (databaseConfig == null)
+        if (config == null)
             throw new DatabaseInitializationException("Attempted to start a database connection pool but database config is null!");
 
         if (connectionPool != null)
@@ -179,7 +172,7 @@ public class DatabaseHandler implements Reloadable {
 
         // Initialize connection pool
         connectionPool = ConnectionPoolFactory.create(
-            databaseConfig,
+            config,
             logger
         );
 
@@ -203,18 +196,21 @@ public class DatabaseHandler implements Reloadable {
 
         // Setup JOOQ
         jooqContext = new JooqContext(
-            databaseConfig.getDatabaseType().getSQLDialect(),
-            databaseConfig.getTablePrefix()
+            config.getDatabaseType().getSQLDialect(),
+            config.getTablePrefix()
         );
+
+        // Migrate
+        if (migrateOnStartup)
+            migrate();
     }
 
     /**
      * Closes the connection pool.
      */
+    @Override
+    @ApiStatus.Internal
     public void shutdown() {
-        if (!isReady())
-            return;
-
         logger.info("[DB] Shutting down database pool...");
 
         if (connectionPool == null) {
@@ -227,29 +223,109 @@ public class DatabaseHandler implements Reloadable {
             return;
         }
 
+        jooqContext = null;
         connectionPool.close();
         connectionPool = null;
-        isReady = false;
 
         logger.info("[DB] Closed database pool.");
     }
 
     /**
      * Execute database migrations with Flyway.
-     * Should always be run following the database being started using {@link #startup()}.
+     * Should always be run following the database being started using {@link #doStartup()}.
      */
     public void migrate() throws DatabaseInitializationException {
         try {
             new MigrationHandler(
                 connectionPool,
-                databaseConfig
+                config
             )
                 .migrate();
-
-            // If we got here without errors the database is working correctly
-            isReady = true;
         } catch (DatabaseMigrationException e) {
             throw new DatabaseInitializationException("Failed to migrate database schemas to new version! Please backup your database and report the issue.", e);
+        }
+    }
+
+    /**
+     * Get a builder instance for this class.
+     * @return the builder
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * The type Database handler builder.
+     */
+    public static class Builder {
+        private ConfigHandler configHandler;
+        private Logger logger;
+        private DatabaseConfig config;
+        private boolean migrateOnStartup = false;
+
+        private Builder() {}
+
+        /**
+         * With config handler database handler builder.
+         *
+         * @param configHandler the config handler
+         * @return the database handler builder
+         */
+        public Builder withConfigHandler(@NotNull ConfigHandler configHandler) {
+            this.configHandler = configHandler;
+            return this;
+        }
+
+        /**
+         * With logger database handler builder.
+         *
+         * @param logger the logger
+         * @return the database handler builder
+         */
+        public Builder withLogger(Logger logger) {
+            this.logger = logger;
+            return this;
+        }
+
+        /**
+         * With database config database handler builder.
+         *
+         * @param config the database config
+         * @return the database handler builder
+         */
+        @TestOnly
+        public Builder withConfig(@NotNull DatabaseConfig config) {
+            this.config = config;
+            return this;
+        }
+
+        /**
+         * With migrateOnStartup database handler builder.
+         *
+         * @param migrateOnStartup should the database migrate on startup
+         * @return the database handler builder
+         */
+        public Builder withMigrate(boolean migrateOnStartup) {
+            this.migrateOnStartup = migrateOnStartup;
+            return this;
+        }
+
+        /**
+         * Build database handler.
+         *
+         * @return the database handler
+         */
+        public DatabaseHandler build() {
+            if (configHandler == null && config == null)
+                throw new RuntimeException("Failed to build database handler as configHandler and config are null!");
+
+            if (configHandler != null && logger != null)
+                return new DatabaseHandler(logger, migrateOnStartup);
+
+            if (config != null && logger != null)
+                return new DatabaseHandler(config, logger, migrateOnStartup);
+
+            throw new RuntimeException("Failed to build database handler!");
         }
     }
 }

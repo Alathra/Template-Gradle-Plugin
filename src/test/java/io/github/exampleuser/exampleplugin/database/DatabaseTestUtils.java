@@ -10,11 +10,11 @@ import org.testcontainers.utility.DockerImageName;
 /**
  * Stores utility method used for testing database functionality.
  */
-abstract class DatabaseTestUtils {
+public final class DatabaseTestUtils {
     /**
      * Different database table prefixes used in integrated tests to confirm query operations don't break.
      */
-    enum TablePrefix {
+    public enum TablePrefix {
         EMPTY(""),
         NORMAL("test_"),
         COMPLEX("verylong_prefix_");
@@ -35,14 +35,13 @@ abstract class DatabaseTestUtils {
      *
      * @return container
      */
-    @SuppressWarnings({"resource", "rawtypes"})
+    @SuppressWarnings({"resource"})
     @TestOnly
     public static GenericContainer<?> setupMySQLContainer() {
-        return new MySQLContainer(DockerImageName.parse("mysql:8.0.31"))
+        return new MySQLContainer<>(DockerImageName.parse("mysql:8.0.31"))
             .withDatabaseName("testing")
             .withUsername("root")
-            .withPassword("")
-            .withExposedPorts(3306);
+            .withPassword("");
     }
 
     /**
@@ -50,14 +49,13 @@ abstract class DatabaseTestUtils {
      *
      * @return container
      */
-    @SuppressWarnings({"resource", "rawtypes"})
+    @SuppressWarnings({"resource"})
     @TestOnly
     public static GenericContainer<?> setupMariaDBContainer() {
-        return new MariaDBContainer(DockerImageName.parse("mariadb:10.7"))
+        return new MariaDBContainer<>(DockerImageName.parse("mariadb:10.7"))
             .withDatabaseName("testing")
             .withUsername("root")
-            .withPassword("")
-            .withExposedPorts(3306);
+            .withPassword("");
     }
 
     /**
@@ -68,7 +66,7 @@ abstract class DatabaseTestUtils {
      */
     @TestOnly
     public static DatabaseTestParams mysql(final TablePrefix tablePrefix) {
-        return new DatabaseTestParamsBuilder()
+        return DatabaseTestParams.builder()
             .withJdbcPrefix("mysql")
             .withRequiredDatabaseType(DatabaseType.MYSQL)
             .withTablePrefix(tablePrefix.prefix())
@@ -83,7 +81,7 @@ abstract class DatabaseTestUtils {
      */
     @TestOnly
     public static DatabaseTestParams mariadb(final TablePrefix tablePrefix) {
-        return new DatabaseTestParamsBuilder()
+        return DatabaseTestParams.builder()
             .withJdbcPrefix("mariadb")
             .withRequiredDatabaseType(DatabaseType.MARIADB)
             .withTablePrefix(tablePrefix.prefix())
@@ -98,7 +96,7 @@ abstract class DatabaseTestUtils {
      */
     @TestOnly
     public static DatabaseTestParams sqlite(final TablePrefix tablePrefix) {
-        return new DatabaseTestParamsBuilder()
+        return DatabaseTestParams.builder()
             .withJdbcPrefix("sqlite")
             .withRequiredDatabaseType(DatabaseType.SQLITE)
             .withTablePrefix(tablePrefix.prefix())
@@ -113,7 +111,7 @@ abstract class DatabaseTestUtils {
      */
     @TestOnly
     public static DatabaseTestParams h2(final TablePrefix tablePrefix) {
-        return new DatabaseTestParamsBuilder()
+        return DatabaseTestParams.builder()
             .withJdbcPrefix("h2")
             .withRequiredDatabaseType(DatabaseType.H2)
             .withTablePrefix(tablePrefix.prefix())
