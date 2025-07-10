@@ -55,7 +55,7 @@ testcontainers-bom = "org.testcontainers:testcontainers-bom:1.21.3"
 testcontainers-jupiter = { module = "org.testcontainers:junit-jupiter" }
 testcontainers-mysql = { module = "org.testcontainers:mysql" }
 testcontainers-mariadb = { module = "org.testcontainers:mariadb" }
-testcontainers-redis = { module = "com.redis:testcontainers-redis", version = "2.2.2" }
+testcontainers-redis = { module = "com.redis:testcontainers-redis", version = "2.2.4" }
 testcontainers-rabbitmq = { module = "org.testcontainers:rabbitmq" }
 
 [bundles]
