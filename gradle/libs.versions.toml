@@ -1,6 +1,6 @@
 [versions]
 crate = "4.0.0-RC.3"
-commandapi = "10.1.1"
+commandapi = "10.1.2"
 flyway = "11.10.3"
 jooq = "3.20.5"
 
